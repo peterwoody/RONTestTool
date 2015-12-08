@@ -19,5 +19,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', 'TestTool.views.home', name='home')
+    url(r'^$', 'TestTool.views.home', name='home'),
+    url(r'^login/', 'TestTool.views.login', name='login'),
 ]

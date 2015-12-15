@@ -1,0 +1,24 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log in</title>
+    <link href="{% static "css/loginCSS.css" %}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+        <div class="card card-container">
+            <img id="login-img" class="login-img" src="{% static "img/respax-logo.png" %}" />
+            <p id="profile-name" class="profile-name-card"></p>
+            <form class="form-signin" action="/auth_view/" method="post"> {% csrf_token %}
+                <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+
+                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Log in</button>
+            </form><!-- /form -->
+
+        </div><!-- /card-container -->
+    </div><!-- /container -->
+</body>
+</html>

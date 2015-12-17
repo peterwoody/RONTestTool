@@ -11,7 +11,7 @@
         <div class="card card-container">
             <img id="login-img" class="login-img" src="{% static "img/respax-logo.png" %}" />
             <p id="profile-name" class="profile-name-card"></p>
-            <form class="form-signin" action="/auth_view/" method="post"> {% csrf_token %}
+            <form class="form-signin" action="/testTool/" method="post"> {% csrf_token %}
                 <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
                 <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
 

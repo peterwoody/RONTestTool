@@ -10,7 +10,16 @@ import ron_api
 
 
 def testtool(request):
-    if request.user.is_authenticated():
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+
+    results = ron_api.check_connection(username, password)
+    print(username)
+    print(password)
+    print(results)
+
+    if results:
+        connection = ron_api.get_connection(username, password)
         # host_name = AddOperator.objects.values_list('operator', flat=True)
         # host_info = ron_api.get_hosts()
 
@@ -36,8 +45,9 @@ def testtool(request):
 
         # host_name = convert_to_list(host_info, 'strHostName')
         # locations = convert_to_list(locations)
-        host_name = ron_api.get_hosts('strHostName')
-        host_id = ron_api.get_hosts('strHostID')
+
+        host_name = ron_api.get_hosts(connection, 'strHostName')
+        host_id = ron_api.get_hosts(connection, 'strHostID')
 
         # host_details = ron_api.host_details
         # print(host_details[0].get('strLocation'))
@@ -58,7 +68,7 @@ def testtool(request):
 
         # get_host_details('strLocation')
 
-        locations = ron_api.get_host_details('strLocation')
+        locations = ron_api.get_host_details(connection, 'strLocation')
         basis = convert_to_list(basis)
         subbasis = convert_to_list(subbasis)
         time = convert_to_list(time)
@@ -102,25 +112,11 @@ def invalid(request):
     return render(request, "invalid.html", context)
 
 
-def auth_view(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    user = auth.authenticate(username=username, password=password)
-    print(username)
-    print(password)
-
-    if user is not None:
-        auth.login(request, user)
-        return HttpResponseRedirect('/testTool')
-    else:
-        return HttpResponseRedirect('/invalid')
-
-
 def get_tours(request):
     tours = ron_api.read_tours()
-    #tours = request.POST.get("")
+    # tours = request.POST.get("")
     print(tours)
-    #print("tours: ")
+    # print("tours: ")
 
     response_data = tours
     print(response_data)

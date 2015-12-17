@@ -1,20 +1,32 @@
 import xmlrpclib
+import views
 
 
-def get_connection():
+def check_connection(username, password):
     url = 'https://ron.respax.com.au:30443/section/xmlrpc/server-ron.php?config=train'
     ron = xmlrpclib.Server(url)
 
-    session_id = ron.login('shaq1738', 'ye733dkd')
+    session_id = ron.login(username, password)
+    print(session_id)
+    if 'PHPSESSID' in session_id:
+        return True
+    else:
+        return False
 
+
+
+def get_connection(username, password):
+    url = 'https://ron.respax.com.au:30443/section/xmlrpc/server-ron.php?config=train'
+    ron = xmlrpclib.Server(url)
+
+    session_id = ron.login(username, password)
     connection = xmlrpclib.Server(url + '&' + session_id)
-
     return connection
 
-connection = get_connection()
+#connection = get_connection('shaq1738', 'ye733dkd')
 
 
-def get_hosts(key):
+def get_hosts(connection, key):
     hosts = connection.readHosts()
     list_object = []
     for data in hosts:
@@ -31,8 +43,8 @@ def get_hosts(key):
 #host_id = get_hosts('strHostID')
 
 
-def get_host_details(key):
-    host_ids = get_hosts('strHostID')
+def get_host_details(connection, key):
+    host_ids = get_hosts(connection, 'strHostID')
     #list_object = [connection.readHostDetails(data) for data in host_ids]
     list_object = []
 
@@ -48,7 +60,7 @@ def get_host_details(key):
     return list_object
 
 
-def read_tours():
+def read_tours(connection):
     tours = connection.readTours('AGRO')
     print(tours)
     return tours

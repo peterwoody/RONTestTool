@@ -26,7 +26,6 @@ urlpatterns = [
     url(r'^get_tours/', get_tours, name="get_tours"),
     url(r'^logout/', logout, name="logout"),
     url(r'^invalid/', invalid, name="invalid"),
-    url(r'^auth_view/$', auth_view, name="auth_view"),
     url(r'^$', login, name="login"),
     url(r'^admin/', admin.site.urls),
 ]

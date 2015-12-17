@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from models import AddOperator
 from django.contrib import auth
-from django.http import HttpResponseRedirect
 from django.http import JsonResponse
 import ron_api
 
@@ -13,13 +12,9 @@ def testtool(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
 
-    results = ron_api.check_connection(username, password)
-    print(username)
-    print(password)
-    print(results)
+    connection = ron_api.get_connection(username, password)
 
-    if results:
-        connection = ron_api.get_connection(username, password)
+    if connection.get('logic'):
         # host_name = AddOperator.objects.values_list('operator', flat=True)
         # host_info = ron_api.get_hosts()
 
@@ -46,29 +41,13 @@ def testtool(request):
         # host_name = convert_to_list(host_info, 'strHostName')
         # locations = convert_to_list(locations)
 
-        host_name = ron_api.get_hosts(connection, 'strHostName')
-        host_id = ron_api.get_hosts(connection, 'strHostID')
+        host_name = ron_api.get_hosts(connection.get('connection'), 'strHostName')
+        host_id = ron_api.get_hosts(connection.get('connection'), 'strHostID')
 
         # host_details = ron_api.host_details
         # print(host_details[0].get('strLocation'))
 
-        def get_host_details(key):
-            list_object = []
-            for data in host_id:
-                host_details = ron_api.get_host_details(data)
-                host_detail = host_details[0].get(key, None)
-                print(host_detail)
-                list_object += host_details
-
-                # list_object.append(str(host_details))
-
-            list_object.sort()
-            print(list_object)
-            return list_object
-
-        # get_host_details('strLocation')
-
-        locations = ron_api.get_host_details(connection, 'strLocation')
+        locations = ron_api.get_host_details(connection.get('connection'), 'strLocation')
         basis = convert_to_list(basis)
         subbasis = convert_to_list(subbasis)
         time = convert_to_list(time)
@@ -87,7 +66,10 @@ def testtool(request):
         }
         return render(request, "testTool.html", context)
     else:
-        return render(request, "login.html")
+        context = {
+            'fault': connection.get('fault')
+        }
+        return render(request, "invalid.html", context)
 
 
 def login(request):
@@ -113,7 +95,13 @@ def invalid(request):
 
 
 def get_tours(request):
-    tours = ron_api.read_tours()
+    operator = request.POST.get('operator', '')
+    username = request.user.username
+    password = request.user.password
+    print(username)
+    print(password)
+    connection = ron_api.get_connection(username, password)
+    tours = ron_api.read_tours(connection)
     # tours = request.POST.get("")
     print(tours)
     # print("tours: ")

@@ -106,6 +106,7 @@
             pickup_id_td.appendChild(pickup_id_td_value);
 
             operator_td.setAttribute("colspan", "3");
+            operator_td.setAttribute("id", "operator");
             operator_td.setAttribute("onclick", "getTours()");
             location_td.setAttribute("colspan", "3");
 
@@ -144,11 +145,11 @@
     generateTable(host_name, locations, host_id, code, basis, subbasis, time, pickup_id);
 
     function getTours() {
-        /*
-        console.log('executed');
+
+        /*console.log('executed');
         $.ajax({
             type:'POST',
-            url: '/get_tours/',
+            url: '/testTool/',
             dataType: 'json',
             async: true,
 

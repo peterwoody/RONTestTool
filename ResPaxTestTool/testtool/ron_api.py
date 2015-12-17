@@ -1,29 +1,20 @@
 import xmlrpclib
-import views
-
-
-def check_connection(username, password):
-    url = 'https://ron.respax.com.au:30443/section/xmlrpc/server-ron.php?config=train'
-    ron = xmlrpclib.Server(url)
-
-    session_id = ron.login(username, password)
-    print(session_id)
-    if 'PHPSESSID' in session_id:
-        return True
-    else:
-        return False
-
 
 
 def get_connection(username, password):
     url = 'https://ron.respax.com.au:30443/section/xmlrpc/server-ron.php?config=train'
     ron = xmlrpclib.Server(url)
 
-    session_id = ron.login(username, password)
-    connection = xmlrpclib.Server(url + '&' + session_id)
-    return connection
-
-#connection = get_connection('shaq1738', 'ye733dkd')
+    try:
+        session_id = ron.login(username, password)
+        connection = xmlrpclib.Server(url + '&' + session_id)
+        return {'logic': True, 'connection': connection}
+    except xmlrpclib.Fault as err:
+        print "A fault occurred"
+        print "Fault code: %d" % err.faultCode
+        print "Fault string: %s" % err.faultString
+        return {'logic': False, 'fault': "A fault occurred. Fault code: %d." % err.faultCode +
+                                         " Fault string: %s" % err.faultString}
 
 
 def get_hosts(connection, key):
@@ -39,9 +30,6 @@ def get_hosts(connection, key):
     # print(list_object)
     return list_object
 
-#host_name = get_hosts('strHostName')
-#host_id = get_hosts('strHostID')
-
 
 def get_host_details(connection, key):
     host_ids = get_hosts(connection, 'strHostID')
@@ -53,8 +41,6 @@ def get_host_details(connection, key):
         # host_detail = host_details[0].get(key, None)
         print(host_details)
         list_object.append(host_details)
-
-        # list_object.append(str(host_details))
 
     print(list_object)
     return list_object

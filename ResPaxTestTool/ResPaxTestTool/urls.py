@@ -16,17 +16,14 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from testtool.views import testtool
-from testtool.views import invalid
-from testtool.views import auth_view
-from testtool.views import login
-from testtool.views import logout
+from testtool.views import *
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
 
     url(r'^testTool/', testtool, name="testtool"),
+    url(r'^get_tours/', get_tours, name="get_tours"),
     url(r'^logout/', logout, name="logout"),
     url(r'^invalid/', invalid, name="invalid"),
     url(r'^auth_view/$', auth_view, name="auth_view"),

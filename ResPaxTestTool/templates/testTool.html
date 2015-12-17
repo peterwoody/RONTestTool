@@ -72,7 +72,7 @@
 <script type="text/javascript">
     //var host_name = [];
     //var location = [];
-    function generateTable(operators, locations, code, basis, subbasis, time, pickup_id) {
+    function generateTable(operators, locations, host_id, code, basis, subbasis, time, pickup_id) {
 
         for (var i = 0; i in operators; i++) {
             var tableRow = document.createElement('tr');
@@ -87,7 +87,7 @@
             var time_td = document.createElement("td");
             var pickup_id_td = document.createElement("td");
 
-            var operator_td_value = document.createTextNode(operators[i]);
+            var operator_td_value = document.createTextNode(operators[i] + ' (' + host_id[i] + ')');
             var location_td_value = document.createTextNode(locations[i]);
 
             var code_td_value = document.createTextNode(code[i]);
@@ -106,6 +106,7 @@
             pickup_id_td.appendChild(pickup_id_td_value);
 
             operator_td.setAttribute("colspan", "3");
+            operator_td.setAttribute("onclick", "getTours()");
             location_td.setAttribute("colspan", "3");
 
             tableRow.setAttribute("id", "1");
@@ -133,11 +134,36 @@
     var host_name = {{ host_name|safe }};
     var locations = {{ locations|safe }};
     var host_id = {{ host_id|safe }};
+    var code = '';
     var basis = {{ basis|safe }};
     var subbasis = {{ subbasis|safe }};
     var time = {{ time|safe }};
     var pickup_id = {{ pickup_id|safe }};
 
 
-    generateTable(host_name, locations, host_id, basis, subbasis, time, pickup_id);
+    generateTable(host_name, locations, host_id, code, basis, subbasis, time, pickup_id);
+
+    function getTours() {
+        /*
+        console.log('executed');
+        $.ajax({
+            type:'POST',
+            url: '/get_tours/',
+            dataType: 'json',
+            async: true,
+
+            data: {
+                safe: false,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+
+            success: function(json) {
+                console.log(json);
+                console.log(json.strTourCode);
+            }
+        })*/
+
+
+    }
+
 </script>

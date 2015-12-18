@@ -76,64 +76,33 @@
 
         for (var i = 0; i in operators; i++) {
             var tableRow = document.createElement('tr');
-            var tableRow2 = document.createElement('tr');
             var table = document.getElementById("test-tool-table").getElementsByTagName('tbody')[0];
             var operator_td = document.createElement("td");
             var location_td = document.createElement("td");
 
-            var code_td = document.createElement("td");
-            var basis_td = document.createElement("td");
-            var subbasis_td = document.createElement("td");
-            var time_td = document.createElement("td");
-            var pickup_id_td = document.createElement("td");
-
             var operator_td_value = document.createTextNode(operators[i] + ' (' + host_id[i] + ')');
             var location_td_value = document.createTextNode(locations[i]);
-
-            var code_td_value = document.createTextNode(code[i]);
-            var basis_td_value = document.createTextNode("Basis: " + basis[i]);
-            var subbasis_td_value = document.createTextNode("Subbasis: " + subbasis[i]);
-            var time_td_value = document.createTextNode("Time: " + time[i]);
-            var pickup_id_td_value = document.createTextNode("Pickup ID: " + pickup_id[i]);
 
             operator_td.appendChild(operator_td_value);
             location_td.appendChild(location_td_value);
 
-            code_td.appendChild(code_td_value);
-            basis_td.appendChild(basis_td_value);
-            subbasis_td.appendChild(subbasis_td_value);
-            time_td.appendChild(time_td_value);
-            pickup_id_td.appendChild(pickup_id_td_value);
-
             operator_td.setAttribute("colspan", "3");
-            operator_td.setAttribute("id", "operator");
-            operator_td.setAttribute("onclick", "getTours()");
             location_td.setAttribute("colspan", "3");
 
-            tableRow.setAttribute("id", "1");
+            tableRow.setAttribute("id", (host_id[i]).toString());
+            tableRow.setAttribute("onclick", "getTours(this, this.id)");
             tableRow.setAttribute("data-level", "1");
-
-            tableRow2.setAttribute("id", "2");
-            tableRow2.setAttribute("data-level", "2");
-            tableRow2.setAttribute("type", "checkbox");
 
             tableRow.appendChild(operator_td);
             tableRow.appendChild(location_td);
 
-            tableRow2.appendChild(code_td);
-            tableRow2.appendChild(basis_td);
-            tableRow2.appendChild(subbasis_td);
-            tableRow2.appendChild(time_td);
-            tableRow2.appendChild(pickup_id_td);
-
             table.appendChild(tableRow);
-            table.appendChild(tableRow2);
         }
 
     }
 
     var host_name = {{ host_name|safe }};
-    var locations = {{ locations|safe }};
+    var locations = '';
     var host_id = {{ host_id|safe }};
     var code = '';
     var basis = {{ basis|safe }};
@@ -144,25 +113,67 @@
 
     generateTable(host_name, locations, host_id, code, basis, subbasis, time, pickup_id);
 
-    function getTours() {
+    function getTours(tableRow, id) {
 
-        /*console.log('executed');
         $.ajax({
-            type:'POST',
-            url: '/testTool/',
+            type: 'POST',
+            url: '/get_tours/',
             dataType: 'json',
             async: true,
 
             data: {
+                id: id,
                 safe: false,
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             },
 
-            success: function(json) {
-                console.log(json);
-                console.log(json.strTourCode);
+            success: function (json) {
+                console.log(json.tours);
+                console.log(json.tour_bases[0]);
+
+                for (var i = 0; i in json.tours; i++) {
+                    for (var j = 0; j in json.tour_bases[i]; j++) {
+                        var newTableRow = document.createElement('tr');
+
+                        var tour_code_td = document.createElement('td');
+                        var basis_td = document.createElement("td");
+                        var subbasis_td = document.createElement("td");
+                        var time_td = document.createElement("td");
+                        var pickup_id_td = document.createElement("td");
+
+                        var tour_code_td_value = document.createTextNode(json.tours[i]['strTourCode']);
+                        var basis_td_value = document.createTextNode("Basis: " + json.tour_bases[i][j]['strBasisDesc']);
+                        var subbasis_td_value = document.createTextNode("Subbasis: " + json.tour_bases[i][j]['strSubBasisDesc']);
+                        var time_td_value = document.createTextNode("Time: " + json.pickup_time[i]['strTourCode']);
+                        var pickup_id_td_value = document.createTextNode("Pickup ID: " + json.pickup_id[i]['strTourCode']);
+
+                        tour_code_td.appendChild(tour_code_td_value);
+                        basis_td.appendChild(basis_td_value);
+                        subbasis_td.appendChild(subbasis_td_value);
+                        time_td.appendChild(time_td_value);
+                        pickup_id_td.appendChild(pickup_id_td_value);
+
+                        newTableRow.setAttribute("data-level", "2");
+                        newTableRow.setAttribute("type", "checkbox");
+
+                        newTableRow.appendChild(tour_code_td);
+                        newTableRow.appendChild(basis_td);
+                        newTableRow.appendChild(subbasis_td);
+                        newTableRow.appendChild(time_td);
+                        newTableRow.appendChild(pickup_id_td);
+
+                        $(tableRow).after(newTableRow);
+
+
+                    }
+
+                    $(tableRow).removeAttr("onclick")
+
+
+                }
+
             }
-        })*/
+        })
 
 
     }

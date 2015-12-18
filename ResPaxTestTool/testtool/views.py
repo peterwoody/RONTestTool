@@ -41,13 +41,13 @@ def testtool(request):
         # host_name = convert_to_list(host_info, 'strHostName')
         # locations = convert_to_list(locations)
 
-        host_name = ron_api.get_hosts(connection.get('connection'), 'strHostName')
-        host_id = ron_api.get_hosts(connection.get('connection'), 'strHostID')
+        host_name = ron_api.get_hosts('strHostName')
+        host_id = ron_api.get_hosts('strHostID')
 
         # host_details = ron_api.host_details
         # print(host_details[0].get('strLocation'))
 
-        locations = ron_api.get_host_details(connection.get('connection'), 'strLocation')
+        #locations = ron_api.get_host_details('strLocation')
         basis = convert_to_list(basis)
         subbasis = convert_to_list(subbasis)
         time = convert_to_list(time)
@@ -80,7 +80,7 @@ def login(request):
 
 
 def logout(request):
-    auth.logout(request)
+    ron_api.logout()
     context = {
 
     }
@@ -95,18 +95,24 @@ def invalid(request):
 
 
 def get_tours(request):
-    operator = request.POST.get('operator', '')
-    username = request.user.username
-    password = request.user.password
-    print(username)
-    print(password)
-    connection = ron_api.get_connection(username, password)
-    tours = ron_api.read_tours(connection)
-    # tours = request.POST.get("")
-    print(tours)
-    # print("tours: ")
+    host_id = request.POST['id']
+    tours = ron_api.read_tours(host_id)
+    tour_bases = []
+    for data in tours:
+        tour_code = data.get('strTourCode')
+        print(tour_code)
+        tour_base = ron_api.read_tour_bases(host_id, tour_code)
+        print(tour_base)
+        tour_bases.append(tour_base)
 
-    response_data = tours
+    print(tours)
+    response_data = {
+        'tours': tours,
+        'tour_bases': tour_bases,
+        #'subbasis': tours,
+        'pickup_time': tours,
+        'pickup_id': tours,
+    }
     print(response_data)
 
     return JsonResponse(response_data)

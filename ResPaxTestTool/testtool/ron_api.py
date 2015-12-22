@@ -25,14 +25,11 @@ def get_connection(username, password):
 def get_hosts(key):
     hosts = connection.readHosts()
     list_object = []
+
     for data in hosts:
-        # print(data)
         host = (data.get(key, None))
-        # print(str(host))
         list_object.append(str(host))
 
-    #list_object.sort()
-    # print(list_object)
     return list_object
 
 
@@ -53,17 +50,19 @@ def get_host_details():
 
 def read_tours(host_id):
     tours = connection.readTours(host_id)
-    print(tours)
+
     return tours
 
 
 def read_tour_bases(host_id, tour_code):
     tour_bases = connection.readTourBases(host_id, tour_code)
+
     return tour_bases
 
 
 def read_tour_times(host_id, tour_code):
     tour_times = connection.readTourTimes(host_id, tour_code)
+
     return tour_times
 
 

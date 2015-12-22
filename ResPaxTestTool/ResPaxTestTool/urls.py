@@ -24,6 +24,7 @@ urlpatterns = [
 
     url(r'^testTool/', testtool, name="testtool"),
     url(r'^get_tours/', get_tours, name="get_tours"),
+    url(r'^get_tour_bases/', get_tour_bases, name="get_tour_bases"),
     url(r'^logout/', logout, name="logout"),
     url(r'^invalid/', invalid, name="invalid"),
     url(r'^$', login, name="login"),

@@ -1,7 +1,6 @@
 table, tr, td, th {
-    border: 1px solid black;
     border-collapse:collapse;
-    border-color: gray;
+    border: 1px solid gray;
 }
 tr:not([data-level='3']) {
     cursor:pointer;
@@ -15,4 +14,8 @@ tr.folded .sign:after {
 }
 td:first-child {
     padding: inherit;
+}
+
+tr[data-level='2'] {
+    margin-left: 5%;
 }

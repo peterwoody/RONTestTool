@@ -3,7 +3,7 @@ table.table-expandable > tbody > tr {
 }
 
 table.table-expandable.table-hover > tbody > tr:nth-child(even):hover td {
-    background-color: white;
+    background-color: lightsteelblue;
 }
 
 table.table-expandable > tbody > tr div.table-expandable-arrow {
@@ -13,6 +13,24 @@ table.table-expandable > tbody > tr div.table-expandable-arrow {
 table.table-expandable > tbody > tr div.table-expandable-arrow.up {
     background-position:0px 0px;
 }
+
+table.table-expandable > tbody > tr[data-level='2'] td {
+    padding-left: 3%;
+    /*background-color: white;*/
+}
+
+table.table-expandable > tbody > tr[data-level='3'] td:first-child {
+    padding-left: 6%;
+}
+
+table.table-expandable > tbody > tr[data-level='4'] td {
+    padding-left: 9%;
+}
+
+table.table-expandable > tbody > tr[data-level='5'] td:first-child {
+    padding-left: 12%;
+}
+
 
 .logout {
     /*background-color: #4d90fe; */

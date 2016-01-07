@@ -15,6 +15,7 @@
 
 </head>
 <body>
+
 <!-- Fixed navbar -->
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -26,11 +27,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">ResPax</a>
+            <a href="https://www.respax.com/"><img id="login-img" src="{% static "img/respax-logo.png" %}" />
+</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="/testTool/">Home</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/logout/">Log out <span class="sr-only">(current)</span></a></li>
@@ -115,10 +116,11 @@
                         var newTableRow = document.createElement('tr');
                         var tour_code_td = document.createElement('td');
 
-                        var tour_code_td_value = document.createTextNode(json.tours[i]['strTourCode']);
+                        var tour_code_td_value = document.createTextNode('Tour Code: '+json.tours[i]['strTourCode']);
 
                         tour_code_td.appendChild(tour_code_td_value);
 
+                        tour_code_td.setAttribute('colspan', '4');
                         newTableRow.setAttribute('id', id + ',' + json.tours[i]['strTourCode'].toString());
                         newTableRow.setAttribute('onclick', 'get_tour_bases(this, this.id)');
                         newTableRow.setAttribute("data-level", "2");
@@ -176,6 +178,8 @@
                     basis_td.appendChild(basis_td_value);
                     subbasis_td.appendChild(subbasis_td_value);
 
+                    basis_td.setAttribute('colspan', '1');
+                    subbasis_td.setAttribute('colspan', '3');
                     newTableRow.setAttribute('id', id + ',' + json.tour_bases[i]['intBasisID'] + ',' + json.tour_bases[i]['intSubBasisID']);
                     newTableRow.setAttribute('onclick', 'get_tour_times(this, this.id)');
                     newTableRow.setAttribute("data-level", "3");
@@ -217,6 +221,7 @@
 
                     time_td.appendChild(time_td_value);
 
+                    time_td.setAttribute('colspan', '4');
                     newTableRow.setAttribute('id', id + ',' + json.tour_times[i]['intTourTimeID']);
                     newTableRow.setAttribute('onclick', 'get_tour_pickups(this, this.id)');
                     newTableRow.setAttribute("data-level", "4");
@@ -272,6 +277,8 @@
                     pickup_id_td.appendChild(pickup_id_td_value);
                     string_td.appendChild(string_td_value);
 
+                    pickup_id_td.setAttribute('colspan', '1');
+                    string_td.setAttribute('colspan', '3');
                     newTableRow.setAttribute("data-level", "5");
 
                     newTableRow.appendChild(pickup_id_td);

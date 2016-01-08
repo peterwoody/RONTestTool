@@ -17,7 +17,8 @@ def testtool(request):
         host_name = ron_api.get_hosts('strHostName')
         host_id = ron_api.get_hosts('strHostID')
 
-        #locations = ron_api.get_host_details('strLocation')
+        # locations = ron_api.get_host_details(host_id)
+        # locations = ron_api.get_host_details('strLocation')
 
         context = {
             "host_name": host_name,

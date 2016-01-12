@@ -2,29 +2,24 @@
  * Created by Shaquille on 8/01/2016.
  */
 
-function generateTable(operators, locations, host_id) {
+function generateTable(operators, host_id) {
 
     for (var i = 0; i in operators; i++) {
         var tableRow = document.createElement('tr');
         var table = document.getElementById("test-tool-table").getElementsByTagName('tbody')[0];
         var operator_td = document.createElement("td");
-        var location_td = document.createElement("td");
 
         var operator_td_value = document.createTextNode(operators[i] + ' (' + host_id[i] + ')');
-        var location_td_value = document.createTextNode(locations[i]);
 
         operator_td.appendChild(operator_td_value);
-        location_td.appendChild(location_td_value);
 
         operator_td.setAttribute("colspan", "3");
-        location_td.setAttribute("colspan", "3");
 
         tableRow.setAttribute("id", (host_id[i]).toString());
         tableRow.setAttribute("onclick", "get_tours(this, this.id)");
         tableRow.setAttribute("data-level", "1");
 
         tableRow.appendChild(operator_td);
-        tableRow.appendChild(location_td);
 
         table.appendChild(tableRow);
     }
@@ -37,7 +32,7 @@ function getCookie(name) {
         var cookies = document.cookie.split(';');
         for (var i = 0; i < cookies.length; i++) {
             var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
+
             if (cookie.substring(0, name.length + 1) == (name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                 break;
@@ -47,6 +42,7 @@ function getCookie(name) {
     return cookieValue;
 }
 var csrftoken = getCookie('csrftoken');
+
 function get_tours(tableRow, id) {
 
     $.ajax({

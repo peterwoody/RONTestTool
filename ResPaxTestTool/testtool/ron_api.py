@@ -33,18 +33,9 @@ def get_hosts(key):
     return list_object
 
 
-def get_host_details(host_ids):
-    # host_ids = get_hosts('strHostID')
-    list_object = [connection.readHostDetails(data)['strLocation'] for data in host_ids]
-    #list_object = []
+def get_host_details(host_ids, key):
+    list_object = [connection.readHostDetails(data)[0].get(key) for data in host_ids]
 
-    # for data in host_ids:
-    #     host_details = connection.readHostDetails(data)[0].get(key)
-    #     # host_detail = host_details[0].get(key, None)
-    #     print(host_details)
-    #     list_object.append(host_details)
-    #
-    # print(list_object)
     return list_object
 
 

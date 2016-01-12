@@ -3,10 +3,7 @@ from django.http import JsonResponse
 import ron_api
 
 
-# Create your views here.
-
-
-def testtool(request):
+def test_tool(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
 
@@ -17,20 +14,16 @@ def testtool(request):
         host_name = ron_api.get_hosts('strHostName')
         host_id = ron_api.get_hosts('strHostID')
 
-        # locations = ron_api.get_host_details(host_id)
-        # locations = ron_api.get_host_details('strLocation')
-
         context = {
             "host_name": host_name,
-            #"locations": locations,
             "host_id": host_id,
         }
-        return render(request, "testTool.html", context)
+        return render(request, "test_tool.html", context)
     else:
         context = {
             'fault': connection.get('fault')
         }
-        return render(request, "invalid.html", context)
+        return render(request, "login_error.html", context)
 
 
 def login(request):
@@ -48,11 +41,11 @@ def logout(request):
     return render(request, "login.html", context)
 
 
-def invalid(request):
+def login_error(request):
     context = {
 
     }
-    return render(request, "invalid.html", context)
+    return render(request, "login_error.html", context)
 
 
 def get_tours(request):

@@ -1,0 +1,56 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ResPax Test Tool</title>
+
+    <link rel="stylesheet" href={% static "css/bootstrap.min.css" %}>
+    <link rel="stylesheet" href={% static "css/bootstrap-table-expandable.css" %}>
+
+    <script src={% static "js/jquery-2.1.4.min.js" %}></script>
+    <script src={% static "js/collapsibleTable.js" %}></script>
+
+</head>
+<body>
+
+<!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="https://www.respax.com/"><img id="login-img" src="{% static "img/respax-logo.png" %}"/>
+            </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/logout/">Log out <span class="sr-only">(current)</span></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 style="margin-top:150px;">ResPax Test Tool</h1>
+
+    <table id="test-tool-table" class="table table-hover table-expandable table-striped">
+        <thead>
+        <tr>
+            <th colspan="3">Operator</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
+
+<script src={% static "js/table_creation.js" %}></script>
+<script type="text/javascript">
+    generateTable({{ host_name | safe }}, {{ host_id | safe }})
+</script>

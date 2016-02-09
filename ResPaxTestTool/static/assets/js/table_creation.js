@@ -215,6 +215,7 @@ function get_tour_pickups(tableRow, id) {
 
                 var string_td_value = document.createTextNode("String: (" +
                     host_id + ',' +
+                    tour_code + ',' +
                     tour_basis_id + ',' +
                     tour_sub_basis_id + ',' +
                     tour_time_id + ',' +

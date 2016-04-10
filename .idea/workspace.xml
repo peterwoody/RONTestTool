@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3811bbb2-b0f3-4fe9-b145-3ac10cd7dcc3" name="Default" comment="">
+<<<<<<< HEAD
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ResPaxTestTool/ResPaxTestTool/urls.py" afterPath="$PROJECT_DIR$/ResPaxTestTool/ResPaxTestTool/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ResPaxTestTool/static/assets/css/bootstrap-table-expandable.css" afterPath="$PROJECT_DIR$/ResPaxTestTool/static/assets/css/bootstrap-table-expandable.css" />
@@ -11,6 +12,9 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ResPaxTestTool/templates/test_tool.html" afterPath="$PROJECT_DIR$/ResPaxTestTool/templates/test_tool.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ResPaxTestTool/testtool/ron_api.py" afterPath="$PROJECT_DIR$/ResPaxTestTool/testtool/ron_api.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ResPaxTestTool/testtool/views.py" afterPath="$PROJECT_DIR$/ResPaxTestTool/testtool/views.py" />
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ResPaxTestTool/static/assets/js/table_creation.js" afterPath="$PROJECT_DIR$/ResPaxTestTool/static/assets/js/table_creation.js" />
+>>>>>>> origin/master
     </list>
     <ignored path="RONTestTool.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -39,11 +43,16 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="table_creation.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="table_creation.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ResPaxTestTool/static/assets/js/table_creation.js">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state vertical-scroll-proportion="0.0">
               <caret line="29" column="27" selection-start-line="29" selection-start-column="27" selection-end-line="29" selection-end-column="27" />
+=======
+            <state vertical-scroll-proportion="0.49470899">
+              <caret line="217" column="37" selection-start-line="217" selection-start-column="37" selection-end-line="217" selection-end-column="37" />
+>>>>>>> origin/master
               <folding>
                 <element signature="n#!!doc;n#generateTable#0" expanded="false" />
               </folding>
@@ -51,11 +60,19 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="test_tool.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ResPaxTestTool/templates/test_tool.html">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.8727599">
               <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+=======
+      <file leaf-file-name="login.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ResPaxTestTool/templates/login.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-8.5">
+              <caret line="13" column="64" selection-start-line="13" selection-start-column="64" selection-end-line="13" selection-end-column="64" />
+>>>>>>> origin/master
               <folding />
             </state>
           </provider>
@@ -65,7 +82,11 @@
         <entry file="file://$PROJECT_DIR$/ResPaxTestTool/templates/login.html">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
+<<<<<<< HEAD
               <caret line="19" column="103" selection-start-line="19" selection-start-column="103" selection-end-line="19" selection-end-column="103" />
+=======
+              <caret line="27" column="17" selection-start-line="27" selection-start-column="17" selection-end-line="27" selection-end-column="17" />
+>>>>>>> origin/master
               <folding />
             </state>
           </provider>
@@ -75,6 +96,7 @@
         <entry file="file://$PROJECT_DIR$/ResPaxTestTool/testtool/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
+<<<<<<< HEAD
               <caret line="39" column="42" selection-start-line="39" selection-start-column="42" selection-end-line="39" selection-end-column="42" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
@@ -89,6 +111,12 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="50" column="19" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="19" />
               <folding />
+=======
+              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+              <folding>
+                <marker date="1454991578591" expanded="true" signature="1003:1019" placeholder="..." />
+              </folding>
+>>>>>>> origin/master
             </state>
           </provider>
         </entry>
@@ -107,6 +135,7 @@
         <entry file="file://$PROJECT_DIR$/ResPaxTestTool/testtool/ron_api.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
+<<<<<<< HEAD
               <caret line="31" column="31" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
               <folding />
             </state>
@@ -119,6 +148,17 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="24" column="49" selection-start-line="24" selection-start-column="49" selection-end-line="24" selection-end-column="49" />
               <folding />
+=======
+              <caret line="25" column="31" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
+              <folding>
+                <marker date="1454991578566" expanded="true" signature="875:1054" placeholder="..." />
+                <marker date="1454991578566" expanded="true" signature="1180:1203" placeholder="..." />
+                <marker date="1454991578566" expanded="true" signature="1230:1290" placeholder="..." />
+                <marker date="1454991578566" expanded="true" signature="1333:1418" placeholder="..." />
+                <marker date="1454991578566" expanded="true" signature="1461:1546" placeholder="..." />
+                <marker date="1454991578566" expanded="true" signature="1615:1730" placeholder="..." />
+              </folding>
+>>>>>>> origin/master
             </state>
           </provider>
         </entry>
@@ -154,9 +194,14 @@
         <option value="$PROJECT_DIR$/ResPaxTestTool/testtool/ron_api.py" />
         <option value="$PROJECT_DIR$/ResPaxTestTool/static/assets/js/table_creation.js" />
         <option value="$PROJECT_DIR$/ResPaxTestTool/testtool/views.py" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/ResPaxTestTool/static/assets/css/bootstrap.min.css" />
         <option value="$PROJECT_DIR$/ResPaxTestTool/static/assets/css/bootstrap-table-expandable.css" />
         <option value="$PROJECT_DIR$/ResPaxTestTool/templates/test_tool.html" />
+=======
+        <option value="$PROJECT_DIR$/ResPaxTestTool/templates/login.html" />
+        <option value="$PROJECT_DIR$/ResPaxTestTool/static/assets/js/table_creation.js" />
+>>>>>>> origin/master
       </list>
     </option>
   </component>
@@ -168,8 +213,13 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
+<<<<<<< HEAD
     <option name="width" value="1936" />
     <option name="height" value="1056" />
+=======
+    <option name="width" value="1384" />
+    <option name="height" value="744" />
+>>>>>>> origin/master
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -688,6 +738,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
+<<<<<<< HEAD
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="false" />
     <layout>
@@ -698,6 +749,18 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33694476" sideWeight="0.4936034" order="2" side_tool="false" content_ui="tabs" />
+=======
+    <frame x="-8" y="-8" width="1384" height="744" extended-state="6" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30362538" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3336945" sideWeight="0.5021322" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33551556" sideWeight="0.4978678" order="2" side_tool="false" content_ui="tabs" />
+>>>>>>> origin/master
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32502708" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -729,6 +792,19 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
+=======
+    <entry file="file://$PROJECT_DIR$/ResPaxTestTool/testtool/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="23" column="22" selection-start-line="23" selection-start-column="22" selection-end-line="23" selection-end-column="22" />
+          <folding>
+            <marker date="1454991578591" expanded="true" signature="1003:1019" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+>>>>>>> origin/master
     <entry file="file://$PROJECT_DIR$/ResPaxTestTool/ResPaxTestTool/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -741,7 +817,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="35" column="36" selection-start-line="35" selection-start-column="36" selection-end-line="35" selection-end-column="36" />
-          <folding />
+          <folding>
+            <marker date="1454991578566" expanded="true" signature="875:1054" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1180:1203" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1230:1290" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1333:1418" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1461:1546" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1615:1730" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -758,7 +841,11 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="19" column="55" selection-start-line="19" selection-start-column="55" selection-end-line="19" selection-end-column="55" />
           <folding>
+<<<<<<< HEAD
             <element signature="e#0#35#0" expanded="true" />
+=======
+            <marker date="1454991578591" expanded="true" signature="1003:1019" placeholder="..." />
+>>>>>>> origin/master
           </folding>
         </state>
       </provider>
@@ -767,7 +854,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1454991578566" expanded="true" signature="875:1054" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1180:1203" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1230:1290" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1333:1418" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1461:1546" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1615:1730" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -776,7 +870,11 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+<<<<<<< HEAD
             <element signature="e#0#35#0" expanded="true" />
+=======
+            <marker date="1454991578591" expanded="true" signature="1003:1019" placeholder="..." />
+>>>>>>> origin/master
           </folding>
         </state>
       </provider>
@@ -786,7 +884,11 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="22" column="35" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="35" />
           <folding>
+<<<<<<< HEAD
             <element signature="e#0#35#0" expanded="true" />
+=======
+            <marker date="1454991578591" expanded="true" signature="1003:1019" placeholder="..." />
+>>>>>>> origin/master
           </folding>
         </state>
       </provider>
@@ -818,7 +920,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1454991578566" expanded="true" signature="875:1054" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1180:1203" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1230:1290" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1333:1418" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1461:1546" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1615:1730" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -827,7 +936,11 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+<<<<<<< HEAD
             <element signature="e#0#35#0" expanded="true" />
+=======
+            <marker date="1454991578591" expanded="true" signature="1003:1019" placeholder="..." />
+>>>>>>> origin/master
           </folding>
         </state>
       </provider>
@@ -852,7 +965,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1454991578566" expanded="true" signature="875:1054" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1180:1203" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1230:1290" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1333:1418" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1461:1546" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1615:1730" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -861,7 +981,11 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="91" column="4" selection-start-line="91" selection-start-column="4" selection-end-line="91" selection-end-column="4" />
           <folding>
+<<<<<<< HEAD
             <element signature="e#0#35#0" expanded="true" />
+=======
+            <marker date="1454991578591" expanded="true" signature="1003:1019" placeholder="..." />
+>>>>>>> origin/master
           </folding>
         </state>
       </provider>
@@ -886,7 +1010,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="39" column="9" selection-start-line="39" selection-start-column="9" selection-end-line="39" selection-end-column="9" />
-          <folding />
+          <folding>
+            <marker date="1454991578566" expanded="true" signature="875:1054" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1180:1203" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1230:1290" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1333:1418" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1461:1546" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1615:1730" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -895,7 +1026,11 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
+<<<<<<< HEAD
             <element signature="e#0#35#0" expanded="true" />
+=======
+            <marker date="1454991578591" expanded="true" signature="1003:1019" placeholder="..." />
+>>>>>>> origin/master
           </folding>
         </state>
       </provider>
@@ -912,7 +1047,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
-          <folding />
+          <folding>
+            <marker date="1454991578566" expanded="true" signature="875:1054" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1180:1203" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1230:1290" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1333:1418" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1461:1546" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1615:1730" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -921,7 +1063,11 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="12" column="43" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="43" />
           <folding>
+<<<<<<< HEAD
             <element signature="e#0#35#0" expanded="true" />
+=======
+            <marker date="1454991578591" expanded="true" signature="1003:1019" placeholder="..." />
+>>>>>>> origin/master
           </folding>
         </state>
       </provider>
@@ -938,7 +1084,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1454991578566" expanded="true" signature="875:1054" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1180:1203" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1230:1290" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1333:1418" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1461:1546" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1615:1730" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -947,7 +1100,11 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
           <folding>
+<<<<<<< HEAD
             <element signature="e#0#35#0" expanded="true" />
+=======
+            <marker date="1454991578591" expanded="true" signature="1003:1019" placeholder="..." />
+>>>>>>> origin/master
           </folding>
         </state>
       </provider>
@@ -971,7 +1128,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1454991578566" expanded="true" signature="875:1054" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1180:1203" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1230:1290" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1333:1418" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1461:1546" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1615:1730" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -980,7 +1144,11 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
           <folding>
+<<<<<<< HEAD
             <element signature="e#0#35#0" expanded="true" />
+=======
+            <marker date="1454991578591" expanded="true" signature="1003:1019" placeholder="..." />
+>>>>>>> origin/master
           </folding>
         </state>
       </provider>
@@ -1004,7 +1172,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1454991578566" expanded="true" signature="875:1054" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1180:1203" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1230:1290" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1333:1418" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1461:1546" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1615:1730" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1013,7 +1188,11 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="70" column="35" selection-start-line="70" selection-start-column="35" selection-end-line="70" selection-end-column="35" />
           <folding>
+<<<<<<< HEAD
             <element signature="e#0#35#0" expanded="true" />
+=======
+            <marker date="1454991578591" expanded="true" signature="1003:1019" placeholder="..." />
+>>>>>>> origin/master
           </folding>
         </state>
       </provider>
@@ -1037,7 +1216,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1454991578566" expanded="true" signature="875:1054" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1180:1203" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1230:1290" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1333:1418" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1461:1546" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1615:1730" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1057,8 +1243,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ResPaxTestTool/templates/login_error.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state vertical-scroll-proportion="0.24637681">
           <caret line="8" column="26" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
+=======
+        <state vertical-scroll-proportion="-2.5724638">
+          <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
+>>>>>>> origin/master
         </state>
       </provider>
     </entry>
@@ -1072,15 +1263,33 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ResPaxTestTool/static/assets/css/loginCSS.css">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state vertical-scroll-proportion="0.03046595">
           <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
+=======
+        <state vertical-scroll-proportion="0.71238095">
+          <caret line="4" column="1325" selection-start-line="4" selection-start-column="1325" selection-end-line="4" selection-end-column="1325" />
+>>>>>>> origin/master
         </state>
       </provider>
     </entry>
     <entry file="file://C:/Python27/Lib/site-packages/django/utils/datastructures.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state vertical-scroll-proportion="0.3321918">
           <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
+=======
+        <state vertical-scroll-proportion="0.0">
+          <caret line="25" column="31" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
+          <folding>
+            <marker date="1454991578566" expanded="true" signature="875:1054" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1180:1203" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1230:1290" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1333:1418" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1461:1546" placeholder="..." />
+            <marker date="1454991578566" expanded="true" signature="1615:1730" placeholder="..." />
+          </folding>
+>>>>>>> origin/master
         </state>
       </provider>
     </entry>
@@ -1105,7 +1314,11 @@
     <entry file="file://$PROJECT_DIR$/ResPaxTestTool/testtool/ron_api.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
+<<<<<<< HEAD
           <caret line="31" column="31" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
+=======
+          <caret line="27" column="17" selection-start-line="27" selection-start-column="17" selection-end-line="27" selection-end-column="17" />
+>>>>>>> origin/master
           <folding />
         </state>
       </provider>
@@ -1113,8 +1326,15 @@
     <entry file="file://$PROJECT_DIR$/ResPaxTestTool/static/assets/css/bootstrap.min.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
+<<<<<<< HEAD
           <caret line="4" column="72863" selection-start-line="4" selection-start-column="72851" selection-end-line="4" selection-end-column="72863" />
           <folding />
+=======
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding>
+            <marker date="1454991578591" expanded="true" signature="1003:1019" placeholder="..." />
+          </folding>
+>>>>>>> origin/master
         </state>
       </provider>
     </entry>
@@ -1130,12 +1350,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ResPaxTestTool/templates/login.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state vertical-scroll-proportion="0.0">
           <caret line="19" column="103" selection-start-line="19" selection-start-column="103" selection-end-line="19" selection-end-column="103" />
+=======
+        <state vertical-scroll-proportion="-8.5">
+          <caret line="13" column="64" selection-start-line="13" selection-start-column="64" selection-end-line="13" selection-end-column="64" />
+>>>>>>> origin/master
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/ResPaxTestTool/static/assets/css/bootstrap-table-expandable.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1149,6 +1375,15 @@
         <state vertical-scroll-proportion="0.8727599">
           <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
           <folding />
+=======
+    <entry file="file://$PROJECT_DIR$/ResPaxTestTool/static/assets/js/table_creation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.49470899">
+          <caret line="217" column="37" selection-start-line="217" selection-start-column="37" selection-end-line="217" selection-end-column="37" />
+          <folding>
+            <element signature="n#!!doc;n#generateTable#0" expanded="false" />
+          </folding>
+>>>>>>> origin/master
         </state>
       </provider>
     </entry>

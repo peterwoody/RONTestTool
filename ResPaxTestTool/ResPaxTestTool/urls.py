@@ -23,6 +23,7 @@ from django.conf.urls.static import static
 urlpatterns = [
 
     url(r'^test_tool/', test_tool, name="test_tool"),
+    url(r'^test_tool_form/', test_tool_form, name="test_tool_form"),
     url(r'^get_tours/', get_tours, name="get_tours"),
     url(r'^get_tour_bases/', get_tour_bases, name="get_tour_bases"),
     url(r'^get_tour_times/', get_tour_times, name="get_tour_times"),

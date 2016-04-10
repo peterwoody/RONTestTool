@@ -2,7 +2,7 @@
  * Created by Shaquille on 8/01/2016.
  */
 
-function generateTable(operators, host_id) {
+function generateTable(operators, host_id, server_url) {
 
     for (var i = 0; i in operators; i++) {
         var tableRow = document.createElement('tr');
@@ -16,7 +16,7 @@ function generateTable(operators, host_id) {
         operator_td.setAttribute("colspan", "3");
 
         tableRow.setAttribute("id", (host_id[i]).toString());
-        tableRow.setAttribute("onclick", "get_tours(this, this.id)");
+        tableRow.setAttribute("onclick", "get_tours(this, this.id,'"+server_url+"')");
         tableRow.setAttribute("data-level", "1");
 
         tableRow.appendChild(operator_td);
@@ -43,7 +43,8 @@ function getCookie(name) {
 }
 var csrftoken = getCookie('csrftoken');
 
-function get_tours(tableRow, id) {
+function get_tours(tableRow, id, server_url) {
+    console.log(server_url);
 
     $.ajax({
         type: 'POST',
@@ -53,6 +54,7 @@ function get_tours(tableRow, id) {
 
         data: {
             id: id,
+            server_url: server_url,
             safe: false,
             csrfmiddlewaretoken: csrftoken
         },
@@ -69,7 +71,7 @@ function get_tours(tableRow, id) {
 
                     tour_code_td.setAttribute('colspan', '4');
                     newTableRow.setAttribute('id', id + ',' + json.tours[i]['strTourCode'].toString());
-                    newTableRow.setAttribute('onclick', 'get_tour_bases(this, this.id)');
+                    newTableRow.setAttribute('onclick', 'get_tour_bases(this, this.id,"'+server_url+'")');
                     newTableRow.setAttribute("data-level", "2");
 
                     newTableRow.appendChild(tour_code_td);
@@ -89,12 +91,12 @@ function get_tours(tableRow, id) {
                 newTableRow.appendChild(td);
                 $(tableRow).after(newTableRow);
             }
-            tableRow.setAttribute('onclick', 'remove_rows(this)');
+            tableRow.setAttribute('onclick', 'remove_rows(this,"'+server_url+'")');
         }
     })
 }
 
-function get_tour_bases(tableRow, id) {
+function get_tour_bases(tableRow, id, server_url) {
     var host_id = id.split(',')[0];
     var tour_code = id.split(',')[1];
     console.log((id.split(',')).length);
@@ -107,6 +109,7 @@ function get_tour_bases(tableRow, id) {
         data: {
             host_id: host_id,
             tour_code: tour_code,
+            server_url: server_url,
             safe: false,
             csrfmiddlewaretoken: csrftoken
         },
@@ -128,7 +131,7 @@ function get_tour_bases(tableRow, id) {
                 basis_td.setAttribute('colspan', '1');
                 subbasis_td.setAttribute('colspan', '3');
                 newTableRow.setAttribute('id', id + ',' + json.tour_bases[i]['intBasisID'] + ',' + json.tour_bases[i]['intSubBasisID']);
-                newTableRow.setAttribute('onclick', 'get_tour_times(this, this.id)');
+                newTableRow.setAttribute('onclick', 'get_tour_times(this, this.id, "'+server_url+'")');
                 newTableRow.setAttribute("data-level", "3");
 
                 newTableRow.appendChild(basis_td);
@@ -136,12 +139,12 @@ function get_tour_bases(tableRow, id) {
 
                 $(tableRow).after(newTableRow);
             }
-            tableRow.setAttribute('onclick', 'remove_rows(this)');
+            tableRow.setAttribute('onclick', 'remove_rows(this,"'+server_url+'")');
         }
     })
 }
 
-function get_tour_times(tableRow, id) {
+function get_tour_times(tableRow, id, server_url) {
     var host_id = id.split(',')[0];
     var tour_code = id.split(',')[1];
 
@@ -154,6 +157,7 @@ function get_tour_times(tableRow, id) {
         data: {
             host_id: host_id,
             tour_code: tour_code,
+            server_url: server_url,
             safe: false,
             csrfmiddlewaretoken: csrftoken
         },
@@ -170,19 +174,19 @@ function get_tour_times(tableRow, id) {
 
                 time_td.setAttribute('colspan', '4');
                 newTableRow.setAttribute('id', id + ',' + json.tour_times[i]['intTourTimeID']);
-                newTableRow.setAttribute('onclick', 'get_tour_pickups(this, this.id)');
+                newTableRow.setAttribute('onclick', 'get_tour_pickups(this, this.id, "'+server_url+'")');
                 newTableRow.setAttribute("data-level", "4");
 
                 newTableRow.appendChild(time_td);
 
                 $(tableRow).after(newTableRow);
             }
-            tableRow.setAttribute('onclick', 'remove_rows(this)');
+            tableRow.setAttribute('onclick', 'remove_rows(this,"'+server_url+'")');
         }
     })
 }
 
-function get_tour_pickups(tableRow, id) {
+function get_tour_pickups(tableRow, id, server_url) {
     var host_id = id.split(',')[0];
     var tour_code = id.split(',')[1];
     var tour_basis_id = id.split(',')[2];
@@ -200,6 +204,7 @@ function get_tour_pickups(tableRow, id) {
             tour_code: tour_code,
             tour_time_id: tour_time_id,
             tour_basis_id: tour_basis_id,
+            server_url: server_url,
             safe: false,
             csrfmiddlewaretoken: csrftoken
         },
@@ -207,6 +212,8 @@ function get_tour_pickups(tableRow, id) {
         success: function (json) {
             for (var i = 0; i < json.tour_pickups.length; i++) {
                 var newTableRow = document.createElement('tr');
+
+                var input = document.createElement('input');
 
                 var pickup_id_td = document.createElement("td");
                 var string_td = document.createElement("td");
@@ -224,16 +231,26 @@ function get_tour_pickups(tableRow, id) {
                 pickup_id_td.appendChild(pickup_id_td_value);
                 string_td.appendChild(string_td_value);
 
+                input.setAttribute("type", "checkbox");
+                input.setAttribute("id", "checkbox");
+                input.setAttribute("name", "checkbox");
+                input.setAttribute("value",
+                    host_id + ',' +
+                    tour_code + ',' +
+                    tour_basis_id + ',' +
+                    tour_sub_basis_id + ',' +
+                    tour_time_id);
                 pickup_id_td.setAttribute('colspan', '1');
                 string_td.setAttribute('colspan', '3');
                 newTableRow.setAttribute("data-level", "5");
 
+                pickup_id_td.appendChild(input);
                 newTableRow.appendChild(pickup_id_td);
                 newTableRow.appendChild(string_td);
 
                 $(tableRow).after(newTableRow);
             }
-            tableRow.setAttribute('onclick', 'remove_rows(this)');
+            tableRow.setAttribute('onclick', 'remove_rows(this, "'+server_url+'")');
         }
     })
 }
@@ -265,7 +282,7 @@ function create_selector(level) {
     return "[data-level='" + level + "']";
 }
 
-function remove_rows(table_row) {
+function remove_rows(table_row, server_url) {
 
     var this_level = parseInt($(table_row).data("level"), 10);
     var next_or_lower = name_range(create_selector,
@@ -278,20 +295,82 @@ function remove_rows(table_row) {
 
     switch ((table_row.id.split(',')).length) {
         case 1:
-            table_row.setAttribute('onclick', 'get_tours(this, this.id)');
+            table_row.setAttribute("onclick", "get_tours(this, this.id,'"+server_url+"')");
             break;
         case 2:
-            table_row.setAttribute('onclick', 'get_tour_bases(this, this.id)');
+            table_row.setAttribute('onclick', 'get_tour_bases(this, this.id,"'+server_url+'")');
             break;
         case 4:
-            table_row.setAttribute('onclick', 'get_tour_times(this, this.id)');
+            table_row.setAttribute('onclick', 'get_tour_times(this, this.id,"'+server_url+'")');
             break;
         case 5:
-            table_row.setAttribute('onclick', 'get_tour_pickups(this, this.id)');
+            table_row.setAttribute('onclick', 'get_tour_pickups(this, this.id,"'+server_url+'")');
             break;
         default:
             console.log('function remove_rows switch statement error')
     }
+}
+
+function test_tool_query() {
+    var tour_date = document.getElementById('date').value;
+    var checkbox = document.getElementsByName('checkbox');
+    var checkboxvalues = [];
+    var host_id = [];
+    var tour_code = [];
+    var tour_basis_id = [];
+    var tour_sub_basis_id = [];
+    var tour_time_id = [];
+
+    for (var i = 0; i in checkbox; i++) {
+        if (checkbox[i].checked === true) {
+            checkboxvalues.push(checkbox[i].value.split(','));
+        }
+    }
+
+    for (var i = 0; i in checkboxvalues; i++) {
+        console.log('here');
+        for (var j = 0; j in host_id; j++) {
+            console.log('there');
+            console.log(checkboxvalues[i][0]);
+            console.log(host_id[j]);
+            if (checkboxvalues[i][0] !== host_id[j]) {
+                host_id.push(checkboxvalues[i][0]);
+            }
+        }
+    }
 
 
+    console.log(checkboxvalues);
+
+
+    console.log(host_id);
+    console.log(tour_code);
+    console.log(tour_basis_id);
+    console.log(tour_sub_basis_id);
+    console.log(tour_time_id);
+    console.log(tour_date);
+
+    $.ajax({
+        type: 'POST',
+        url: '/test_tool_form/',
+        dataType: 'json',
+        async: true,
+
+        data: {
+            tour_date: tour_date,
+            host_id: host_id,
+            tour_code: tour_code,
+            tour_time_id: tour_time_id,
+            tour_basis_id: tour_basis_id,
+            tour_sub_basis_id: tour_sub_basis_id,
+            safe: false,
+            csrfmiddlewaretoken: csrftoken
+        },
+
+        success: function (json) {
+            console.log('executed');
+            console.log(json.availability);
+
+        }
+    })
 }

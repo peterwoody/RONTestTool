@@ -107,7 +107,7 @@ def test_tool_form(request):
 
 
 def get_tours(request):
-    host_id = request.POST['id']
+    host_id = request.POST.get('id')
     server_url = request.POST.get('server_url')
     print(server_url)
     tours = ron_api.read_tours(host_id, server_url)

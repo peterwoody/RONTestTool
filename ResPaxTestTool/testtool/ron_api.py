@@ -29,6 +29,75 @@ def get_connection(username, password, server_config):
                                          " Fault string: %s" % err.faultString}
 
 
+def raw_xml_request(server_url, xml):
+
+    connection = xmlrpclib.ServerProxy(server_url)
+    xml_request = xmlrpclib.loads(xml)
+    method = xml_request[xml_request.__len__()-1]
+    params = xml_request[0]
+
+    if method == 'readHostDetails':
+        host_id = params[0]
+        print(connection.readHostDetails(host_id))
+
+    elif method == 'readTours':
+        host_id = params[0]
+        connection.readTours(host_id)
+
+    elif method == 'readTourDetails':
+        host_id = params[0]
+        tour_code = params[1]
+
+        connection.readTourDetails(host_id, tour_code)
+
+    elif method == 'readTourTimes':
+
+        connection.readTourTimes()
+
+    elif method == 'readTourBases':
+
+        connection.readTourBases()
+
+    elif method == 'readTourPickups':
+
+        connection.readTourPickups()
+
+    elif method == 'readTourPickup':
+
+        connection.readTourPickup()
+
+    elif method == 'readTourPrices':
+
+        connection.readTourPrices()
+
+    elif method == 'readTourPricesRange':
+
+        connection.readTourPricesRange()
+
+    elif method == 'readTourCommissions':
+
+        connection.readTourCommissions()
+
+    elif method == 'readTourAvailability':
+
+        host_id = params[0]
+        tour_code = params[1]
+        basis_id = params[2]
+        subbasis_id = params[3]
+        tour_date = params[4]
+        tour_time_id = params[5]
+
+        print(connection.readTourAvailability(host_id, tour_code, basis_id, subbasis_id, tour_date, tour_time_id))
+
+    elif method == 'readTourAvailabilityRange':
+
+        connection.readTourAvailabilityRange()
+
+    elif method == 'readTourWebDetails':
+
+        connection.readTourWebDetails()
+
+
 def get_hosts(key, server_url):
     connection = xmlrpclib.ServerProxy(server_url)
     hosts = connection.readHosts()
@@ -49,6 +118,8 @@ def get_host_details(host_ids, key, server_url):
 
 
 def read_tours(host_id, server_url):
+    print(host_id)
+    print(server_url)
     connection = xmlrpclib.ServerProxy(server_url)
 
     tours = connection.readTours(host_id)

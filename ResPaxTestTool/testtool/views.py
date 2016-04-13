@@ -4,8 +4,10 @@ import ron_api, datetime
 
 
 def test_tool(request):
+    switch_server_button = request.POST.get('switch_server_button')
+    submit_value = request.POST.get('submit')
 
-    if request.POST.get('server_url') is not None:
+    if submit_value == 'switch_server':
         server_url = request.POST.get('server_url')
 
         print(request.POST.get('switch_server_button'))
@@ -21,7 +23,7 @@ def test_tool(request):
 
         ron_api.switch_server(server_url)
 
-    else:
+    elif submit_value == 'login':
         username = request.POST.get('username')
         password = request.POST.get('password')
         server_config = request.POST.get('server_config')
@@ -40,6 +42,13 @@ def test_tool(request):
             switch_server_button = "train"
         else:
             switch_server_button = "live"
+
+    elif submit_value == 'xmlrequest':
+        server_url = request.POST.get('server_url')
+        print(server_url)
+        print("jjyyjtyjyjt")
+        xml = request.POST.get('xmlrequest')
+        ron_api.raw_xml_request(server_url, xml)
 
     host_name = ron_api.get_hosts('strHostName', server_url)
     host_id = ron_api.get_hosts('strHostID', server_url)

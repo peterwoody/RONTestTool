@@ -11,7 +11,7 @@
         <div class="card card-container">
             <img id="login-img" class="login-img" src="{% static "img/respax-logo.png" %}" />
             <p id="profile-name" class="profile-name-card"></p>
-            <form class="form-signin" action="/test_tool/" method="post"> {% csrf_token %}
+            <form id="login_form" name="login_form" class="form-signin" action="/test_tool/" method="post"> {% csrf_token %}
                 <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
                 <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
                 <label for="live">Live: </label>
@@ -20,7 +20,7 @@
                 <input type="radio" id="train" name="server_config" class="form-control" value="train">
 
 
-                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Log in</button>
+                <button name="submit" value="login" class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Log in</button>
             </form>
 
         </div>

@@ -28,7 +28,7 @@
                 <input  id="server_url" name="server_url" value="{{ server_url }}" hidden>
                 <input  id="switch_server_button" name="switch_server_button" value="{{ switch_server_button }}" hidden>
                 <ul class="nav navbar-nav">
-                    <li ><button type="submit" style="text-transform: uppercase">{{ switch_server_button }}</button></li>
+                    <li ><button name="submit" value="switch_server" type="submit" style="text-transform: uppercase">{{ switch_server_button }}</button></li>
                 </ul>
             </form>
 
@@ -69,6 +69,15 @@
 {#            <br>#}
 {#            <input type="submit" name="submit" value="Make Booking" onclick="test_tool_query()">#}
 {#        </div>#}
+    <form class="XMLRequestArea" action="/test_tool/" method="post"> {% csrf_token %}
+        <label for="xmlrequest">XML Request</label>
+        <input  id="server_url" name="server_url" value="{{ server_url }}" hidden>
+        <textarea id="xmlrequest" name="xmlrequest">
+
+        </textarea>
+        <button name="submit" value="xmlrequest" type="submit">Submit</button>
+    </form>
+
         <table id="test-tool-table" class="table table-hover table-expandable table-striped">
             <thead>
             <tr>

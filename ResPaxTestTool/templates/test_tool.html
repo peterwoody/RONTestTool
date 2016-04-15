@@ -44,39 +44,71 @@
     <h1 style="margin-top:150px;">ResPax Test Tool</h1>
 
 
-{#        <div class="test-tool-form">#}
-{#            <label for="date">Date:</label>#}
-{#            <input id="date" name="date" type="date">#}
-{#            <br>#}
-{#            <label for="type1">Number of Pax Type 1:</label>#}
-{#            <input id="type1" type="number">#}
-{#            <br>#}
-{#            <label for="type2">Number of Pax Type 2:</label>#}
-{#            <input id="type2" type="number">#}
-{#            <br>#}
-{#            <label for="type3">Number of Pax Type 3:</label>#}
-{#            <input id="type3" type="number">#}
-{#            <br>#}
-{#            <label for="type4">Number of Pax Type 4:</label>#}
-{#            <input id="type4" type="number">#}
-{#            <br>#}
-{#            <label for="type5">Number of Pax Type 5:</label>#}
-{#            <input id="type5" type="number">#}
-{#            <br>#}
-{#            <input type="submit" name="submit" value="Check Availability" onclick="test_tool_query()">#}
-{#            <br>#}
-{#            <input type="submit" name="submit" value="Check Price" onclick="test_tool_query()">#}
-{#            <br>#}
-{#            <input type="submit" name="submit" value="Make Booking" onclick="test_tool_query()">#}
-{#        </div>#}
-    <form class="XMLRequestArea" action="/test_tool/" method="post"> {% csrf_token %}
-        <label for="xmlrequest">XML Request</label>
+        <div class="test-tool-form">
+            <select id="method_name">
+                <option>readHostDetails</option>
+                <option>readTours</option>
+                <option>readTourDetails</option>
+                <option>readTourTimes</option>
+                <option>readTourBases</option>
+                <option>readTourPickups</option>
+                <option>readTourPrices</option>
+                <option>readTourPricesRange</option>
+                <option>readTourAvailability</option>
+            </select>
+            <label for="host_id">Host ID:</label>
+            <input id="host_id" name="host_id" type="text">
+            <br>
+            <label for="tour_code">Tour Code:</label>
+            <input id="tour_code" name="tour_code" type="text">
+            <br>
+            <label for="basis">Basis:</label>
+            <input id="basis" name="basis" type="text">
+            <br>
+            <label for="sub_basis">Sub Basis:</label>
+            <input id="sub_basis" name="sub_basis" type="text">
+            <br>
+            <label for="tour_time_id">Tour Time ID:</label>
+            <input id="tour_time_id" name="tour_time_id" type="text">
+            <br>
+            <label for="pickup_id">Pickup ID:</label>
+            <input id="pickup_id" name="pickup_id" type="text">
+            <br>
+            <label for="drop_off_id">Drop Off ID:</label>
+            <input id="drop_off_id" name="drop_off_id" type="text">
+            <br>
+
+
+            <label for="date">Date:</label>
+            <input id="date" name="date" type="date">
+            <br>
+            <label for="type1">Number of Pax Type 1:</label>
+            <input id="type1" type="number">
+            <br>
+            <label for="type2">Number of Pax Type 2:</label>
+            <input id="type2" type="number">
+            <br>
+            <label for="type3">Number of Pax Type 3:</label>
+            <input id="type3" type="number">
+            <br>
+            <label for="type4">Number of Pax Type 4:</label>
+            <input id="type4" type="number">
+            <br>
+            <label for="type5">Number of Pax Type 5:</label>
+            <input id="type5" type="number">
+            <br>
+            <input type="submit" name="submit" value="Generate XML" onclick="generate_xml_request()">
+            <br>
+            <input type="submit" name="submit" value="Generate & Submit XML" onclick="">
+        </div>
+    <div class="XMLRequestArea">
+        <label for="xml_request">XML Request</label>
         <input  id="server_url" name="server_url" value="{{ server_url }}" hidden>
-        <textarea id="xmlrequest" name="xmlrequest">
+        <textarea id="xml_request" name="xml_request">
 
         </textarea>
-        <button name="submit" value="xmlrequest" type="submit">Submit</button>
-    </form>
+        <button name="submit" value="xmlrequest" type="submit" onclick="submit_xml_request">Submit</button>
+    </div>
 
         <table id="test-tool-table" class="table table-hover table-expandable table-striped">
             <thead>

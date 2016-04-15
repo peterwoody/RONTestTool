@@ -31,15 +31,13 @@ def get_connection(username, password, server_config):
 
 def raw_xml_request(server_url, xml):
     connection = xmlrpclib.ServerProxy(server_url)
+    print(xml)
     xml_request = xmlrpclib.loads(xml)
     method = xml_request[xml_request.__len__()-1]
     params = xml_request[0]
 
     if method == 'ping':
         print(connection.ping())
-
-    elif method == 'readCurrentLogin':
-        print(connection.readCurrentLogin())
 
     elif method == 'readHostDetails':
         host_id = params[0]
@@ -107,13 +105,6 @@ def raw_xml_request(server_url, xml):
         product_list = params[0]
 
         connection.readTourAvailabilityRange(product_list)
-
-    elif method == 'checkReservation':
-        host_id = params[0]
-        reservation = params[1]
-        payment = params[2]
-
-        connection.checkReservation(host_id, reservation, payment)
 
     elif method == 'checkReservation':
         host_id = params[0]

@@ -312,6 +312,58 @@ function remove_rows(table_row, server_url) {
     }
 }
 
+function generate_xml_request(){
+    var method_name = document.getElementById('method_name').value || null;
+    var tour_date = document.getElementById('date').value || null;
+    var host_id = document.getElementById('host_id').value || null;
+    var tour_code = document.getElementById('tour_code').value || null;
+    var tour_basis_id = document.getElementById('basis').value || null;
+    var tour_sub_basis_id = document.getElementById('sub_basis').value || null;
+    var tour_time_id = document.getElementById('tour_time_id').value || null;
+    var tour_pickup_id = document.getElementById('pickup_id').value || null;
+    var tour_drop_off_id = document.getElementById('drop_off_id').value || null;
+
+    console.log(method_name);
+    console.log(tour_date);
+    console.log(host_id);
+    console.log(tour_code);
+    console.log(tour_basis_id);
+    console.log(tour_sub_basis_id);
+    console.log(tour_time_id);
+    console.log(tour_pickup_id);
+    console.log(tour_drop_off_id);
+    $.ajax({
+        type: 'POST',
+        url: '/generate_xml/',
+        dataType: 'json',
+        async: true,
+
+        data: {
+            method_name: method_name,
+            tour_date: tour_date,
+            host_id: host_id,
+            tour_code: tour_code,
+            tour_time_id: tour_time_id,
+            tour_basis_id: tour_basis_id,
+            tour_sub_basis_id: tour_sub_basis_id,
+            tour_pickup_id: tour_pickup_id,
+            tour_drop_off_id: tour_drop_off_id,
+            safe: false,
+            csrfmiddlewaretoken: csrftoken
+        },
+
+        success: function (json) {
+            console.log('executed');
+            document.getElementById('xml_request').textContent = json.generated_xml
+
+        }
+    })
+}
+
+function submit_xml_request(){
+
+}
+
 function test_tool_query() {
     var tour_date = document.getElementById('date').value;
     var checkbox = document.getElementsByName('checkbox');

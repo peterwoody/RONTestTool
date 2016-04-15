@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from django.http import JsonResponse,HttpResponseRedirect
-import ron_api, datetime
+from django.http import JsonResponse, HttpResponseRedirect
+import ron_api, datetime, xmlrpclib
 
 
 def test_tool(request):
@@ -37,16 +37,12 @@ def test_tool(request):
             }
             return render(request, "login_error.html", context)
         server_url = url + server_config + '&' + connection.get('session_id')
-
-        if server_config == "live":
-            switch_server_button = "train"
-        else:
-            switch_server_button = "live"
+        switch_server_button = server_config
 
     elif submit_value == 'xmlrequest':
         server_url = request.POST.get('server_url')
 
-        xml = request.POST.get('xmlrequest')
+        xml = request.POST.get('xml_request')
         ron_api.raw_xml_request(server_url, xml)
 
     host_name = ron_api.get_hosts('strHostName', server_url)
@@ -81,6 +77,68 @@ def login_error(request):
 
     }
     return render(request, "login_error.html", context)
+
+
+def generate_xml(request):
+    print(request.POST.get('method_name'))
+    method_name = request.POST.get('method_name')
+    host_id = request.POST.get('host_id')
+    tour_code = request.POST.get('tour_code')
+    basis_id = request.POST.get('tour_basis_id')
+    sub_basis_id = request.POST.get('tour_sub_basis_id')
+    tour_time_id = request.POST.get('tour_time_id')
+    pickup_id = request.POST.get('tour_pickup_id')
+    drop_off_id = request.POST.get('tour_drop_off_id')
+
+    if method_name == 'readTours':
+        params = (host_id,)
+
+    elif method_name == 'readHostDetails':
+        params = (host_id,)
+
+    elif method_name == 'readTourDetails':
+        params = (host_id, tour_code)
+
+    elif method_name == 'readTourTimes':
+        params = (host_id, tour_code)
+
+    elif method_name == 'readTourBases':
+        params = (host_id, tour_code)
+
+    elif method_name == 'readTourPickups':
+        tour_date = request.POST['tour_date'].split('-')
+        tour_date = datetime.datetime(int(tour_date[0]), int(tour_date[1]), int(tour_date[2]))
+        tour_date = tour_date.strftime('%d-%b-%Y')
+        params = (host_id, tour_code, tour_time_id, basis_id, tour_date)
+
+    elif method_name == 'readTourPrices':
+        tour_date = request.POST['tour_date'].split('-')
+        tour_date = datetime.datetime(int(tour_date[0]), int(tour_date[1]), int(tour_date[2]))
+        tour_date = tour_date.strftime('%d-%b-%Y')
+        params = (host_id, tour_code, basis_id, sub_basis_id, tour_date, tour_time_id, pickup_id, drop_off_id)
+
+    elif method_name == 'readTourPricesRange':
+        product_list = []
+        #
+        # print(connection.readTourPricesRange(product_list))
+
+    elif method_name == 'readTourAvailability':
+        tour_date = request.POST['tour_date'].split('-')
+        tour_date = datetime.datetime(int(tour_date[0]), int(tour_date[1]), int(tour_date[2]))
+        tour_date = tour_date.strftime('%d-%b-%Y')
+        params = (host_id, tour_code, basis_id, sub_basis_id, tour_date, tour_time_id)
+
+    method_response = False
+    encoding = 'iso-8859-1'
+    allow_none = True
+
+    generated_xml = xmlrpclib.dumps(params, method_name, method_response, encoding, allow_none)
+
+    response_data = {
+        'generated_xml': generated_xml,
+    }
+
+    return JsonResponse(response_data)
 
 
 def test_tool_form(request):

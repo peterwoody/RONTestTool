@@ -61,6 +61,11 @@ nav .navbar-header:hover {
     background: rgba(0, 0, 0, .15);
 }
 
+.XMLRequestArea textarea {
+    width: 100%;
+    height: 200px;
+}
+
 table.table-expandable > tbody > tr {
     cursor: pointer;
 }

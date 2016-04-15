@@ -45,8 +45,7 @@ def test_tool(request):
 
     elif submit_value == 'xmlrequest':
         server_url = request.POST.get('server_url')
-        print(server_url)
-        print("jjyyjtyjyjt")
+
         xml = request.POST.get('xmlrequest')
         ron_api.raw_xml_request(server_url, xml)
 

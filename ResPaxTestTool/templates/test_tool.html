@@ -41,10 +41,10 @@
 
 
 <div class="container">
-    <h1 style="margin-top:150px;">ResPax Test Tool</h1>
+    <h1 style="margin-top:110px;">ResPax Test Tool</h1>
 
 
-        <div class="test-tool-form">
+        <div class="generate-xml-form">
             <select id="method_name">
                 <option>readHostDetails</option>
                 <option>readTours</option>
@@ -101,15 +101,16 @@
             <br>
             <input type="submit" name="submit" value="Generate & Submit XML" onclick="">
         </div>
+
     <div class="XMLRequestArea">
         <label for="xml_request">XML Request</label>
         <input  id="server_url" name="server_url" value="{{ server_url }}" hidden>
         <textarea id="xml_request" name="xml_request">
 
         </textarea>
-        <button name="submit" value="xmlrequest" type="submit" onclick="submit_xml_request">Submit</button>
+        <button name="submit" value="xmlrequest" type="submit" onclick="submit_xml_request()">Submit</button>
     </div>
-
+    <h4 id="xml_response"></h4>
         <table id="test-tool-table" class="table table-hover table-expandable table-striped">
             <thead>
             <tr>

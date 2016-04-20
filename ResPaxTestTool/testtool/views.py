@@ -39,12 +39,6 @@ def test_tool(request):
         server_url = url + server_config + '&' + connection.get('session_id')
         switch_server_button = server_config
 
-    elif submit_value == 'xmlrequest':
-        server_url = request.POST.get('server_url')
-
-        xml = request.POST.get('xml_request')
-        ron_api.raw_xml_request(server_url, xml)
-
     host_name = ron_api.get_hosts('strHostName', server_url)
     host_id = ron_api.get_hosts('strHostID', server_url)
 
@@ -140,6 +134,18 @@ def generate_xml(request):
 
     return JsonResponse(response_data)
 
+
+def submit_xml(request):
+    server_url = request.POST.get('server_url')
+    xml = request.POST.get('xml')
+
+    xml_response = ron_api.raw_xml_request(server_url, xml)
+
+    response_data = {
+        'xml_response': xml_response,
+    }
+
+    return JsonResponse(response_data)
 
 def test_tool_form(request):
 

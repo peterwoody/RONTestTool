@@ -397,7 +397,29 @@ function generate_xml_request(){
 }
 
 function submit_xml_request(){
+    server_url = document.getElementById('server_url').value;
+    xml = document.getElementById('xml_request').value;
 
+    $.ajax({
+        type: 'POST',
+        url: '/submit_xml/',
+        dataType: 'json',
+        async: true,
+
+        data: {
+            server_url: server_url,
+            xml: xml,
+            safe: false,
+            csrfmiddlewaretoken: csrftoken
+        },
+
+        success: function (json) {
+            console.log('executed');
+            console.log(json.xml_response);
+            document.getElementById('xml_response').textContent = (json.xml_response).toString()
+
+        }
+    })
 }
 
 function test_tool_query() {

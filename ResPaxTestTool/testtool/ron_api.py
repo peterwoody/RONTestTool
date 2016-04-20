@@ -37,33 +37,46 @@ def raw_xml_request(server_url, xml):
     params = xml_request[0]
 
     if method == 'ping':
-        print(connection.ping())
+        return connection.ping()
 
     elif method == 'readHostDetails':
         host_id = params[0]
-        print(connection.readHostDetails(host_id))
+
+        host_details = connection.readHostDetails(host_id)
+        print(host_details)
+        keys = host_details[0].keys()
+        xml_response = []
+        print(keys)
+        for key in keys:
+            print(key)
+            print(host_details[0][key])
+
+            xml_response.append(str(key) + ': ' + str(host_details[0][key]))
+
+        print(xml_response)
+        return xml_response
 
     elif method == 'readTours':
         host_id = params[0]
-        connection.readTours(host_id)
+        return connection.readTours(host_id)
 
     elif method == 'readTourDetails':
         host_id = params[0]
         tour_code = params[1]
 
-        connection.readTourDetails(host_id, tour_code)
+        return connection.readTourDetails(host_id, tour_code)
 
     elif method == 'readTourTimes':
         host_id = params[0]
         tour_code = params[1]
 
-        connection.readTourTimes(host_id, tour_code)
+        return connection.readTourTimes(host_id, tour_code)
 
     elif method == 'readTourBases':
         host_id = params[0]
         tour_code = params[1]
 
-        connection.readTourBases(host_id, tour_code)
+        return connection.readTourBases(host_id, tour_code)
 
     elif method == 'readTourPickups':
         host_id = params[0]
@@ -72,7 +85,7 @@ def raw_xml_request(server_url, xml):
         basis_id = params[3]
         tour_date = params[4]
 
-        connection.readTourPickups(host_id, tour_code, tour_time_id, basis_id, tour_date)
+        return connection.readTourPickups(host_id, tour_code, tour_time_id, basis_id, tour_date)
 
     elif method == 'readTourPrices':
         host_id = params[0]
@@ -84,7 +97,7 @@ def raw_xml_request(server_url, xml):
         pickup_id = params[6]
         drop_off_id = params[7]
 
-        connection.readTourPrices(host_id, tour_code, basis_id, subbasis_id, tour_date, tour_time_id, pickup_id, drop_off_id)
+        return connection.readTourPrices(host_id, tour_code, basis_id, subbasis_id, tour_date, tour_time_id, pickup_id, drop_off_id)
 
     elif method == 'readTourPricesRange':
         product_list = []
@@ -99,26 +112,26 @@ def raw_xml_request(server_url, xml):
         tour_date = params[4]
         tour_time_id = params[5]
 
-        print(connection.readTourAvailability(host_id, tour_code, basis_id, subbasis_id, tour_date, tour_time_id))
+        return connection.readTourAvailability(host_id, tour_code, basis_id, subbasis_id, tour_date, tour_time_id)
 
     elif method == 'readTourAvailabilityRange':
         product_list = params[0]
 
-        connection.readTourAvailabilityRange(product_list)
+        return connection.readTourAvailabilityRange(product_list)
 
     elif method == 'checkReservation':
         host_id = params[0]
         reservation = params[1]
         payment = params[2]
 
-        connection.checkReservation(host_id, reservation, payment)
+        return connection.checkReservation(host_id, reservation, payment)
 
     elif method == 'checkReservationAndPrices':
         host_id = params[0]
         reservation = params[1]
         payment = params[2]
 
-        connection.checkReservationAndPrices(host_id, reservation, payment)
+        return connection.checkReservationAndPrices(host_id, reservation, payment)
 
 
 def get_hosts(key, server_url):

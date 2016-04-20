@@ -127,27 +127,35 @@ table.table-expandable > tbody > tr[data-level='5'] td:first-child {
     padding-left: 12%;
 }
 
-.test-tool-form {
+.generate-xml-form {
     position: fixed;
-    top: 150px;
+    top: 110px;
     right: 0;
     left: 20px;
     width: 200px;
 }
 
-.test-tool-form input[type='number']{
+.generate-xml-form input[type='number']{
     width: 40px;
 
 }
 
-.test-tool-form input[type='date']{
+.generate-xml-form input[type='date']{
     width: 160px;
 
 }
 
-.test-tool-form input{
+.generate-xml-form input[type='text']{
+
+    width: 90px;
+}
+
+.generate-xml-form input{
+    float: right;
     width: 200px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+
 
 }
 

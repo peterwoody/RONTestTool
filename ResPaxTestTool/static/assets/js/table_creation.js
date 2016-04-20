@@ -46,6 +46,14 @@ var csrftoken = getCookie('csrftoken');
 function get_tours(tableRow, id, server_url) {
     console.log(server_url);
 
+    var loading_img = document.createElement("img");
+    loading_img.src = "/static/img/loading.gif";
+    loading_img.style.position = "relative";
+    loading_img.style.left = "47%";
+    loading_img.style.right = "50%";
+    loading_img.style.margin = "auto";
+    $(tableRow).after(loading_img);
+
     $.ajax({
         type: 'POST',
         url: '/get_tours/',
@@ -61,6 +69,7 @@ function get_tours(tableRow, id, server_url) {
 
         success: function (json) {
             if (json.tours.length > 0) {
+                loading_img.remove();
                 for (var i = 0; i in json.tours; i++) {
                     var newTableRow = document.createElement('tr');
                     var tour_code_td = document.createElement('td');
@@ -97,6 +106,14 @@ function get_tours(tableRow, id, server_url) {
 }
 
 function get_tour_bases(tableRow, id, server_url) {
+    var loading_img = document.createElement("img");
+    loading_img.src = "/static/img/loading.gif";
+    loading_img.style.position = "relative";
+    loading_img.style.left = "47%";
+    loading_img.style.right = "50%";
+    loading_img.style.margin = "auto";
+    $(tableRow).after(loading_img);
+
     var host_id = id.split(',')[0];
     var tour_code = id.split(',')[1];
     console.log((id.split(',')).length);
@@ -115,6 +132,7 @@ function get_tour_bases(tableRow, id, server_url) {
         },
 
         success: function (json) {
+            loading_img.remove();
             for (var i = 0; i < json.tour_bases.length; i++) {
                 var newTableRow = document.createElement('tr');
 
@@ -145,6 +163,14 @@ function get_tour_bases(tableRow, id, server_url) {
 }
 
 function get_tour_times(tableRow, id, server_url) {
+    var loading_img = document.createElement("img");
+    loading_img.src = "/static/img/loading.gif";
+    loading_img.style.position = "relative";
+    loading_img.style.left = "47%";
+    loading_img.style.right = "50%";
+    loading_img.style.margin = "auto";
+    $(tableRow).after(loading_img);
+
     var host_id = id.split(',')[0];
     var tour_code = id.split(',')[1];
 
@@ -163,6 +189,7 @@ function get_tour_times(tableRow, id, server_url) {
         },
 
         success: function (json) {
+            loading_img.remove();
             for (var i = 0; i < json.tour_times.length; i++) {
                 var newTableRow = document.createElement('tr');
 
@@ -187,6 +214,14 @@ function get_tour_times(tableRow, id, server_url) {
 }
 
 function get_tour_pickups(tableRow, id, server_url) {
+    var loading_img = document.createElement("img");
+    loading_img.src = "/static/img/loading.gif";
+    loading_img.style.position = "relative";
+    loading_img.style.left = "47%";
+    loading_img.style.right = "50%";
+    loading_img.style.margin = "auto";
+    $(tableRow).after(loading_img);
+
     var host_id = id.split(',')[0];
     var tour_code = id.split(',')[1];
     var tour_basis_id = id.split(',')[2];
@@ -210,6 +245,7 @@ function get_tour_pickups(tableRow, id, server_url) {
         },
 
         success: function (json) {
+            loading_img.remove();
             for (var i = 0; i < json.tour_pickups.length; i++) {
                 var newTableRow = document.createElement('tr');
 

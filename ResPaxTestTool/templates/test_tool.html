@@ -127,5 +127,5 @@
 
 <script src={% static "js/table_creation.js" %}></script>
 <script type="text/javascript">
-    generateTable({{ host_name | safe }}, {{ host_id | safe }}, "{{ server_url | safe }}");
+    generateTable({{ host_name | safe }}, {{ host_id | safe }}, "{{ server_url | safe }}", "{% static "img/loading.gif" %}");
 </script>

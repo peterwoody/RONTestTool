@@ -36,47 +36,55 @@ def raw_xml_request(server_url, xml):
     method = xml_request[xml_request.__len__()-1]
     params = xml_request[0]
 
+    xml_response = None
+    table_response = None
+
     if method == 'ping':
-        return connection.ping()
+        xml_response = connection.ping()
 
     elif method == 'readHostDetails':
         host_id = params[0]
 
-        host_details = connection.readHostDetails(host_id)
-        print(host_details)
-        keys = host_details[0].keys()
-        xml_response = []
-        print(keys)
-        for key in keys:
-            print(key)
-            print(host_details[0][key])
+        host_details = (connection.readHostDetails(host_id))
 
-            xml_response.append(str(key) + ': ' + str(host_details[0][key]))
-
-        print(xml_response)
-        return xml_response
+        table_response = process_xml_list_response(host_details)
+        xml_response = xmlrpclib.dumps((host_details,))
 
     elif method == 'readTours':
         host_id = params[0]
-        return connection.readTours(host_id)
+
+        tours = connection.readTours(host_id)
+
+        table_response = process_xml_list_response(tours)
+        xml_response = xmlrpclib.dumps((tours,))
 
     elif method == 'readTourDetails':
         host_id = params[0]
         tour_code = params[1]
 
-        return connection.readTourDetails(host_id, tour_code)
+        tour_details = connection.readTourDetails(host_id, tour_code)
+
+        table_response = process_xml_dict_response(tour_details)
+        print(table_response)
+        xml_response = xmlrpclib.dumps((tour_details,))
 
     elif method == 'readTourTimes':
         host_id = params[0]
         tour_code = params[1]
 
-        return connection.readTourTimes(host_id, tour_code)
+        tour_times = connection.readTourTimes(host_id, tour_code)
+
+        table_response = process_xml_list_response(tour_times)
+        xml_response = xmlrpclib.dumps((tour_times,))
 
     elif method == 'readTourBases':
         host_id = params[0]
         tour_code = params[1]
 
-        return connection.readTourBases(host_id, tour_code)
+        tour_bases = connection.readTourBases(host_id, tour_code)
+
+        table_response = process_xml_list_response(tour_bases)
+        xml_response = xmlrpclib.dumps((tour_bases,))
 
     elif method == 'readTourPickups':
         host_id = params[0]
@@ -85,7 +93,10 @@ def raw_xml_request(server_url, xml):
         basis_id = params[3]
         tour_date = params[4]
 
-        return connection.readTourPickups(host_id, tour_code, tour_time_id, basis_id, tour_date)
+        tour_pickups = connection.readTourPickups(host_id, tour_code, tour_time_id, basis_id, tour_date)
+
+        table_response = process_xml_list_response(tour_pickups)
+        xml_response = xmlrpclib.dumps((tour_pickups,))
 
     elif method == 'readTourPrices':
         host_id = params[0]
@@ -97,12 +108,10 @@ def raw_xml_request(server_url, xml):
         pickup_id = params[6]
         drop_off_id = params[7]
 
-        return connection.readTourPrices(host_id, tour_code, basis_id, subbasis_id, tour_date, tour_time_id, pickup_id, drop_off_id)
+        tour_prices = connection.readTourPrices(host_id, tour_code, basis_id, subbasis_id, tour_date, tour_time_id, pickup_id, drop_off_id)
 
-    elif method == 'readTourPricesRange':
-        product_list = []
-        #
-        # print(connection.readTourPricesRange(product_list))
+        table_response = process_xml_dict_response(tour_prices)
+        xml_response = xmlrpclib.dumps((tour_prices,))
 
     elif method == 'readTourAvailability':
         host_id = params[0]
@@ -112,26 +121,30 @@ def raw_xml_request(server_url, xml):
         tour_date = params[4]
         tour_time_id = params[5]
 
-        return connection.readTourAvailability(host_id, tour_code, basis_id, subbasis_id, tour_date, tour_time_id)
+        tour_availability = connection.readTourAvailability(host_id, tour_code, basis_id, subbasis_id, tour_date, tour_time_id)
 
-    elif method == 'readTourAvailabilityRange':
-        product_list = params[0]
-
-        return connection.readTourAvailabilityRange(product_list)
+        table_response = {"tourAvailability": [tour_availability]}
+        xml_response = xmlrpclib.dumps((tour_availability,))
 
     elif method == 'checkReservation':
         host_id = params[0]
         reservation = params[1]
         payment = params[2]
 
-        return connection.checkReservation(host_id, reservation, payment)
+        xml_response = connection.checkReservation(host_id, reservation, payment)
+
+        xml_response = xmlrpclib.dumps((xml_response,))
 
     elif method == 'checkReservationAndPrices':
         host_id = params[0]
         reservation = params[1]
         payment = params[2]
 
-        return connection.checkReservationAndPrices(host_id, reservation, payment)
+        xml_response = connection.checkReservationAndPrices(host_id, reservation, payment)
+
+        xml_response = xmlrpclib.dumps((xml_response,))
+
+    return xml_response, table_response
 
 
 def get_hosts(key, server_url):
@@ -184,3 +197,28 @@ def read_tour_pickups(host_id, tour_code, tour_time_id, basis_id, server_url):
     return tour_pickups
 
 
+def process_xml_list_response(xml_response):
+    table_response = {}
+
+    for i in xml_response:
+        for key in i:
+            if type(i[key]) is dict:
+                table_response.update(process_xml_dict_response(i[key]))
+            else:
+                table_response.setdefault(key, [])
+                table_response[key].append(i[key])
+
+    return table_response
+
+
+def process_xml_dict_response(xml_response):
+    table_response = {}
+
+    for key in xml_response:
+        if type(xml_response[key]) is list:
+            table_response.update(process_xml_list_response(xml_response[key]))
+        else:
+            table_response.setdefault(key, [])
+            table_response[key].append(xml_response[key])
+
+    return table_response

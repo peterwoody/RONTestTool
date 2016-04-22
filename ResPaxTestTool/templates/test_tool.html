@@ -49,11 +49,10 @@
                 <option>readHostDetails</option>
                 <option>readTours</option>
                 <option>readTourDetails</option>
-                <option>readTourTimes</option>
                 <option>readTourBases</option>
+                <option>readTourTimes</option>
                 <option>readTourPickups</option>
                 <option>readTourPrices</option>
-                <option>readTourPricesRange</option>
                 <option>readTourAvailability</option>
             </select>
             <label for="host_id">Host ID:</label>
@@ -110,7 +109,18 @@
         </textarea>
         <button name="submit" value="xmlrequest" type="submit" onclick="submit_xml_request()">Submit</button>
     </div>
-    <h4 id="xml_response"></h4>
+    <div class="XMLRequestArea">
+        <label for="xml_response">XML Response</label>
+        <br>
+        <br>
+        <button id="xml_format_button" onclick="change_format('xml')" disabled>XML Format</button>
+        <button id="table_format_button" onclick="change_format('table')">Table Format</button>
+        <button id="xml_table_format_button" onclick="change_format('xml_table')">XML & Table Format</button>
+
+        <textarea id="xml_response" readonly></textarea>
+        <table id="table_response" class="table-response" readonly hidden></table>
+    </div>
+
         <table id="test-tool-table" class="table table-hover table-expandable table-striped">
             <thead>
             <tr>

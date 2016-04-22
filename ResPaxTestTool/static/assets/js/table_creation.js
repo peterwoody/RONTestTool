@@ -397,8 +397,8 @@ function generate_xml_request(){
 }
 
 function submit_xml_request(){
-    server_url = document.getElementById('server_url').value;
-    xml = document.getElementById('xml_request').value;
+    var server_url = document.getElementById('server_url').value;
+    var xml = document.getElementById('xml_request').value;
 
     $.ajax({
         type: 'POST',
@@ -416,10 +416,102 @@ function submit_xml_request(){
         success: function (json) {
             console.log('executed');
             console.log(json.xml_response);
-            document.getElementById('xml_response').textContent = (json.xml_response).toString()
+            document.getElementById('xml_response').textContent = (json.xml_response).toString();
+
+            var table = document.getElementById('table_response');
+            $(table).empty();
+
+            var dictionary = json.table_response;
+            var dictionary_keys = Object.keys(dictionary);
+            console.log("json.table_response: ", json.table_response);
+            var table_body = document.createElement('tbody');
+            var table_row = document.createElement('tr');
+
+            for (var i = 0; i < Object.keys(dictionary).length; i++){
+
+                    var table_head = document.createElement('th');
+
+                    var table_head_value = document.createTextNode(dictionary_keys[i]);
+                    table_head.appendChild(table_head_value);
+
+                    table_row.appendChild(table_head);
+
+
+                    table_body.appendChild(table_row);
+
+
+                }
+
+            var k = 0;
+            for (var j = 0; j < dictionary[dictionary_keys[k]].length; j++) {
+                table_row = document.createElement('tr');
+                for (i = 0; i < Object.keys(dictionary).length; i++){
+
+                    var table_column = document.createElement('td');
+
+                    var table_row_value = document.createTextNode(dictionary[dictionary_keys[i]][j]);
+
+                    table_column.appendChild(table_row_value);
+                    table_row.appendChild(table_column);
+                    table_body.appendChild(table_row);
+                    k++;
+
+                }
+                k = 0;
+
+
+
+                console.log("dictionary.key(): ", Object.keys(dictionary))
+
+
+
+            }
+            table.appendChild(table_body);
 
         }
     })
+}
+
+function change_format(format){
+    switch (format){
+        case "xml":
+            $(document.getElementById("xml_response")).show();
+            $(document.getElementById("table_response")).hide();
+
+            document.getElementById("xml_format_button").disabled = true;
+            document.getElementById("table_format_button").disabled = false;
+            document.getElementById("xml_table_format_button").disabled = false;
+
+            document.getElementById("xml_format_button").style.opacity = ".8";
+            document.getElementById("table_format_button").style.opacity = "1";
+            document.getElementById("xml_table_format_button").style.opacity = "1";
+            break;
+        case "table":
+            $(document.getElementById("table_response")).show();
+            $(document.getElementById("xml_response")).hide();
+
+            document.getElementById("xml_format_button").disabled = false;
+            document.getElementById("table_format_button").disabled = true;
+            document.getElementById("xml_table_format_button").disabled = false;
+
+            document.getElementById("xml_format_button").style.opacity = "1";
+            document.getElementById("table_format_button").style.opacity = ".8";
+            document.getElementById("xml_table_format_button").style.opacity = "1";
+            break;
+        case "xml_table":
+            $(document.getElementById("xml_response")).show();
+            $(document.getElementById("table_response")).show();
+
+            document.getElementById("xml_format_button").disabled = false;
+            document.getElementById("table_format_button").disabled = false;
+            document.getElementById("xml_table_format_button").disabled = true;
+
+            document.getElementById("xml_format_button").style.opacity = "1";
+            document.getElementById("table_format_button").style.opacity = "1";
+            document.getElementById("xml_table_format_button").style.opacity = ".8";
+            break;
+
+    }
 }
 
 function test_tool_query() {

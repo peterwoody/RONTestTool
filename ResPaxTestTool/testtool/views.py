@@ -21,7 +21,7 @@ def test_tool(request):
             server_url = server_url.replace("train", "live")
             print(server_url)
 
-        ron_api.switch_server(server_url)
+        # ron_api.switch_server(server_url)
 
     elif submit_value == 'login':
         username = request.POST.get('username')
@@ -142,7 +142,8 @@ def submit_xml(request):
     xml_response = ron_api.raw_xml_request(server_url, xml)
 
     response_data = {
-        'xml_response': xml_response,
+        'xml_response': xml_response[0],
+        'table_response': xml_response[1],
     }
 
     return JsonResponse(response_data)

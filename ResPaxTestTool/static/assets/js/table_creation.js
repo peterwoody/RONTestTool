@@ -249,8 +249,6 @@ function get_tour_pickups(tableRow, id, server_url) {
             for (var i = 0; i < json.tour_pickups.length; i++) {
                 var newTableRow = document.createElement('tr');
 
-                var input = document.createElement('input');
-
                 var pickup_id_td = document.createElement("td");
                 var string_td = document.createElement("td");
 
@@ -268,20 +266,17 @@ function get_tour_pickups(tableRow, id, server_url) {
                 pickup_id_td.appendChild(pickup_id_td_value);
                 string_td.appendChild(string_td_value);
 
-                input.setAttribute("type", "checkbox");
-                input.setAttribute("id", "checkbox");
-                input.setAttribute("name", "checkbox");
-                input.setAttribute("value",
-                    host_id + ',' +
-                    tour_code + ',' +
-                    tour_basis_id + ',' +
-                    tour_sub_basis_id + ',' +
-                    tour_time_id);
+                newTableRow.setAttribute("onclick", "populate_form_fields('"+host_id + "','" +
+                    tour_code + "','" +
+                    tour_basis_id + "','" +
+                    tour_sub_basis_id + "','" +
+                    tour_time_id + "','" +
+                    json.tour_pickups[i]['strPickupKey'] +"')");
                 pickup_id_td.setAttribute('colspan', '1');
                 string_td.setAttribute('colspan', '3');
                 newTableRow.setAttribute("data-level", "5");
 
-                pickup_id_td.appendChild(input);
+
                 newTableRow.appendChild(pickup_id_td);
                 newTableRow.appendChild(string_td);
 
@@ -290,6 +285,20 @@ function get_tour_pickups(tableRow, id, server_url) {
             tableRow.setAttribute('onclick', 'remove_rows(this, "'+server_url+'")');
         }
     })
+}
+
+function populate_form_fields(host_id, tour_code, tour_basis_id, tour_sub_basis_id, tour_time_id, tour_pickups){
+        // document.getElementsById(this)
+        
+
+    
+    
+        document.getElementById("host_id").value = host_id;
+        document.getElementById("tour_code").value = tour_code;
+        document.getElementById("basis").value = tour_basis_id;
+        document.getElementById("sub_basis").value = tour_sub_basis_id;
+        document.getElementById("tour_time_id").value = tour_time_id;
+        document.getElementById("pickup_id").value = tour_pickups;
 }
 
 function range(lowEnd, highEnd) {

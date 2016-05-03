@@ -100,16 +100,24 @@ def generate_xml(request):
         params = (host_id, tour_code)
 
     elif method_name == 'readTourPickups':
-        tour_date = request.POST['tour_date'].split('-')
-        tour_date = datetime.datetime(int(tour_date[0]), int(tour_date[1]), int(tour_date[2]))
-        tour_date = tour_date.strftime('%d-%b-%Y')
-        params = (host_id, tour_code, tour_time_id, basis_id, tour_date)
+        try:
+            tour_date = request.POST['tour_date'].split('-')
+            tour_date = datetime.datetime(int(tour_date[0]), int(tour_date[1]), int(tour_date[2]))
+            tour_date = tour_date.strftime('%d-%b-%Y')
+            params = (host_id, tour_code, tour_time_id, basis_id, tour_date)
+        except ValueError:
+            fault = "Please enter a date"
+            return JsonResponse({"fault": fault})
 
     elif method_name == 'readTourPrices':
-        tour_date = request.POST['tour_date'].split('-')
-        tour_date = datetime.datetime(int(tour_date[0]), int(tour_date[1]), int(tour_date[2]))
-        tour_date = tour_date.strftime('%d-%b-%Y')
-        params = (host_id, tour_code, basis_id, sub_basis_id, tour_date, tour_time_id, pickup_id, drop_off_id)
+        try:
+            tour_date = request.POST['tour_date'].split('-')
+            tour_date = datetime.datetime(int(tour_date[0]), int(tour_date[1]), int(tour_date[2]))
+            tour_date = tour_date.strftime('%d-%b-%Y')
+            params = (host_id, tour_code, basis_id, sub_basis_id, tour_date, tour_time_id, pickup_id, drop_off_id)
+        except ValueError:
+            fault = "Please enter a date"
+            return JsonResponse({"fault": fault})
 
     elif method_name == 'readTourPricesRange':
         product_list = []
@@ -117,10 +125,14 @@ def generate_xml(request):
         # print(connection.readTourPricesRange(product_list))
 
     elif method_name == 'readTourAvailability':
-        tour_date = request.POST['tour_date'].split('-')
-        tour_date = datetime.datetime(int(tour_date[0]), int(tour_date[1]), int(tour_date[2]))
-        tour_date = tour_date.strftime('%d-%b-%Y')
-        params = (host_id, tour_code, basis_id, sub_basis_id, tour_date, tour_time_id)
+        try:
+            tour_date = request.POST['tour_date'].split('-')
+            tour_date = datetime.datetime(int(tour_date[0]), int(tour_date[1]), int(tour_date[2]))
+            tour_date = tour_date.strftime('%d-%b-%Y')
+            params = (host_id, tour_code, basis_id, sub_basis_id, tour_date, tour_time_id)
+        except ValueError:
+            fault = "Please enter a date"
+            return JsonResponse({"fault": fault})
 
     method_response = False
     encoding = 'iso-8859-1'

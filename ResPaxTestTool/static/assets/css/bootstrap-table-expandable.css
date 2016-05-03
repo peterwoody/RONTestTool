@@ -164,7 +164,7 @@ table.table-expandable > tbody > tr[data-level='5'] td:first-child {
     width: 90px;
 }
 
-.generate-xml-form input{
+.generate-xml-form input, select{
     float: right;
     width: 200px;
     margin-bottom: 5px;

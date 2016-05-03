@@ -398,9 +398,13 @@ function generate_xml_request(){
         },
 
         success: function (json) {
-            console.log('executed');
-            document.getElementById('xml_request').textContent = json.generated_xml
-
+            if (json.fault != null){
+                document.getElementById('xml_request').value = json.fault;
+                console.log('fault');
+            }else {
+                document.getElementById('xml_request').value = json.generated_xml;
+                console.log('xml');
+            }
         }
     })
 }
@@ -424,7 +428,8 @@ function submit_xml_request(){
 
         success: function (json) {
             console.log('executed');
-            console.log(json.xml_response);
+            console.log(json.fault);
+
             document.getElementById('xml_response').textContent = (json.xml_response).toString();
 
             var table = document.getElementById('table_response');

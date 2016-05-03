@@ -1,8 +1,6 @@
 import xmlrpclib
 
 
-
-
 def logout():
 
     connection = xmlrpclib.Server('https://ron.respax.com.au:30443/section/xmlrpc/server-ron.php?config=train')
@@ -44,16 +42,22 @@ def raw_xml_request(server_url, xml):
 
     elif method == 'readHostDetails':
         host_id = params[0]
-
-        host_details = (connection.readHostDetails(host_id))
+        try:
+            host_details = (connection.readHostDetails(host_id))
+        except xmlrpclib.Fault as err:
+            fault = "A fault occurred. Fault code: %d." % err.faultCode + " Fault string: %s" % err.faultString
+            return fault, fault
 
         table_response = process_xml_list_response(host_details)
         xml_response = xmlrpclib.dumps((host_details,))
 
     elif method == 'readTours':
         host_id = params[0]
-
-        tours = connection.readTours(host_id)
+        try:
+            tours = connection.readTours(host_id)
+        except xmlrpclib.Fault as err:
+            fault = "A fault occurred. Fault code: %d." % err.faultCode + " Fault string: %s" % err.faultString
+            return fault, fault
 
         table_response = process_xml_list_response(tours)
         xml_response = xmlrpclib.dumps((tours,))
@@ -61,8 +65,11 @@ def raw_xml_request(server_url, xml):
     elif method == 'readTourDetails':
         host_id = params[0]
         tour_code = params[1]
-
-        tour_details = connection.readTourDetails(host_id, tour_code)
+        try:
+            tour_details = connection.readTourDetails(host_id, tour_code)
+        except xmlrpclib.Fault as err:
+            fault = "A fault occurred. Fault code: %d." % err.faultCode + " Fault string: %s" % err.faultString
+            return fault, fault
 
         table_response = process_xml_dict_response(tour_details)
         print(table_response)
@@ -71,8 +78,11 @@ def raw_xml_request(server_url, xml):
     elif method == 'readTourTimes':
         host_id = params[0]
         tour_code = params[1]
-
-        tour_times = connection.readTourTimes(host_id, tour_code)
+        try:
+            tour_times = connection.readTourTimes(host_id, tour_code)
+        except xmlrpclib.Fault as err:
+            fault = "A fault occurred. Fault code: %d." % err.faultCode + " Fault string: %s" % err.faultString
+            return fault, fault
 
         table_response = process_xml_list_response(tour_times)
         xml_response = xmlrpclib.dumps((tour_times,))
@@ -80,8 +90,11 @@ def raw_xml_request(server_url, xml):
     elif method == 'readTourBases':
         host_id = params[0]
         tour_code = params[1]
-
-        tour_bases = connection.readTourBases(host_id, tour_code)
+        try:
+            tour_bases = connection.readTourBases(host_id, tour_code)
+        except xmlrpclib.Fault as err:
+            fault = "A fault occurred. Fault code: %d." % err.faultCode + " Fault string: %s" % err.faultString
+            return fault, fault
 
         table_response = process_xml_list_response(tour_bases)
         xml_response = xmlrpclib.dumps((tour_bases,))
@@ -92,8 +105,11 @@ def raw_xml_request(server_url, xml):
         tour_time_id = params[2]
         basis_id = params[3]
         tour_date = params[4]
-
-        tour_pickups = connection.readTourPickups(host_id, tour_code, tour_time_id, basis_id, tour_date)
+        try:
+            tour_pickups = connection.readTourPickups(host_id, tour_code, tour_time_id, basis_id, tour_date)
+        except xmlrpclib.Fault as err:
+            fault = "A fault occurred. Fault code: %d." % err.faultCode + " Fault string: %s" % err.faultString
+            return fault, fault
 
         table_response = process_xml_list_response(tour_pickups)
         xml_response = xmlrpclib.dumps((tour_pickups,))
@@ -107,9 +123,11 @@ def raw_xml_request(server_url, xml):
         tour_time_id = params[5]
         pickup_id = params[6]
         drop_off_id = params[7]
-
-        tour_prices = connection.readTourPrices(host_id, tour_code, basis_id, subbasis_id, tour_date, tour_time_id, pickup_id, drop_off_id)
-
+        try:
+            tour_prices = connection.readTourPrices(host_id, tour_code, basis_id, subbasis_id, tour_date, tour_time_id, pickup_id, drop_off_id)
+        except xmlrpclib.Fault as err:
+            fault = "A fault occurred. Fault code: %d." % err.faultCode + " Fault string: %s" % err.faultString
+            return fault, fault
         table_response = process_xml_dict_response(tour_prices)
         xml_response = xmlrpclib.dumps((tour_prices,))
 
@@ -120,9 +138,11 @@ def raw_xml_request(server_url, xml):
         subbasis_id = params[3]
         tour_date = params[4]
         tour_time_id = params[5]
-
-        tour_availability = connection.readTourAvailability(host_id, tour_code, basis_id, subbasis_id, tour_date, tour_time_id)
-
+        try:
+            tour_availability = connection.readTourAvailability(host_id, tour_code, basis_id, subbasis_id, tour_date, tour_time_id)
+        except xmlrpclib.Fault as err:
+            fault = "A fault occurred. Fault code: %d." % err.faultCode + " Fault string: %s" % err.faultString
+            return fault, fault
         table_response = {"tourAvailability": [tour_availability]}
         xml_response = xmlrpclib.dumps((tour_availability,))
 

@@ -59,11 +59,8 @@ def login(request):
 
 
 def logout(request):
-    ron_api.logout()
-    context = {
 
-    }
-    return render(request, "login.html", context)
+    return render(request, "login.html")
 
 
 def login_error(request):

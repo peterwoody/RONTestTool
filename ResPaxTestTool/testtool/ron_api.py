@@ -1,11 +1,6 @@
 import xmlrpclib
 
 
-def logout():
-
-    connection = xmlrpclib.Server('https://ron.respax.com.au:30443/section/xmlrpc/server-ron.php?config=train')
-
-
 def switch_server(url):
 
     connection = xmlrpclib.ServerProxy(url)
@@ -31,7 +26,13 @@ def raw_xml_request(server_url, xml):
     connection = xmlrpclib.ServerProxy(server_url)
     print(xml)
     xml_request = xmlrpclib.loads(xml)
-    method = xml_request[xml_request.__len__()-1]
+    method = xml_request[1]
+
+    print("method:", method)
+
+    if method is "":
+        return "No method provided.", "No method provided."
+
     params = xml_request[0]
 
     xml_response = None
@@ -163,6 +164,9 @@ def raw_xml_request(server_url, xml):
         xml_response = connection.checkReservationAndPrices(host_id, reservation, payment)
 
         xml_response = xmlrpclib.dumps((xml_response,))
+
+    else:
+        return "Method does not exist.", "Method does not exist."
 
     return xml_response, table_response
 

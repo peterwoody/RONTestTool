@@ -97,7 +97,7 @@ table.table-expandable > tbody > tr {
     vertical-align: top;
     border-top: 1px solid #ddd;
 }
-table.table-expandable.table-hover > tbody > tr:nth-child(even):hover td {
+table.table-expandable.table-hover > tbody > tr:hover td {
     background-color: lightsteelblue;
 }
 

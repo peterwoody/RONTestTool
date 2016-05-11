@@ -14,7 +14,7 @@
     <module name="RONTestTool" />
     <option name="launchJavascriptDebuger" value="false" />
     <option name="port" value="8000" />
-    <option name="host" value="" />
+    <option name="host" value="127.0.0.1" />
     <option name="additionalOptions" value="" />
     <option name="browserUrl" value="http://127.0.0.1:8000/" />
     <option name="runTestServer" value="false" />

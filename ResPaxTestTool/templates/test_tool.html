@@ -48,6 +48,10 @@
 
 
     <div class="generate-xml-form">
+        <input type="submit" name="submit" value="Generate XML" onclick="generate_xml_request()">
+
+        <input type="submit" name="submit" value="Generate & Submit XML" onclick="">
+
         <label for="method_name">Method Name:</label>
         <select id="method_name">
             <option>readHostDetails</option>
@@ -61,48 +65,46 @@
         </select>
         <label id="host_id_label" for="host_id">Host ID:</label>
         <input id="host_id" name="host_id" type="text">
-        <br>
+
         <label id="tour_code_label" for="tour_code" hidden>Tour Code:</label>
         <input id="tour_code" name="tour_code" type="text" hidden>
-        <br>
+
         <label id="basis_label" for="basis" hidden>Basis:</label>
         <input id="basis" name="basis" type="text" hidden>
-        <br>
+
         <label id="sub_basis_label" for="sub_basis" hidden>Sub Basis:</label>
         <input id="sub_basis" name="sub_basis" type="text" hidden>
-        <br>
+
         <label id="tour_time_id_label" for="tour_time_id" hidden>Tour Time ID:</label>
         <input id="tour_time_id" name="tour_time_id" type="text" hidden>
-        <br>
+
         <label id="pickup_id_label" for="pickup_id" hidden>Pickup ID:</label>
         <input id="pickup_id" name="pickup_id" type="text" hidden>
-        <br>
+
         <label id="drop_off_id_label" for="drop_off_id" hidden>Drop Off ID:</label>
         <input id="drop_off_id" name="drop_off_id" type="text" hidden>
-        <br>
+
 
 
         <label id="date_label" for="date" hidden>Date:</label>
         <input id="date" name="date" type="date" hidden>
-        <br>
+
         <label id="type1_label" for="type1" hidden>Number of Pax Type 1:</label>
         <input id="type1" type="number" hidden>
-        <br>
+
         <label id="type2_label" for="type2" hidden>Number of Pax Type 2:</label>
         <input id="type2" type="number" hidden>
-        <br>
+
         <label id="type3_label" for="type3" hidden>Number of Pax Type 3:</label>
         <input id="type3" type="number" hidden>
-        <br>
+
         <label id="type4_label" for="type4" hidden>Number of Pax Type 4:</label>
         <input id="type4" type="number" hidden>
-        <br>
+
         <label id="type5_label" for="type5" hidden>Number of Pax Type 5:</label>
         <input id="type5" type="number" hidden>
-        <br>
-        <input type="submit" name="submit" value="Generate XML" onclick="generate_xml_request()">
-        <br>
-        <input type="submit" name="submit" value="Generate & Submit XML" onclick="">
+
+
     </div>
 
     <div class="XMLRequestArea">

@@ -71,34 +71,13 @@ function get_tours(tableRow, id, server_url) {
         },
 
         success: function (json) {
-<<<<<<< HEAD
             if (typeof json.tours === 'string') {
                 var newTableRow = document.createElement('tr');
                     var td = document.createElement('td');
 
                     var value = document.createTextNode(json.tours);
-=======
-            if (json.tours.length > 0) {
-                loading_img.remove();
-                for (var i = 0; i in json.tours; i++) {
-                    var tour_code = json.tours[i]['strTourCode'];
-
-                    var newTableRow = document.createElement('tr');
-                    var tour_code_td = document.createElement('td');
-
-                    var tour_code_td_value = document.createTextNode('Tour Code: ' + tour_code);
->>>>>>> origin/master
 
                     td.appendChild(value);
-
-<<<<<<< HEAD
-=======
-                    tour_code_td.setAttribute('colspan', '4');
-                    newTableRow.setAttribute('id', id + ',' + json.tours[i]['strTourCode'].toString());
-                    newTableRow.setAttribute("onclick", "get_tour_bases(this, this.id,'" + server_url + "'); " +
-                        "populate_form_fields('" + host_id + "','" + tour_code + "')");
-
->>>>>>> origin/master
                     newTableRow.setAttribute("data-level", "2");
 
                     newTableRow.appendChild(td);
@@ -138,10 +117,7 @@ function get_tours(tableRow, id, server_url) {
                 }
 
             }
-<<<<<<< HEAD
             loading_img.remove();
-=======
->>>>>>> origin/master
             tableRow.setAttribute('onclick', 'remove_rows(this,"' + server_url + '")');
         }
     })

@@ -190,10 +190,11 @@ def read_tours(host_id, server_url):
     print(host_id)
     print(server_url)
     connection = xmlrpclib.ServerProxy(server_url)
-
-    tours = connection.readTours(host_id)
-
-    return tours
+    try:
+        tours = connection.readTours(host_id)
+        return tours
+    except xmlrpclib.Fault:
+        return "No tours available"
 
 
 def read_tour_bases(host_id, tour_code, server_url):

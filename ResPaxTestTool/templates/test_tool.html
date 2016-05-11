@@ -12,7 +12,7 @@
 
     <script src={% static "js/jquery-2.1.4.min.js" %}></script>
     <script src={% static "js/collapsibleTable.js" %}></script>
-
+    <script src={% static "js/table_creation.js" %}></script>
 </head>
 <body>
 
@@ -140,7 +140,7 @@
 </body>
 </html>
 
-<script src={% static "js/table_creation.js" %}></script>
+
 <script type="text/javascript">
     generateTable({{ host_name | safe }}, {{ host_id | safe }}, "{{ server_url | safe }}", "{% static "img/loading.gif" %}");
     $(document).ready(function () {

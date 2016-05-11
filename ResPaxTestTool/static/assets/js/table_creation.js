@@ -68,39 +68,55 @@ function get_tours(tableRow, id, server_url) {
         },
 
         success: function (json) {
-            if (json.tours.length > 0) {
-                loading_img.remove();
-                for (var i = 0; i in json.tours; i++) {
-                    var newTableRow = document.createElement('tr');
-                    var tour_code_td = document.createElement('td');
+            if (typeof json.tours === 'string') {
+                var newTableRow = document.createElement('tr');
+                    var td = document.createElement('td');
 
-                    var tour_code_td_value = document.createTextNode('Tour Code: ' + json.tours[i]['strTourCode']);
+                    var value = document.createTextNode(json.tours);
 
-                    tour_code_td.appendChild(tour_code_td_value);
+                    td.appendChild(value);
 
-                    tour_code_td.setAttribute('colspan', '4');
-                    newTableRow.setAttribute('id', id + ',' + json.tours[i]['strTourCode'].toString());
-                    newTableRow.setAttribute('onclick', 'get_tour_bases(this, this.id,"'+server_url+'")');
                     newTableRow.setAttribute("data-level", "2");
 
-                    newTableRow.appendChild(tour_code_td);
+                    newTableRow.appendChild(td);
+                    $(tableRow).after(newTableRow);
+            } else if (typeof json.tours === 'object') {
+                if (json.tours.length > 0) {
 
+                    for (var i = 0; i in json.tours; i++) {
+                        var newTableRow = document.createElement('tr');
+                        var tour_code_td = document.createElement('td');
+
+                        var tour_code_td_value = document.createTextNode('Tour Code: ' + json.tours[i]['strTourCode']);
+
+                        tour_code_td.appendChild(tour_code_td_value);
+
+                        tour_code_td.setAttribute('colspan', '4');
+                        newTableRow.setAttribute('id', id + ',' + json.tours[i]['strTourCode'].toString());
+                        newTableRow.setAttribute('onclick', 'get_tour_bases(this, this.id,"' + server_url + '")');
+                        newTableRow.setAttribute("data-level", "2");
+
+                        newTableRow.appendChild(tour_code_td);
+
+                        $(tableRow).after(newTableRow);
+                    }
+                } else {
+                    var newTableRow = document.createElement('tr');
+                    var td = document.createElement('td');
+
+                    var value = document.createTextNode("No tours available ");
+
+                    td.appendChild(value);
+
+                    newTableRow.setAttribute("data-level", "2");
+
+                    newTableRow.appendChild(td);
                     $(tableRow).after(newTableRow);
                 }
-            } else {
-                var newTableRow = document.createElement('tr');
-                var td = document.createElement('td');
 
-                var value = document.createTextNode("No tours available ");
-
-                td.appendChild(value);
-
-                newTableRow.setAttribute("data-level", "2");
-
-                newTableRow.appendChild(td);
-                $(tableRow).after(newTableRow);
             }
-            tableRow.setAttribute('onclick', 'remove_rows(this,"'+server_url+'")');
+            loading_img.remove();
+            tableRow.setAttribute('onclick', 'remove_rows(this,"' + server_url + '")');
         }
     })
 }

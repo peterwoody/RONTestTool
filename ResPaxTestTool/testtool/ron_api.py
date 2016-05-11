@@ -247,3 +247,4 @@ def process_xml_dict_response(xml_response):
             table_response[key].append(xml_response[key])
 
     return table_response
+

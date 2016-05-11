@@ -590,17 +590,6 @@ function test_tool_query() {
         }
     }
 
-
-    console.log(checkboxvalues);
-
-
-    console.log(host_id);
-    console.log(tour_code);
-    console.log(tour_basis_id);
-    console.log(tour_sub_basis_id);
-    console.log(tour_time_id);
-    console.log(tour_date);
-
     $.ajax({
         type: 'POST',
         url: '/test_tool_form/',
@@ -621,6 +610,93 @@ function test_tool_query() {
         success: function (json) {
             console.log('executed');
             console.log(json.availability);
+
+        }
+    })
+}
+
+function fill_form_xml(){
+    var xml = document.getElementById('xml_request').value;
+    var method_name = document.getElementById('method_name');
+    var tour_date = document.getElementById('date');
+    var host_id = document.getElementById('host_id');
+    var tour_code = document.getElementById('tour_code');
+    var tour_basis_id = document.getElementById('basis');
+    var tour_sub_basis_id = document.getElementById('sub_basis');
+    var tour_time_id = document.getElementById('tour_time_id');
+    var tour_pickup_id = document.getElementById('pickup_id');
+    var tour_drop_off_id = document.getElementById('drop_off_id');
+
+    $.ajax({
+        type: 'POST',
+        url: '/fill_form_xml/',
+        dataType: 'json',
+        async: true,
+
+        data: {
+            xml: xml,
+            safe: false,
+            csrfmiddlewaretoken: csrftoken
+        },
+
+        success: function (json) {
+            console.log(json.loaded_xml);
+
+            method_name.value = json.loaded_xml[1];
+
+
+            switch (method_name.value){
+                case "readHostDetails":
+                    console.log(json.loaded_xml[0][0]);
+                    host_id.value = json.loaded_xml[0][0];
+                    break;
+                case "readTours":
+                    host_id.value = json.loaded_xml[0][0];
+                    break;
+                case "readTourDetails":
+                    host_id.value = json.loaded_xml[0][0];
+                    console.log(json.loaded_xml[0][1]);
+                    tour_code.value = json.loaded_xml[0][1];
+                    break;
+                case "readTourBases":
+                    host_id.value = json.loaded_xml[0][0];
+                    tour_code.value = json.loaded_xml[0][1];
+                    break;
+                case "readTourTimes":
+                    host_id.value = json.loaded_xml[0][0];
+                    tour_code.value = json.loaded_xml[0][1];
+                    break;
+                case "readTourPickups":
+                    host_id.value = json.loaded_xml[0][0];
+                    tour_code.value = json.loaded_xml[0][1];
+                    tour_basis_id.value = json.loaded_xml[0][2];
+                    tour_time_id.value = json.loaded_xml[0][3];
+                    tour_date.value = json.loaded_xml[0][4];
+                    break;
+                case "readTourPrices":
+                    host_id.value = json.loaded_xml[0][0];
+                    tour_code.value = json.loaded_xml[0][1];
+                    tour_basis_id.value = json.loaded_xml[0][2];
+                    tour_sub_basis_id.value = json.loaded_xml[0][3];
+                    tour_time_id.value = json.loaded_xml[0][4];
+                    tour_pickup_id.value = json.loaded_xml[0][5];
+                    tour_time_id.value = json.loaded_xml[0][6];
+                    tour_drop_off_id.value = json.loaded_xml[0][7];
+                    tour_date.value = json.loaded_xml[0][8];
+                    break;
+                case "readTourAvailabilty":
+                    host_id.value = json.loaded_xml[0][0];
+                    tour_code.value = json.loaded_xml[0][1];
+                    tour_basis_id.value = json.loaded_xml[0][2];
+                    tour_sub_basis_id.value = json.loaded_xml[0][3];
+                    tour_time_id.value = json.loaded_xml[0][4];
+                    tour_date.value = json.loaded_xml[0][5];
+                    break;
+            }
+
+            console.log(method_name);
+            console.log(host_id);
+
 
         }
     })

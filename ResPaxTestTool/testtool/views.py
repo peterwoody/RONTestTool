@@ -243,3 +243,15 @@ def get_tour_pickups(request):
     }
 
     return JsonResponse(response_data)
+
+
+def fill_form_xml(request):
+    print(request.POST.get("xml"))
+    xml = request.POST.get("xml")
+    loaded_xml = xmlrpclib.loads(xml)
+    print (loaded_xml)
+
+    response_data = {
+        'loaded_xml': loaded_xml
+    }
+    return JsonResponse(response_data)

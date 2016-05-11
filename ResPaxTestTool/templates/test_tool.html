@@ -114,6 +114,7 @@
 
         </textarea>
         <button name="submit" value="xmlrequest" type="submit" onclick="submit_xml_request()">Submit</button>
+        <button name="fill_form_xml" value="fill_form_xml" type="submit" onclick="fill_form_xml()">Fill Form</button>
     </div>
     <div class="XMLRequestArea">
         <label for="xml_response">XML Response</label>
@@ -145,7 +146,7 @@
 
 <script type="text/javascript">
     generateTable({{ host_name | safe }}, {{ host_id | safe }}, "{{ server_url | safe }}", "{% static "img/loading.gif" %}");
-    $(document).ready(function () {
+
         $('#method_name').on('change', function () {
             if (this.value == 'readHostDetails'){
                 $("#host_id").show();
@@ -373,5 +374,5 @@
             }
 
         });
-    });
+
 </script>

@@ -46,8 +46,6 @@ function getCookie(name) {
 var csrftoken = getCookie('csrftoken');
 
 function get_tours(tableRow, id, server_url) {
-    console.log(server_url);
-
     var loading_img = document.createElement("img");
     loading_img.src = "/static/img/loading.gif";
     loading_img.style.position = "relative";
@@ -135,7 +133,7 @@ function get_tour_bases(tableRow, id, server_url) {
 
     var host_id = id.split(',')[0];
     var tour_code = id.split(',')[1];
-    console.log((id.split(',')).length);
+    
     $.ajax({
         type: 'POST',
         url: '/get_tour_bases/',
@@ -438,10 +436,8 @@ function generate_xml_request() {
         success: function (json) {
             if (json.fault != null) {
                 document.getElementById('xml_request').value = json.fault;
-                console.log('fault');
             } else {
                 document.getElementById('xml_request').value = json.generated_xml;
-                console.log('xml');
             }
 
         }
@@ -466,9 +462,6 @@ function submit_xml_request() {
         },
 
         success: function (json) {
-            console.log('executed');
-            console.log(json.fault);
-
             document.getElementById('xml_response').textContent = (json.xml_response).toString();
 
             var table = document.getElementById('table_response');
@@ -476,7 +469,7 @@ function submit_xml_request() {
 
             var dictionary = json.table_response;
             var dictionary_keys = Object.keys(dictionary);
-            console.log("json.table_response: ", json.table_response);
+            
             var table_body = document.createElement('tbody');
             var table_row = document.createElement('tr');
 
@@ -511,11 +504,7 @@ function submit_xml_request() {
 
                 }
                 k = 0;
-
-
-                console.log("dictionary.key(): ", Object.keys(dictionary))
-
-
+                
             }
             table.appendChild(table_body);
 
@@ -586,11 +575,8 @@ function test_tool_query() {
     }
 
     for (var i = 0; i in checkboxvalues; i++) {
-        console.log('here');
+        
         for (var j = 0; j in host_id; j++) {
-            console.log('there');
-            console.log(checkboxvalues[i][0]);
-            console.log(host_id[j]);
             if (checkboxvalues[i][0] !== host_id[j]) {
                 host_id.push(checkboxvalues[i][0]);
             }
@@ -615,8 +601,7 @@ function test_tool_query() {
         },
 
         success: function (json) {
-            console.log('executed');
-            console.log(json.availability);
+            
 
         }
     })
@@ -647,14 +632,10 @@ function fill_form_xml(){
         },
 
         success: function (json) {
-            console.log(json.loaded_xml);
-
             method_name.value = json.loaded_xml[1];
-
-
+            
             switch (method_name.value){
                 case "readHostDetails":
-                    console.log(json.loaded_xml[0][0]);
                     host_id.value = json.loaded_xml[0][0];
                     break;
                 case "readTours":
@@ -662,7 +643,6 @@ function fill_form_xml(){
                     break;
                 case "readTourDetails":
                     host_id.value = json.loaded_xml[0][0];
-                    console.log(json.loaded_xml[0][1]);
                     tour_code.value = json.loaded_xml[0][1];
                     break;
                 case "readTourBases":
@@ -676,8 +656,8 @@ function fill_form_xml(){
                 case "readTourPickups":
                     host_id.value = json.loaded_xml[0][0];
                     tour_code.value = json.loaded_xml[0][1];
-                    tour_basis_id.value = json.loaded_xml[0][2];
-                    tour_time_id.value = json.loaded_xml[0][3];
+                    tour_basis_id.value = json.loaded_xml[0][3];
+                    tour_time_id.value = json.loaded_xml[0][2];
 
                     var date = new Date(json.loaded_xml[0][4]);
                     var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth()+1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
@@ -708,15 +688,11 @@ function fill_form_xml(){
                     break;
             }
             show_hide_form_fields();
-            console.log(method_name);
-            console.log(host_id);
-
-
         }
     })
 }
 
-//$('#generate-xml-form').on('change', '#method_name', function () {
+
 function show_hide_form_fields(){
             var method_name = document.getElementById("method_name").value;
 

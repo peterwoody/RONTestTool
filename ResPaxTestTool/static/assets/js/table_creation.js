@@ -88,14 +88,15 @@ function get_tours(tableRow, id, server_url) {
                     for (var i = 0; i in json.tours; i++) {
                         var newTableRow = document.createElement('tr');
                         var tour_code_td = document.createElement('td');
-
-                        var tour_code_td_value = document.createTextNode('Tour Code: ' + json.tours[i]['strTourCode']);
+                        var tour_code = json.tours[i]['strTourCode'];
+                        var tour_code_td_value = document.createTextNode('Tour Code: ' + tour_code);
 
                         tour_code_td.appendChild(tour_code_td_value);
 
                         tour_code_td.setAttribute('colspan', '4');
                         newTableRow.setAttribute('id', id + ',' + json.tours[i]['strTourCode'].toString());
-                        newTableRow.setAttribute('onclick', 'get_tour_bases(this, this.id,"' + server_url + '")');
+                        newTableRow.setAttribute("onclick", "get_tour_bases(this, this.id,'" + server_url + "'); " +
+                            "populate_form_fields('" + host_id + "','" + tour_code + "')");
                         newTableRow.setAttribute("data-level", "2");
 
                         newTableRow.appendChild(tour_code_td);
@@ -403,6 +404,7 @@ function remove_rows(table_row, server_url) {
 
 
 function generate_xml_request() {
+
     var method_name = document.getElementById('method_name').value || null;
     var tour_date = document.getElementById('date').value || null;
     var host_id = document.getElementById('host_id').value || null;
@@ -441,6 +443,7 @@ function generate_xml_request() {
                 document.getElementById('xml_request').value = json.generated_xml;
                 console.log('xml');
             }
+
         }
     })
 }
@@ -562,6 +565,10 @@ function change_format(format) {
     }
 }
 
+function generate_submit_xml_request(){
+    //to be added
+}
+
 function test_tool_query() {
     var tour_date = document.getElementById('date').value;
     var checkbox = document.getElementsByName('checkbox');
@@ -671,29 +678,36 @@ function fill_form_xml(){
                     tour_code.value = json.loaded_xml[0][1];
                     tour_basis_id.value = json.loaded_xml[0][2];
                     tour_time_id.value = json.loaded_xml[0][3];
-                    tour_date.value = json.loaded_xml[0][4];
+
+                    var date = new Date(json.loaded_xml[0][4]);
+                    var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth()+1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+                    tour_date.value = formattedDate;
                     break;
                 case "readTourPrices":
                     host_id.value = json.loaded_xml[0][0];
                     tour_code.value = json.loaded_xml[0][1];
                     tour_basis_id.value = json.loaded_xml[0][2];
                     tour_sub_basis_id.value = json.loaded_xml[0][3];
-                    tour_time_id.value = json.loaded_xml[0][4];
-                    tour_pickup_id.value = json.loaded_xml[0][5];
-                    tour_time_id.value = json.loaded_xml[0][6];
+                    tour_time_id.value = json.loaded_xml[0][8];
+                    tour_pickup_id.value = json.loaded_xml[0][6];
+                    tour_time_id.value = json.loaded_xml[0][5];
                     tour_drop_off_id.value = json.loaded_xml[0][7];
-                    tour_date.value = json.loaded_xml[0][8];
+                    var date = new Date(json.loaded_xml[0][4]);
+                    var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth()+1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+                    tour_date.value = formattedDate;
                     break;
-                case "readTourAvailabilty":
+                case "readTourAvailability":
                     host_id.value = json.loaded_xml[0][0];
                     tour_code.value = json.loaded_xml[0][1];
                     tour_basis_id.value = json.loaded_xml[0][2];
                     tour_sub_basis_id.value = json.loaded_xml[0][3];
-                    tour_time_id.value = json.loaded_xml[0][4];
-                    tour_date.value = json.loaded_xml[0][5];
+                    tour_time_id.value = json.loaded_xml[0][5];
+                    var date = new Date(json.loaded_xml[0][4]);
+                    var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth()+1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+                    tour_date.value = formattedDate;
                     break;
             }
-
+            show_hide_form_fields();
             console.log(method_name);
             console.log(host_id);
 
@@ -701,3 +715,234 @@ function fill_form_xml(){
         }
     })
 }
+
+//$('#generate-xml-form').on('change', '#method_name', function () {
+function show_hide_form_fields(){
+            var method_name = document.getElementById("method_name").value;
+
+            if (method_name == 'readHostDetails'){
+                $("#host_id").show();
+                $("#host_id_label").show();
+                $("#tour_code").hide();
+                $("#tour_code_label").hide();
+                $("#basis").hide();
+                $("#basis_label").hide();
+                $("#sub_basis").hide();
+                $("#sub_basis_label").hide();
+                $("#tour_time_id").hide();
+                $("#tour_time_id_label").hide();
+                $("#pickup_id").hide();
+                $("#pickup_id_label").hide();
+                $("#drop_off_id").hide();
+                $("#drop_off_id_label").hide();
+                $("#date").hide();
+                $("#date_label").hide();
+                $("#type1").hide();
+                $("#type1_label").hide();
+                $("#type2").hide();
+                $("#type2_label").hide();
+                $("#type3").hide();
+                $("#type3_label").hide();
+                $("#type4").hide();
+                $("#type4_label").hide();
+                $("#type5").hide();
+                $("#type5_label").hide();
+            }
+            else if(method_name == 'readTours') {
+                $("#host_id").show();
+                $("#host_id_label").show();
+                $("#tour_code").hide();
+                $("#tour_code_label").hide();
+                $("#basis").hide();
+                $("#basis_label").hide();
+                $("#sub_basis").hide();
+                $("#sub_basis_label").hide();
+                $("#tour_time_id").hide();
+                $("#tour_time_id_label").hide();
+                $("#pickup_id").hide();
+                $("#pickup_id_label").hide();
+                $("#drop_off_id").hide();
+                $("#drop_off_id_label").hide();
+                $("#date").hide();
+                $("#date_label").hide();
+                $("#type1").hide();
+                $("#type1_label").hide();
+                $("#type2").hide();
+                $("#type2_label").hide();
+                $("#type3").hide();
+                $("#type3_label").hide();
+                $("#type4").hide();
+                $("#type4_label").hide();
+                $("#type5").hide();
+                $("#type5_label").hide();
+            }
+            else if(method_name == 'readTourDetails') {
+                $("#host_id").show();
+                $("#host_id_label").show();
+                $("#tour_code").show();
+                $("#tour_code_label").show();
+                $("#basis").hide();
+                $("#basis_label").hide();
+                $("#sub_basis").hide();
+                $("#sub_basis_label").hide();
+                $("#tour_time_id").hide();
+                $("#tour_time_id_label").hide();
+                $("#pickup_id").hide();
+                $("#pickup_id_label").hide();
+                $("#drop_off_id").hide();
+                $("#drop_off_id_label").hide();
+                $("#date").hide();
+                $("#date_label").hide();
+                $("#type1").hide();
+                $("#type1_label").hide();
+                $("#type2").hide();
+                $("#type2_label").hide();
+                $("#type3").hide();
+                $("#type3_label").hide();
+                $("#type4").hide();
+                $("#type4_label").hide();
+                $("#type5").hide();
+                $("#type5_label").hide();
+            }
+            else if(method_name == 'readTourBases') {
+                $("#host_id").show();
+                $("#host_id_label").show();
+                $("#tour_code").show();
+                $("#tour_code_label").show();
+                $("#basis").hide();
+                $("#basis_label").hide();
+                $("#sub_basis").hide();
+                $("#sub_basis_label").hide();
+                $("#tour_time_id").hide();
+                $("#tour_time_id_label").hide();
+                $("#pickup_id").hide();
+                $("#pickup_id_label").hide();
+                $("#drop_off_id").hide();
+                $("#drop_off_id_label").hide();
+                $("#date").hide();
+                $("#date_label").hide();
+                $("#type1").hide();
+                $("#type1_label").hide();
+                $("#type2").hide();
+                $("#type2_label").hide();
+                $("#type3").hide();
+                $("#type3_label").hide();
+                $("#type4").hide();
+                $("#type4_label").hide();
+                $("#type5").hide();
+                $("#type5_label").hide();
+            }
+            else if(method_name == 'readTourTimes') {
+                $("#host_id").show();
+                $("#host_id_label").show();
+                $("#tour_code").show();
+                $("#tour_code_label").show();
+                $("#basis").hide();
+                $("#basis_label").hide();
+                $("#sub_basis").hide();
+                $("#sub_basis_label").hide();
+                $("#tour_time_id").hide();
+                $("#tour_time_id_label").hide();
+                $("#pickup_id").hide();
+                $("#pickup_id_label").hide();
+                $("#drop_off_id").hide();
+                $("#drop_off_id_label").hide();
+                $("#date").hide();
+                $("#date_label").hide();
+                $("#type1").hide();
+                $("#type1_label").hide();
+                $("#type2").hide();
+                $("#type2_label").hide();
+                $("#type3").hide();
+                $("#type3_label").hide();
+                $("#type4").hide();
+                $("#type4_label").hide();
+                $("#type5").hide();
+                $("#type5_label").hide();
+            }
+            else if(method_name == 'readTourPickups') {
+                $("#host_id").show();
+                $("#host_id_label").show();
+                $("#tour_code").show();
+                $("#tour_code_label").show();
+                $("#basis").show();
+                $("#basis_label").show();
+                $("#sub_basis").hide();
+                $("#sub_basis_label").hide();
+                $("#tour_time_id").show();
+                $("#tour_time_id_label").show();
+                $("#pickup_id").hide();
+                $("#pickup_id_label").hide();
+                $("#drop_off_id").hide();
+                $("#drop_off_id_label").hide();
+                $("#date").show();
+                $("#date_label").show();
+                $("#type1").hide();
+                $("#type1_label").hide();
+                $("#type2").hide();
+                $("#type2_label").hide();
+                $("#type3").hide();
+                $("#type3_label").hide();
+                $("#type4").hide();
+                $("#type4_label").hide();
+                $("#type5").hide();
+                $("#type5_label").hide();
+            }
+            else if(method_name == 'readTourPrices') {
+                $("#host_id").show();
+                $("#host_id_label").show();
+                $("#tour_code").show();
+                $("#tour_code_label").show();
+                $("#basis").show();
+                $("#basis_label").show();
+                $("#sub_basis").show();
+                $("#sub_basis_label").show();
+                $("#tour_time_id").show();
+                $("#tour_time_id_label").show();
+                $("#pickup_id").show();
+                $("#pickup_id_label").show();
+                $("#drop_off_id").show();
+                $("#drop_off_id_label").show();
+                $("#date").show();
+                $("#date_label").show();
+                $("#type1").hide();
+                $("#type1_label").hide();
+                $("#type2").hide();
+                $("#type2_label").hide();
+                $("#type3").hide();
+                $("#type3_label").hide();
+                $("#type4").hide();
+                $("#type4_label").hide();
+                $("#type5").hide();
+                $("#type5_label").hide();
+            }
+            else if(method_name == 'readTourAvailability') {
+                $("#host_id").show();
+                $("#host_id_label").show();
+                $("#tour_code").show();
+                $("#tour_code_label").show();
+                $("#basis").show();
+                $("#basis_label").show();
+                $("#sub_basis").show();
+                $("#sub_basis_label").show();
+                $("#tour_time_id").show();
+                $("#tour_time_id_label").show();
+                $("#pickup_id").hide();
+                $("#pickup_id_label").hide();
+                $("#drop_off_id").hide();
+                $("#drop_off_id_label").hide();
+                $("#date").show();
+                $("#date_label").show();
+                $("#type1").hide();
+                $("#type1_label").hide();
+                $("#type2").hide();
+                $("#type2_label").hide();
+                $("#type3").hide();
+                $("#type3_label").hide();
+                $("#type4").hide();
+                $("#type4_label").hide();
+                $("#type5").hide();
+                $("#type5_label").hide();
+            }
+
+        }

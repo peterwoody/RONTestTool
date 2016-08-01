@@ -13,6 +13,7 @@
     <script src={% static "js/jquery-2.1.4.min.js" %}></script>
     <script src={% static "js/collapsibleTable.js" %}></script>
     <script src={% static "js/table_creation.js" %}></script>
+    <script src={% static "js/csv_functions.js" %}></script>
 </head>
 <body>
 
@@ -131,7 +132,7 @@
     <table id="test-tool-table" class="table table-hover table-expandable table-striped">
         <thead>
         <tr>
-            <th colspan="3">Operator</th>
+            <th id="test-tool-table-heading" colspan="3">Operator</th>
         </tr>
         </thead>
         <tbody>

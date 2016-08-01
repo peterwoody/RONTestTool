@@ -28,16 +28,16 @@
         <form action="/test_tool/" method="post"> {% csrf_token %}
             <input id="server_url" name="server_url" value="{{ server_url }}" hidden>
             <input id="switch_server_button" name="switch_server_button" value="{{ switch_server_button }}" hidden>
-            <ul class="nav navbar-nav">
-                <li>
+            <ul class="nav navbar-nav" id="navbarcenter">
+                <li id="centerlist">
                     <button name="submit" value="switch_server" type="submit"
-                            style="text-transform: uppercase">{{ switch_server_button }}</button>
+                            style="text-transform: uppercase">you are {{ switch_server_button }}<br>Click to swtich</button>
                 </li>
             </ul>
         </form>
 
         <ul class="nav navbar-right">
-            <li><a href="/logout/">Log out <span class="sr-only">(current)</span></a></li>
+            <li id="rightList"><a href="/logout/">Log out <span class="sr-only">(current)</span></a></li>
         </ul>
     </div>
 

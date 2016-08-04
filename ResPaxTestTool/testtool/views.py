@@ -11,12 +11,12 @@ def test_tool(request):
         server_url = request.POST.get('server_url')
 
         print(request.POST.get('switch_server_button'))
-        if request.POST.get('switch_server_button') == 'live':
-            switch_server_button = 'train'
+        if request.POST.get('switch_server_button') == 'Live':
+            switch_server_button = 'Training'
             server_url = server_url.replace('live', 'train')
 
         else:
-            switch_server_button = 'live'
+            switch_server_button = 'Live'
             print(server_url)
             server_url = server_url.replace("train", "live")
             print(server_url)

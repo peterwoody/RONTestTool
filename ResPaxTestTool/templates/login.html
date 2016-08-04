@@ -14,10 +14,23 @@
             <form id="login_form" name="login_form" class="form-signin" action="/test_tool/" method="post"> {% csrf_token %}
                 <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
                 <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
-                <label for="live">Live: </label>
-                <input type="radio" id="live" name="server_config" class="form-control" value="live" checked>
-                <label for="train">Train: </label>
-                <input type="radio" id="train" name="server_config" class="form-control" value="train">
+
+
+
+{#                <label for="live" class="btn">Live: </label>#}
+{##}
+{#                <input type="radio" id="live" name="server_config" class="form-control" value="live" checked>#}
+{##}
+{#                <label for="train" class="btn">Train: </label>#}
+{##}
+{#                <input type="radio" id="train" name="server_config" class="form-control" value="train">#}
+
+                <div id="bounds">
+                    <label class="live"><input type="radio" name="server_config" value="live" checked><span>Live</span></label>
+                    <label class="train"><input type="radio" name="server_config" value="train"><span>Training</span></label>
+                </div>
+
+
 
 
                 <button name="submit" value="login" class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Log in</button>

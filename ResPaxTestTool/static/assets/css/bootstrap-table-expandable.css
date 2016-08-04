@@ -20,26 +20,36 @@ nav {
 }
 
 nav ul {
+    padding-top: 5px;
+    padding-bottom: 5px;
     list-style: none;
     position: relative;
     float: left;
     margin-left: 2%;
     display: inline-table;
+
 }
+
 
 nav ul li {
     float: left;
-    font-size: 20px;
+    font-size: 16px;
+    font-weight: bold;
     padding-left: 5px;
     padding-right: 5px;
     -webkit-transition: all .2s ease-in-out;
     -moz-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
+
+}
+
+#centerlist{
+    padding-top: 5px;
 }
 
 nav ul li button {
-    padding-top: 35px;
-    padding-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     background: none;
     border: none;
 }
@@ -54,6 +64,8 @@ nav ul li:hover > ul {
 nav .navbar-right {
     float: right;
 }
+
+
 nav .navbar-header {
     width: auto;
 }

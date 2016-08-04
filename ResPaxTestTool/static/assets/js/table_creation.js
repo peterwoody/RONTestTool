@@ -28,12 +28,13 @@ function generateTable(operators, host_ids, server_url) {
 
         table.appendChild(tableRow);
     }
-    addCSVButton(tableHeading, hostCSVContent, "hosts");
+    //addCSVButton(tableHeading, "hosts", "", server_url, "tour codes");
+    //addCSVButton(tableHeading, hostCSVContent, server_url, "hosts");
     //var encodedUri = encodeURI(hostCSVContent);
     //var hostsCSVLink = document.createElement("a");
     //hostsCSVLink.innerText = "Download CSV";
     //hostsCSVLink.setAttribute("href", encodedUri);
-    //hostsCSVLink.setAttribute("download", "my_data.csv");
+    //hostsCSVLink.setAttribute("download", "hosts.csv");
     //tableHeading.appendChild(hostsCSVLink);
 }
 
@@ -92,15 +93,12 @@ function get_tours(tableRow, id, server_url) {
                 $(tableRow).after(newTableRow);
             } else if (typeof json.tours === 'object') {
                 if (json.tours.length > 0) {
-                    var tourCSVContent = "data:text/csv;charset=utf-8,";
 
                     for (var i = 0; i in json.tours; i++) {
                         var newTableRow = document.createElement('tr');
                         var tour_code_td = document.createElement('td');
                         var tour_code = json.tours[i]['strTourCode'];
                         var tour_code_td_value = document.createTextNode('Tour Code: ' + tour_code);
-
-                        tourCSVContent += tour_code + "\n";
 
                         tour_code_td.appendChild(tour_code_td_value);
 
@@ -115,7 +113,7 @@ function get_tours(tableRow, id, server_url) {
                         $(tableRow).after(newTableRow);
                     }
 
-                    addCSVButton(tableRow.getElementsByTagName("td")[0], tourCSVContent, "tour codes");
+                    addCSVButton(tableRow.getElementsByTagName("td")[0], "tours",id, server_url, "tour codes");
                 } else {
                     var newTableRow = document.createElement('tr');
                     var td = document.createElement('td');

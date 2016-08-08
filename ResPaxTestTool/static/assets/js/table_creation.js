@@ -444,8 +444,8 @@ function remove_rows(table_row, server_url) {
 }
 
 
-function generate_xml_request() {
-
+function generate_xml_request(button) {
+    document.getElementById("xml_request").focus();
     var method_name = document.getElementById('method_name').value || null;
     var tour_date = document.getElementById('date').value || null;
     var host_id = document.getElementById('host_id').value || null;
@@ -482,7 +482,9 @@ function generate_xml_request() {
             } else {
                 document.getElementById('xml_request').value = json.generated_xml;
             }
-
+            if (button.id === "generate_submit_btn"){
+                submit_xml_request();
+            }
         }
     })
 }
@@ -597,9 +599,7 @@ function change_format(format) {
     }
 }
 
-function generate_submit_xml_request() {
-    //to be added
-}
+
 
 function test_tool_query() {
     var tour_date = document.getElementById('date').value;

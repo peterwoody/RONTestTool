@@ -735,11 +735,58 @@ function fill_form_xml() {
     })
 }
 
+function hide_xml_request_textarea(button){
+    if (document.getElementById("xml_request").hidden === true){
+        document.getElementById("xml_request").hidden = false;
+        button.innerHTML = "Hide";
+    }else {
+        document.getElementById("xml_request").hidden = true;
+        button.innerHTML = "Show";
+    }
+}
+
+function hide_xml_response_textarea(button){
+    if (document.getElementById("xml_response").hidden === true){
+        document.getElementById("xml_response").hidden = false;
+        button.innerHTML = "Hide";
+    }else {
+        document.getElementById("xml_response").hidden = true;
+        button.innerHTML = "Show";
+    }
+}
 
 function show_hide_form_fields() {
     var method_name = document.getElementById("method_name").value;
 
-    if (method_name == 'readHostDetails') {
+    if (method_name == 'readHosts') {
+        $("#host_id").hide();
+        $("#host_id_label").hide();
+        $("#tour_code").hide();
+        $("#tour_code_label").hide();
+        $("#basis").hide();
+        $("#basis_label").hide();
+        $("#sub_basis").hide();
+        $("#sub_basis_label").hide();
+        $("#tour_time_id").hide();
+        $("#tour_time_id_label").hide();
+        $("#pickup_id").hide();
+        $("#pickup_id_label").hide();
+        $("#drop_off_id").hide();
+        $("#drop_off_id_label").hide();
+        $("#date").hide();
+        $("#date_label").hide();
+        $("#type1").hide();
+        $("#type1_label").hide();
+        $("#type2").hide();
+        $("#type2_label").hide();
+        $("#type3").hide();
+        $("#type3_label").hide();
+        $("#type4").hide();
+        $("#type4_label").hide();
+        $("#type5").hide();
+        $("#type5_label").hide();
+    }
+    else if (method_name == 'readHostDetails') {
         $("#host_id").show();
         $("#host_id_label").show();
         $("#tour_code").hide();
@@ -767,6 +814,7 @@ function show_hide_form_fields() {
         $("#type5").hide();
         $("#type5_label").hide();
     }
+
     else if (method_name == 'readTours') {
         $("#host_id").show();
         $("#host_id_label").show();

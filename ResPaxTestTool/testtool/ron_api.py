@@ -41,6 +41,17 @@ def raw_xml_request(server_url, xml):
     if method == 'ping':
         xml_response = connection.ping()
 
+    elif method == 'readHosts':
+
+        try:
+            hosts = connection.readHosts()
+        except xmlrpclib.Fault as err:
+            fault = "A fault occurred. Fault code: %d." % err.faultCode + " Fault string: %s" % err.faultString
+            return fault, fault
+
+        table_response = process_xml_list_response(hosts)
+        xml_response = xmlrpclib.dumps((hosts,))
+
     elif method == 'readHostDetails':
         host_id = params[0]
         try:

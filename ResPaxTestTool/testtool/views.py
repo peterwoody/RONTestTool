@@ -84,6 +84,9 @@ def generate_xml(request):
     if method_name == 'readTours':
         params = (host_id,)
 
+    elif method_name == 'readHosts':
+        params = ("",)
+
     elif method_name == 'readHostDetails':
         params = (host_id,)
 

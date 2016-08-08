@@ -55,6 +55,7 @@
 
         <label for="method_name">Method Name:</label>
         <select id="method_name">
+            <option>readHosts</option>
             <option>readHostDetails</option>
             <option>readTours</option>
             <option>readTourDetails</option>
@@ -64,8 +65,8 @@
             <option>readTourPrices</option>
             <option>readTourAvailability</option>
         </select>
-        <label id="host_id_label" for="host_id">Host ID:</label>
-        <input id="host_id" name="host_id" type="text">
+        <label id="host_id_label" for="host_id" hidden>Host ID:</label>
+        <input id="host_id" name="host_id" type="text" hidden>
 
         <label id="tour_code_label" for="tour_code" hidden>Tour Code:</label>
         <input id="tour_code" name="tour_code" type="text" hidden>
@@ -110,12 +111,16 @@
 
     <div class="XMLRequestArea">
         <label for="xml_request">XML Request</label>
+        <br>
+        <br>
+        <button name="submit" value="xmlrequest" type="submit" onclick="submit_xml_request()">Submit</button>
+        <button name="fill_form_xml" value="fill_form_xml" type="submit" onclick="fill_form_xml()">Fill Form</button>
+        <button name="hide_request_btn" value="hide_request_btn" type="submit" onclick="hide_xml_request_textarea(this)">Hide</button>
+
         <input id="server_url" name="server_url" value="{{ server_url }}" hidden>
         <textarea id="xml_request" name="xml_request">
 
         </textarea>
-        <button name="submit" value="xmlrequest" type="submit" onclick="submit_xml_request()">Submit</button>
-        <button name="fill_form_xml" value="fill_form_xml" type="submit" onclick="fill_form_xml()">Fill Form</button>
     </div>
     <div class="XMLRequestArea">
         <label for="xml_response">XML Response</label>
@@ -124,6 +129,7 @@
         <button id="xml_format_button" onclick="change_format('xml')" disabled>XML Format</button>
         <button id="table_format_button" onclick="change_format('table')">Table Format</button>
         <button id="xml_table_format_button" onclick="change_format('xml_table')">XML & Table Format</button>
+        <button name="hide_response_btn" value="hide_response_btn" type="submit" onclick="hide_xml_response_textarea(this)">Hide</button>
 
         <textarea id="xml_response" readonly></textarea>
         <table id="table_response" class="table-response" readonly hidden></table>

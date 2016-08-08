@@ -245,6 +245,41 @@ def get_tour_pickups(request):
     return JsonResponse(response_data)
 
 
+def get_all_host_info(request):
+    host_id = request.POST['host_id']
+    server_url = request.POST.get('server_url')
+
+    tours = ron_api.read_tours(host_id, server_url)
+    # tour_bases = []
+    # tour_times = []
+    # for tour_code in tours:
+    #     print tour_code['strTourCode']
+    #     tour_bases += ron_api.read_tour_bases(host_id, tour_code['strTourCode'], server_url)
+    #     tour_times += ron_api.read_tour_times(host_id, tour_code['strTourCode'], server_url)
+    csv_content = ""
+    for tour_codes in tours:
+        tour_bases = ron_api.read_tour_bases(host_id, tour_codes['strTourCode'], server_url)
+
+        for tour_base in tour_bases:
+
+            tour_times = ron_api.read_tour_times(host_id, tour_codes['strTourCode'], server_url)
+
+            for tour_time in tour_times:
+                basis_id = tour_base['intBasisID']
+                time_id = tour_time['intTourTimeID']
+                tour_pickups = ron_api.read_tour_pickups(host_id, tour_codes['strTourCode'], time_id, basis_id, server_url)
+
+                for tour_pickup in tour_pickups:
+                    pickup_key = tour_pickup['strPickupKey']
+                    csv_content += str(host_id) + "," + str(tour_codes['strTourCode']) + "," + str(basis_id) + "," + str(time_id) + "," + str(pickup_key) + "\n"
+
+    response_data = {
+        'csv_content': csv_content,
+    }
+
+    return JsonResponse(response_data)
+
+
 def fill_form_xml(request):
     print(request.POST.get("xml"))
     xml = request.POST.get("xml")

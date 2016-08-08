@@ -248,3 +248,20 @@ def process_xml_dict_response(xml_response):
 
     return table_response
 
+
+def get_all_host_info(host_id, server_url):
+    print(host_id)
+    print(server_url)
+    connection = xmlrpclib.ServerProxy(server_url)
+    try:
+        tours = connection.readTours(host_id)
+        i = 0
+        for tour_code in tours:
+            print tour_code[i]['strTourCode']
+            tour_bases = connection.readTourBases(host_id, tour_code[i]['strTourCode'])
+            i += 1
+        # tour_times = connection.readTourTimes(host_id, tour_code)
+        # tour_pickups = connection.readTourPickups(host_id, tour_code, tour_time_id, basis_id)
+        return tours
+    except xmlrpclib.Fault:
+        return "No tours available"

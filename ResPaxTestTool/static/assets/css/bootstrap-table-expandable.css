@@ -202,3 +202,7 @@ table.table-expandable > tbody > tr[data-level='5'] td:first-child {
     -webkit-transition: all 0.218s;
     transition: all 0.218s;
 }
+
+.wait {
+    cursor: wait !important;
+}

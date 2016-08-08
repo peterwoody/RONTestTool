@@ -12,7 +12,6 @@ function generateTable(operators, host_ids, server_url) {
         var operator_td = document.createElement("td");
         var operator_td_value = document.createTextNode(operators[i] + ' (' + host_ids[i] + ')');
 
-
         hostCSVContent += host_ids[i] + "\n";
 
         operator_td.appendChild(operator_td_value);
@@ -99,8 +98,16 @@ function get_tours(tableRow, id, server_url) {
                         var tour_code_td = document.createElement('td');
                         var tour_code = json.tours[i]['strTourCode'];
                         var tour_code_td_value = document.createTextNode('Tour Code: ' + tour_code);
+                        var string_p = document.createElement("p");
+                        var string_value = document.createTextNode("(" +
+                            id + "," +
+                            tour_code +
+                            ')');
 
+                        string_p.setAttribute("style", "float: right;");
+                        string_p.appendChild(string_value);
                         tour_code_td.appendChild(tour_code_td_value);
+                        tour_code_td.appendChild(string_p);
 
                         tour_code_td.setAttribute('colspan', '4');
                         newTableRow.setAttribute('id', id + ',' + json.tours[i]['strTourCode'].toString());
@@ -175,9 +182,20 @@ function get_tour_bases(tableRow, id, server_url) {
                 var basis_td_value = document.createTextNode("Basis: " + json.tour_bases[i]['strBasisDesc'] + ' (' + json.tour_bases[i]['intBasisID'] + ')');
 
                 var subbasis_td_value = document.createTextNode("Subbasis: " + json.tour_bases[i]['strSubBasisDesc'] + ' (' + json.tour_bases[i]['intSubBasisID'] + ')');
+                var string_p = document.createElement("p");
+                var string_value = document.createTextNode("(" +
+                    host_id + "," +
+                    tour_code + "," +
+                    json.tour_bases[i]['intBasisID'] + "," +
+                    json.tour_bases[i]['intSubBasisID'] +
+                    ')');
+
+                string_p.setAttribute("style", "float: right;");
+                string_p.appendChild(string_value);
 
                 basis_td.appendChild(basis_td_value);
                 subbasis_td.appendChild(subbasis_td_value);
+                subbasis_td.appendChild(string_p);
 
                 basis_td.setAttribute('colspan', '1');
                 subbasis_td.setAttribute('colspan', '3');
@@ -236,8 +254,20 @@ function get_tour_times(tableRow, id, server_url) {
                 var time_td = document.createElement("td");
 
                 var time_td_value = document.createTextNode("Time: " + json.tour_times[i]['dteTourTime']['iso8601'] + ' (' + tour_time_id + ')');
+                var string_p = document.createElement("p");
+                var string_value = document.createTextNode("(" +
+                    host_id + "," +
+                    tour_code + "," +
+                    tour_basis_id + "," +
+                    tour_sub_basis_id + "," +
+                    tour_time_id +
+                    ')');
+
+                string_p.setAttribute("style", "float: right;");
+                string_p.appendChild(string_value);
 
                 time_td.appendChild(time_td_value);
+                time_td.appendChild(string_p);
 
                 time_td.setAttribute('colspan', '4');
                 newTableRow.setAttribute('id', id + ',' + json.tour_times[i]['intTourTimeID']);

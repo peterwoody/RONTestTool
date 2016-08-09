@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href={% static "css/bootstrap.min.css" %}>
     <link rel="stylesheet" href={% static "css/bootstrap-table-expandable.css" %}>
+    <link rel="stylesheet" href={% static "css/csv_menu.css" %}>
 
     <script src={% static "js/jquery-2.1.4.min.js" %}></script>
     <script src={% static "js/collapsibleTable.js" %}></script>
@@ -17,7 +18,6 @@
 </head>
 <body>
 
-<!-- Fixed navbar -->
 <nav class="navbar navbar-default navbar-fixed-top">
 
     <div class="nav navbar-header">
@@ -31,7 +31,8 @@
             <ul class="nav navbar-nav" id="navbarcenter">
                 <li id="centerlist">
                     <button name="submit" value="switch_server" type="submit"
-                            style="text-transform: uppercase">you are {{ switch_server_button }}<br>Click to swtich</button>
+                            style="text-transform: uppercase">you are {{ switch_server_button }}<br>Click to switch
+                    </button>
                 </li>
             </ul>
         </form>
@@ -45,12 +46,54 @@
 
 
 <div class="container">
-    <h1 style="margin-top:110px;">ResPax Test Tool</h1>
 
-    <div id="generate-xml-form" class="generate-xml-form" >
+    <h1 style="margin-top:110px;">ResPax Test Tool</h1>
+    <button id="myBtn" onclick="openCSVMenu()">Open Modal</button>
+    <!-- Trigger/Open The Modal -->
+
+
+    <!-- The Modal -->
+    <div id="csv_menu" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">x</span>
+
+            <h2 id="csv_menu_heading">Host ID</h2>
+
+            <p id="csv_menu_text">Please select the data you would like in the csv file:</p>
+
+            <input id="select_all_ckb" type="checkbox" onclick="selectAllCheckboxes(this)">
+            <label for="select_all_ckb">Select all</label>
+            <hr>
+            <input id="csv_host_ids" type="checkbox">
+            <label for="csv_host_ids">Host IDs</label>
+            <br>
+            <input id="csv_tour_codes" type="checkbox">
+            <label for="csv_tour_codes">Tour Codes</label>
+            <br>
+            <input id="csv_basis" type="checkbox">
+            <label for="csv_basis">Basis</label>
+            <br>
+            <input id="csv_sub_basis" type="checkbox">
+            <label for="csv_sub_basis">Sub Basis</label>
+            <br>
+            <input id="csv_time_id" type="checkbox">
+            <label for="csv_time_id">Time ID</label>
+            <br>
+            <input id="csv_pickup_key" type="checkbox">
+            <label for="csv_pickup_key">Pickup Key</label>
+            <br>
+            <button id="dwnld_csv_btn">Download CSV</button>
+
+        </div>
+
+    </div>
+    <div id="generate-xml-form" class="generate-xml-form">
         <input type="submit" name="submit" value="Generate XML" onclick="generate_xml_request(this)">
 
-        <input id="generate_submit_btn" type="submit" name="submit" value="Generate & Submit XML" onclick="generate_xml_request(this)">
+        <input id="generate_submit_btn" type="submit" name="submit" value="Generate & Submit XML"
+               onclick="generate_xml_request(this)">
 
         <label for="method_name">Method Name:</label>
         <select id="method_name">
@@ -86,7 +129,6 @@
         <input id="drop_off_id" name="drop_off_id" type="text" hidden>
 
 
-
         <label id="date_label" for="date" hidden>Date:</label>
         <input id="date" name="date" type="date" hidden>
 
@@ -114,7 +156,9 @@
         <br>
         <button name="submit" value="xmlrequest" type="submit" onclick="submit_xml_request()">Submit</button>
         <button name="fill_form_xml" value="fill_form_xml" type="submit" onclick="fill_form_xml()">Fill Form</button>
-        <button name="hide_request_btn" value="hide_request_btn" type="submit" onclick="hide_xml_request_textarea(this)">Hide</button>
+        <button name="hide_request_btn" value="hide_request_btn" type="submit"
+                onclick="hide_xml_request_textarea(this)">Hide
+        </button>
 
         <input id="server_url" name="server_url" value="{{ server_url }}" hidden>
         <textarea id="xml_request" name="xml_request">
@@ -128,7 +172,9 @@
         <button id="xml_format_button" onclick="change_format('xml')" disabled>XML Format</button>
         <button id="table_format_button" onclick="change_format('table')">Table Format</button>
         <button id="xml_table_format_button" onclick="change_format('xml_table')">XML & Table Format</button>
-        <button name="hide_response_btn" value="hide_response_btn" type="submit" onclick="hide_xml_response_textarea(this)">Hide</button>
+        <button name="hide_response_btn" value="hide_response_btn" type="submit"
+                onclick="hide_xml_response_textarea(this)">Hide
+        </button>
 
         <textarea id="xml_response" readonly></textarea>
         <table id="table_response" class="table-response" readonly hidden></table>

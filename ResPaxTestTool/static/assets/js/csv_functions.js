@@ -7,14 +7,53 @@ function addCSVButton(element, csv_request_type, parameters, server_url, filenam
     var button_value = document.createTextNode("Download CSV");
 
     button.appendChild(button_value);
-    button.setAttribute("onclick", "downloadCSV('" + csv_request_type + "','" + parameters + "','" + server_url + "','" + filename + "');");
+    //button.setAttribute("onclick", "downloadCSV('" + csv_request_type + "','" + parameters + "','" + server_url + "','" + filename + "');");
+    button.setAttribute("onclick", "openCSVMenu('" + csv_request_type + "','" + parameters + "','" + server_url + "','" + filename + "','" + element.innerHTML + "');");
     button.setAttribute("style", "float:right; color:#0089BB");
 
-
     element.appendChild(button);
+
+
+}
+
+function openCSVMenu(csv_request_type, parameters, server_url, filename, heading) {
+    var csv_menu = document.getElementById('csv_menu');
+    var csv_menu_heading = document.getElementById('csv_menu_heading').innerHTML = heading;
+    var csv_menu_text = document.getElementById('csv_menu_text');
+    var dwnld_csv_btn = document.getElementById('dwnld_csv_btn');
+
+    dwnld_csv_btn.setAttribute("onclick", "downloadCSV('" + csv_request_type + "','" + parameters + "','" + server_url + "','" + filename + "');");
+
+    csv_menu.style.display = "block";
+// Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        csv_menu.style.display = "none";
+    };
+
+    //When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == csv_menu) {
+            csv_menu.style.display = "none";
+        }
+    }
 }
 
 function downloadCSV(csv_request_type, parameters, server_url, filename) {
+    var host_ids_checkbox = document.getElementById("csv_host_ids").checked;
+    var tour_codes_checkbox = document.getElementById("csv_tour_codes").checked;
+    var basis_checkbox = document.getElementById("csv_basis").checked;
+    var sub_basis_checkbox = document.getElementById("csv_sub_basis").checked;
+    var time_ids_checkbox = document.getElementById("csv_time_id").checked;
+    var pickup_keys_checkbox = document.getElementById("csv_pickup_key").checked;
+    console.log(host_ids_checkbox);
+    console.log(tour_codes_checkbox);
+    console.log(basis_checkbox);
+    console.log(sub_basis_checkbox);
+    console.log(time_ids_checkbox);
+    console.log(pickup_keys_checkbox);
     $('body').addClass('wait');
     $.ajax({
         type: 'POST',
@@ -24,6 +63,12 @@ function downloadCSV(csv_request_type, parameters, server_url, filename) {
 
         data: {
             host_id: parameters.split(',')[0],
+            host_ids_checkbox: host_ids_checkbox,
+            tour_codes_checkbox: tour_codes_checkbox,
+            basis_checkbox: basis_checkbox,
+            sub_basis_checkbox: sub_basis_checkbox,
+            time_ids_checkbox: time_ids_checkbox,
+            pickup_keys_checkbox: pickup_keys_checkbox,
             server_url: server_url,
             safe: false,
             csrfmiddlewaretoken: csrftoken
@@ -31,103 +76,32 @@ function downloadCSV(csv_request_type, parameters, server_url, filename) {
 
         success: function (json) {
             var CSVContent = "data:text/csv;charset=utf-8," + json.csv_content;
-
-            var encodedUri = encodeURI(CSVContent);
-            var CSVLink = document.createElement("a");
-            CSVLink.setAttribute("href", encodedUri);
-            CSVLink.setAttribute("download", filename + ".csv");
-            CSVLink.click();
+            if (CSVContent !== "data:text/csv;charset=utf-8,") {
+                var encodedUri = encodeURI(CSVContent);
+                var CSVLink = document.createElement("a");
+                CSVLink.setAttribute("href", encodedUri);
+                CSVLink.setAttribute("download", filename + ".csv");
+                CSVLink.click();
+            }
             $('body').removeClass('wait');
         }
     });
-    //switch (csv_request_type) {
-    //    case "tours":
-    //        $.ajax({
-    //            type: 'POST',
-    //            url: '/get_tours/',
-    //            dataType: 'json',
-    //            async: true,
-    //
-    //            data: {
-    //                id: parameters.split(',')[0],
-    //                server_url: server_url,
-    //                safe: false,
-    //                csrfmiddlewaretoken: csrftoken
-    //            },
-    //
-    //            success: function (json) {
-    //                var CSVContent = "data:text/csv;charset=utf-8,";
-    //                console.log(json.tours);
-    //                for (var i = 0; i in json.tours; i++) {
-    //                    CSVContent += json.tours[i]['strTourCode'].toString() + "\n";
-    //                }
-    //                var encodedUri = encodeURI(CSVContent);
-    //                var CSVLink = document.createElement("a");
-    //                CSVLink.setAttribute("href", encodedUri);
-    //                CSVLink.setAttribute("download", filename + ".csv");
-    //                CSVLink.click();
-    //            }
-    //        });
-    //        break;
-    //    case "tours_bases":
-    //        function tour_codes(callback){ $.ajax({
-    //            type: 'POST',
-    //            url: '/get_tours/',
-    //            dataType: 'json',
-    //            async: true,
-    //
-    //            data: {
-    //                id: parameters.split(',')[0],
-    //                server_url: server_url,
-    //                safe: false,
-    //                csrfmiddlewaretoken: csrftoken
-    //            },
-    //
-    //            success: function (json) {
-    //                callback(json.tours);
-    //            }
-    //        });
-    //        }
-    //
-    //        for (var i = 0; i < tour_codes.length; i++) {
-    //            console.log("i: " + i);
-    //            console.log("tour_codes[i]['strTourCode'].toString(): " + tour_codes[i]['strTourCode'].toString());
-    //            console.log("parameters.split(',')[0]: " + parameters.split(',')[0]);
-    //
-    //            $.ajax({
-    //                type: 'POST',
-    //                url: '/get_tour_bases/',
-    //                dataType: 'json',
-    //                async: true,
-    //
-    //                data: {
-    //                    host_id: parameters.split(',')[0],
-    //                    tour_code: tour_codes[i]['strTourCode'].toString(),
-    //                    server_url: server_url,
-    //                    safe: false,
-    //                    csrfmiddlewaretoken: csrftoken
-    //                },
-    //
-    //                success: function (json) {
-    //                    console.log(tour_codes[i]['strTourCode'].toString());
-    //                    for (var j = 0; j < json.tour_bases.length - 1; j++) {
-    //                        CSVContent += tour_codes[i]['strTourCode'].toString() + "," + json.tour_bases[j]['intBasisID'].toString() + "," + json.tour_bases[j]['intSubBasisID'].toString() + "\n";
-    //                    }
-    //                    console.log(CSVContent);
-    //
-    //                }
-    //            });
-    //        }
+}
 
-    var encodedUri = encodeURI(CSVContent);
-    var CSVLink = document.createElement("a");
-    CSVLink.setAttribute("href", encodedUri);
-    CSVLink.setAttribute("download", filename + ".csv");
-    CSVLink.click();
-    //        break;
-    //    default:
-    //        break;
-    //}
-
-
+function selectAllCheckboxes(checkbox){
+    if (checkbox.checked){
+        var host_ids_checkbox = document.getElementById("csv_host_ids").checked = true;
+        var tour_codes_checkbox = document.getElementById("csv_tour_codes").checked = true;
+        var basis_checkbox = document.getElementById("csv_basis").checked = true;
+        var sub_basis_checkbox = document.getElementById("csv_sub_basis").checked = true;
+        var time_ids_checkbox = document.getElementById("csv_time_id").checked = true;
+        var pickup_keys_checkbox = document.getElementById("csv_pickup_key").checked = true;
+    }else {
+        var host_ids_checkbox = document.getElementById("csv_host_ids").checked = false;
+        var tour_codes_checkbox = document.getElementById("csv_tour_codes").checked = false;
+        var basis_checkbox = document.getElementById("csv_basis").checked = false;
+        var sub_basis_checkbox = document.getElementById("csv_sub_basis").checked = false;
+        var time_ids_checkbox = document.getElementById("csv_time_id").checked = false;
+        var pickup_keys_checkbox = document.getElementById("csv_pickup_key").checked = false;
+    }
 }

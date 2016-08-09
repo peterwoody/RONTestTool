@@ -249,7 +249,8 @@ def get_tour_pickups(request):
 
 
 def get_all_host_info(request):
-    host_id = request.POST['host_id']
+    parameters = request.POST['parameters']
+    host_id = request.POST['parameters'].split(',')[0]
     host_ids_checkbox = request.POST['host_ids_checkbox'] == 'true'
     tour_codes_checkbox = request.POST['tour_codes_checkbox'] == 'true'
     basis_checkbox = request.POST['basis_checkbox'] == 'true'
@@ -257,33 +258,65 @@ def get_all_host_info(request):
     time_ids_checkbox = request.POST['time_ids_checkbox'] == 'true'
     pickup_keys_checkbox = request.POST['pickup_keys_checkbox'] == 'true'
     server_url = request.POST.get('server_url')
+    data_level = request.POST['data_level']
 
-    tours = ron_api.read_tours(host_id, server_url)
-    # tour_bases = []
-    # tour_times = []
-    # for tour_code in tours:
-    #     print tour_code['strTourCode']
-    #     tour_bases += ron_api.read_tour_bases(host_id, tour_code['strTourCode'], server_url)
-    #     tour_times += ron_api.read_tour_times(host_id, tour_code['strTourCode'], server_url)
     csv_content = ""
+    if data_level == "1":
+        tours = ron_api.read_tours(host_id, server_url)
+        if pickup_keys_checkbox:
+            for tour_codes in tours:
+                tour_bases = ron_api.read_tour_bases(host_id, tour_codes['strTourCode'], server_url)
 
-    if pickup_keys_checkbox:
-        for tour_codes in tours:
-            tour_bases = ron_api.read_tour_bases(host_id, tour_codes['strTourCode'], server_url)
+                for tour_base in tour_bases:
 
-            for tour_base in tour_bases:
+                    tour_times = ron_api.read_tour_times(host_id, tour_codes['strTourCode'], server_url)
 
-                tour_times = ron_api.read_tour_times(host_id, tour_codes['strTourCode'], server_url)
+                    for tour_time in tour_times:
+                        basis_id = tour_base['intBasisID']
+                        sub_basis_id = tour_base['intSubBasisID']
+                        time_id = tour_time['intTourTimeID']
+                        tour_pickups = ron_api.read_tour_pickups(host_id, tour_codes['strTourCode'], time_id, basis_id,
+                                                                 server_url)
 
-                for tour_time in tour_times:
-                    basis_id = tour_base['intBasisID']
-                    sub_basis_id = tour_base['intSubBasisID']
-                    time_id = tour_time['intTourTimeID']
-                    tour_pickups = ron_api.read_tour_pickups(host_id, tour_codes['strTourCode'], time_id, basis_id,
-                                                             server_url)
+                        for tour_pickup in tour_pickups:
+                            pickup_key = tour_pickup['strPickupKey']
 
-                    for tour_pickup in tour_pickups:
-                        pickup_key = tour_pickup['strPickupKey']
+                            if host_ids_checkbox:
+                                csv_host_id = str(host_id) + ","
+                            else:
+                                csv_host_id = ""
+                            if tour_codes_checkbox:
+                                csv_tour_code = str(tour_codes['strTourCode']) + ","
+                            else:
+                                csv_tour_code = ""
+                            if basis_checkbox:
+                                csv_basis_id = str(basis_id) + ","
+                            else:
+                                csv_basis_id = ""
+                            if sub_basis_checkbox:
+                                csv_sub_basis_id = str(sub_basis_id) + ","
+                            else:
+                                csv_sub_basis_id = ""
+                            if time_ids_checkbox:
+                                csv_time_id = str(time_id) + ","
+                            else:
+                                csv_time_id = ""
+
+                            csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + csv_time_id + str(
+                                pickup_key) + "\n"
+
+        elif time_ids_checkbox:
+            for tour_codes in tours:
+                tour_bases = ron_api.read_tour_bases(host_id, tour_codes['strTourCode'], server_url)
+
+                for tour_base in tour_bases:
+
+                    tour_times = ron_api.read_tour_times(host_id, tour_codes['strTourCode'], server_url)
+
+                    for tour_time in tour_times:
+                        basis_id = tour_base['intBasisID']
+                        sub_basis_id = tour_base['intSubBasisID']
+                        time_id = tour_time['intTourTimeID']
 
                         if host_ids_checkbox:
                             csv_host_id = str(host_id) + ","
@@ -306,20 +339,15 @@ def get_all_host_info(request):
                         else:
                             csv_time_id = ""
 
-                        csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + csv_time_id + str(pickup_key) + "\n"
+                        csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + csv_time_id + "\n"
 
-    elif time_ids_checkbox:
-        for tour_codes in tours:
-            tour_bases = ron_api.read_tour_bases(host_id, tour_codes['strTourCode'], server_url)
+        elif sub_basis_checkbox:
+            for tour_codes in tours:
+                tour_bases = ron_api.read_tour_bases(host_id, tour_codes['strTourCode'], server_url)
 
-            for tour_base in tour_bases:
-
-                tour_times = ron_api.read_tour_times(host_id, tour_codes['strTourCode'], server_url)
-
-                for tour_time in tour_times:
+                for tour_base in tour_bases:
                     basis_id = tour_base['intBasisID']
                     sub_basis_id = tour_base['intSubBasisID']
-                    time_id = tour_time['intTourTimeID']
 
                     if host_ids_checkbox:
                         csv_host_id = str(host_id) + ","
@@ -337,68 +365,37 @@ def get_all_host_info(request):
                         csv_sub_basis_id = str(sub_basis_id) + ","
                     else:
                         csv_sub_basis_id = ""
-                    if time_ids_checkbox:
-                        csv_time_id = str(time_id) + ","
+
+                    csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + "\n"
+
+        elif basis_checkbox:
+            for tour_codes in tours:
+                tour_bases = ron_api.read_tour_bases(host_id, tour_codes['strTourCode'], server_url)
+
+                for tour_base in tour_bases:
+                    basis_id = tour_base['intBasisID']
+                    sub_basis_id = tour_base['intSubBasisID']
+
+                    if host_ids_checkbox:
+                        csv_host_id = str(host_id) + ","
                     else:
-                        csv_time_id = ""
+                        csv_host_id = ""
+                    if tour_codes_checkbox:
+                        csv_tour_code = str(tour_codes['strTourCode']) + ","
+                    else:
+                        csv_tour_code = ""
+                    if basis_checkbox:
+                        csv_basis_id = str(basis_id) + ","
+                    else:
+                        csv_basis_id = ""
+                    if sub_basis_checkbox:
+                        csv_sub_basis_id = str(sub_basis_id) + ","
+                    else:
+                        csv_sub_basis_id = ""
 
-                    csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + csv_time_id + "\n"
-
-    elif sub_basis_checkbox:
-        for tour_codes in tours:
-            tour_bases = ron_api.read_tour_bases(host_id, tour_codes['strTourCode'], server_url)
-
-            for tour_base in tour_bases:
-                basis_id = tour_base['intBasisID']
-                sub_basis_id = tour_base['intSubBasisID']
-
-                if host_ids_checkbox:
-                    csv_host_id = str(host_id) + ","
-                else:
-                    csv_host_id = ""
-                if tour_codes_checkbox:
-                    csv_tour_code = str(tour_codes['strTourCode']) + ","
-                else:
-                    csv_tour_code = ""
-                if basis_checkbox:
-                    csv_basis_id = str(basis_id) + ","
-                else:
-                    csv_basis_id = ""
-                if sub_basis_checkbox:
-                    csv_sub_basis_id = str(sub_basis_id) + ","
-                else:
-                    csv_sub_basis_id = ""
-
-                csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + "\n"
-
-    elif basis_checkbox:
-        for tour_codes in tours:
-            tour_bases = ron_api.read_tour_bases(host_id, tour_codes['strTourCode'], server_url)
-
-            for tour_base in tour_bases:
-                basis_id = tour_base['intBasisID']
-                sub_basis_id = tour_base['intSubBasisID']
-
-                if host_ids_checkbox:
-                    csv_host_id = str(host_id) + ","
-                else:
-                    csv_host_id = ""
-                if tour_codes_checkbox:
-                    csv_tour_code = str(tour_codes['strTourCode']) + ","
-                else:
-                    csv_tour_code = ""
-                if basis_checkbox:
-                    csv_basis_id = str(basis_id) + ","
-                else:
-                    csv_basis_id = ""
-                if sub_basis_checkbox:
-                    csv_sub_basis_id = str(sub_basis_id) + ","
-                else:
-                    csv_sub_basis_id = ""
-
-                csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + "\n"
-    elif tour_codes_checkbox:
-        for tour_codes in tours:
+                    csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + "\n"
+        elif tour_codes_checkbox:
+            for tour_codes in tours:
 
                 if host_ids_checkbox:
                     csv_host_id = str(host_id) + ","
@@ -410,8 +407,495 @@ def get_all_host_info(request):
                     csv_tour_code = ""
 
                 csv_content += csv_host_id + csv_tour_code + "\n"
-    elif host_ids_checkbox:
-        csv_content += host_id + "\n"
+        elif host_ids_checkbox:
+            csv_content += host_id + "\n"
+    elif data_level == "2":
+        print(parameters)
+        tour_code = parameters.split(',')[1]
+        if pickup_keys_checkbox:
+            tour_bases = ron_api.read_tour_bases(host_id, tour_code, server_url)
+
+            for tour_base in tour_bases:
+
+                tour_times = ron_api.read_tour_times(host_id, tour_code, server_url)
+
+                for tour_time in tour_times:
+                    basis_id = tour_base['intBasisID']
+                    sub_basis_id = tour_base['intSubBasisID']
+                    time_id = tour_time['intTourTimeID']
+                    tour_pickups = ron_api.read_tour_pickups(host_id, tour_code, time_id, basis_id,
+                                                             server_url)
+
+                    for tour_pickup in tour_pickups:
+                        pickup_key = tour_pickup['strPickupKey']
+
+                        if host_ids_checkbox:
+                            csv_host_id = str(host_id) + ","
+                        else:
+                            csv_host_id = ""
+                        if tour_codes_checkbox:
+                            csv_tour_code = str(tour_code) + ","
+                        else:
+                            csv_tour_code = ""
+                        if basis_checkbox:
+                            csv_basis_id = str(basis_id) + ","
+                        else:
+                            csv_basis_id = ""
+                        if sub_basis_checkbox:
+                            csv_sub_basis_id = str(sub_basis_id) + ","
+                        else:
+                            csv_sub_basis_id = ""
+                        if time_ids_checkbox:
+                            csv_time_id = str(time_id) + ","
+                        else:
+                            csv_time_id = ""
+
+                        csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + csv_time_id + str(
+                            pickup_key) + "\n"
+
+        elif time_ids_checkbox:
+            tour_bases = ron_api.read_tour_bases(host_id, tour_code, server_url)
+
+            for tour_base in tour_bases:
+
+                tour_times = ron_api.read_tour_times(host_id, tour_code, server_url)
+
+                for tour_time in tour_times:
+                    basis_id = tour_base['intBasisID']
+                    sub_basis_id = tour_base['intSubBasisID']
+                    time_id = tour_time['intTourTimeID']
+
+                    if host_ids_checkbox:
+                        csv_host_id = str(host_id) + ","
+                    else:
+                        csv_host_id = ""
+                    if tour_codes_checkbox:
+                        csv_tour_code = str(tour_code) + ","
+                    else:
+                        csv_tour_code = ""
+                    if basis_checkbox:
+                        csv_basis_id = str(basis_id) + ","
+                    else:
+                        csv_basis_id = ""
+                    if sub_basis_checkbox:
+                        csv_sub_basis_id = str(sub_basis_id) + ","
+                    else:
+                        csv_sub_basis_id = ""
+                    if time_ids_checkbox:
+                        csv_time_id = str(time_id) + ","
+                    else:
+                        csv_time_id = ""
+
+                    csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + csv_time_id + "\n"
+
+        elif sub_basis_checkbox:
+            tour_bases = ron_api.read_tour_bases(host_id, tour_code, server_url)
+
+            for tour_base in tour_bases:
+                basis_id = tour_base['intBasisID']
+                sub_basis_id = tour_base['intSubBasisID']
+
+                if host_ids_checkbox:
+                    csv_host_id = str(host_id) + ","
+                else:
+                    csv_host_id = ""
+                if tour_codes_checkbox:
+                    csv_tour_code = str(tour_code) + ","
+                else:
+                    csv_tour_code = ""
+                if basis_checkbox:
+                    csv_basis_id = str(basis_id) + ","
+                else:
+                    csv_basis_id = ""
+                if sub_basis_checkbox:
+                    csv_sub_basis_id = str(sub_basis_id) + ","
+                else:
+                    csv_sub_basis_id = ""
+
+                csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + "\n"
+
+        elif basis_checkbox:
+            tour_bases = ron_api.read_tour_bases(host_id, tour_code, server_url)
+
+            for tour_base in tour_bases:
+                basis_id = tour_base['intBasisID']
+                sub_basis_id = tour_base['intSubBasisID']
+
+                if host_ids_checkbox:
+                    csv_host_id = str(host_id) + ","
+                else:
+                    csv_host_id = ""
+                if tour_codes_checkbox:
+                    csv_tour_code = str(tour_code) + ","
+                else:
+                    csv_tour_code = ""
+                if basis_checkbox:
+                    csv_basis_id = str(basis_id) + ","
+                else:
+                    csv_basis_id = ""
+                if sub_basis_checkbox:
+                    csv_sub_basis_id = str(sub_basis_id) + ","
+                else:
+                    csv_sub_basis_id = ""
+
+                csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + "\n"
+        elif tour_codes_checkbox:
+            if host_ids_checkbox:
+                csv_host_id = str(host_id) + ","
+            else:
+                csv_host_id = ""
+            if tour_codes_checkbox:
+                csv_tour_code = str(tour_code) + ","
+            else:
+                csv_tour_code = ""
+
+            csv_content += csv_host_id + csv_tour_code + "\n"
+        elif host_ids_checkbox:
+            csv_content += host_id + "\n"
+    elif data_level == "3":
+        tour_code = parameters.split(',')[1]
+        basis_id = parameters.split(',')[2]
+        sub_basis_id = parameters.split(',')[3]
+
+        if pickup_keys_checkbox:
+            tour_times = ron_api.read_tour_times(host_id, tour_code, server_url)
+
+            for tour_time in tour_times:
+                time_id = tour_time['intTourTimeID']
+                tour_pickups = ron_api.read_tour_pickups(host_id, tour_code, time_id, basis_id,
+                                                         server_url)
+
+                for tour_pickup in tour_pickups:
+                    pickup_key = tour_pickup['strPickupKey']
+
+                    if host_ids_checkbox:
+                        csv_host_id = str(host_id) + ","
+                    else:
+                        csv_host_id = ""
+                    if tour_codes_checkbox:
+                        csv_tour_code = str(tour_code) + ","
+                    else:
+                        csv_tour_code = ""
+                    if basis_checkbox:
+                        csv_basis_id = str(basis_id) + ","
+                    else:
+                        csv_basis_id = ""
+                    if sub_basis_checkbox:
+                        csv_sub_basis_id = str(sub_basis_id) + ","
+                    else:
+                        csv_sub_basis_id = ""
+                    if time_ids_checkbox:
+                        csv_time_id = str(time_id) + ","
+                    else:
+                        csv_time_id = ""
+
+                    csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + csv_time_id + str(
+                        pickup_key) + "\n"
+
+        elif time_ids_checkbox:
+            tour_times = ron_api.read_tour_times(host_id, tour_code, server_url)
+
+            for tour_time in tour_times:
+                time_id = tour_time['intTourTimeID']
+
+                if host_ids_checkbox:
+                    csv_host_id = str(host_id) + ","
+                else:
+                    csv_host_id = ""
+                if tour_codes_checkbox:
+                    csv_tour_code = str(tour_code) + ","
+                else:
+                    csv_tour_code = ""
+                if basis_checkbox:
+                    csv_basis_id = str(basis_id) + ","
+                else:
+                    csv_basis_id = ""
+                if sub_basis_checkbox:
+                    csv_sub_basis_id = str(sub_basis_id) + ","
+                else:
+                    csv_sub_basis_id = ""
+                if time_ids_checkbox:
+                    csv_time_id = str(time_id) + ","
+                else:
+                    csv_time_id = ""
+
+                csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + csv_time_id + "\n"
+
+        elif sub_basis_checkbox:
+            if host_ids_checkbox:
+                csv_host_id = str(host_id) + ","
+            else:
+                csv_host_id = ""
+            if tour_codes_checkbox:
+                csv_tour_code = str(tour_code) + ","
+            else:
+                csv_tour_code = ""
+            if basis_checkbox:
+                csv_basis_id = str(basis_id) + ","
+            else:
+                csv_basis_id = ""
+            if sub_basis_checkbox:
+                csv_sub_basis_id = str(sub_basis_id) + ","
+            else:
+                csv_sub_basis_id = ""
+
+            csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + "\n"
+
+        elif basis_checkbox:
+            if host_ids_checkbox:
+                csv_host_id = str(host_id) + ","
+            else:
+                csv_host_id = ""
+            if tour_codes_checkbox:
+                csv_tour_code = str(tour_code) + ","
+            else:
+                csv_tour_code = ""
+            if basis_checkbox:
+                csv_basis_id = str(basis_id) + ","
+            else:
+                csv_basis_id = ""
+            if sub_basis_checkbox:
+                csv_sub_basis_id = str(sub_basis_id) + ","
+            else:
+                csv_sub_basis_id = ""
+
+            csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + "\n"
+        elif tour_codes_checkbox:
+            if host_ids_checkbox:
+                csv_host_id = str(host_id) + ","
+            else:
+                csv_host_id = ""
+            if tour_codes_checkbox:
+                csv_tour_code = str(tour_code) + ","
+            else:
+                csv_tour_code = ""
+
+            csv_content += csv_host_id + csv_tour_code + "\n"
+        elif host_ids_checkbox:
+            csv_content += host_id + "\n"
+    elif data_level == "4":
+        tour_code = parameters.split(',')[1]
+        basis_id = parameters.split(',')[2]
+        sub_basis_id = parameters.split(',')[3]
+        time_id = parameters.split(',')[4]
+
+        if pickup_keys_checkbox:
+            tour_pickups = ron_api.read_tour_pickups(host_id, tour_code, time_id, basis_id,
+                                                     server_url)
+
+            for tour_pickup in tour_pickups:
+                pickup_key = tour_pickup['strPickupKey']
+
+                if host_ids_checkbox:
+                    csv_host_id = str(host_id) + ","
+                else:
+                    csv_host_id = ""
+                if tour_codes_checkbox:
+                    csv_tour_code = str(tour_code) + ","
+                else:
+                    csv_tour_code = ""
+                if basis_checkbox:
+                    csv_basis_id = str(basis_id) + ","
+                else:
+                    csv_basis_id = ""
+                if sub_basis_checkbox:
+                    csv_sub_basis_id = str(sub_basis_id) + ","
+                else:
+                    csv_sub_basis_id = ""
+                if time_ids_checkbox:
+                    csv_time_id = str(time_id) + ","
+                else:
+                    csv_time_id = ""
+
+                csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + csv_time_id + str(
+                    pickup_key) + "\n"
+
+        elif time_ids_checkbox:
+
+            if host_ids_checkbox:
+                csv_host_id = str(host_id) + ","
+            else:
+                csv_host_id = ""
+            if tour_codes_checkbox:
+                csv_tour_code = str(tour_code) + ","
+            else:
+                csv_tour_code = ""
+            if basis_checkbox:
+                csv_basis_id = str(basis_id) + ","
+            else:
+                csv_basis_id = ""
+            if sub_basis_checkbox:
+                csv_sub_basis_id = str(sub_basis_id) + ","
+            else:
+                csv_sub_basis_id = ""
+            if time_ids_checkbox:
+                csv_time_id = str(time_id) + ","
+            else:
+                csv_time_id = ""
+
+            csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + csv_time_id + "\n"
+
+        elif sub_basis_checkbox:
+            if host_ids_checkbox:
+                csv_host_id = str(host_id) + ","
+            else:
+                csv_host_id = ""
+            if tour_codes_checkbox:
+                csv_tour_code = str(tour_code) + ","
+            else:
+                csv_tour_code = ""
+            if basis_checkbox:
+                csv_basis_id = str(basis_id) + ","
+            else:
+                csv_basis_id = ""
+            if sub_basis_checkbox:
+                csv_sub_basis_id = str(sub_basis_id) + ","
+            else:
+                csv_sub_basis_id = ""
+
+            csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + "\n"
+
+        elif basis_checkbox:
+            if host_ids_checkbox:
+                csv_host_id = str(host_id) + ","
+            else:
+                csv_host_id = ""
+            if tour_codes_checkbox:
+                csv_tour_code = str(tour_code) + ","
+            else:
+                csv_tour_code = ""
+            if basis_checkbox:
+                csv_basis_id = str(basis_id) + ","
+            else:
+                csv_basis_id = ""
+            if sub_basis_checkbox:
+                csv_sub_basis_id = str(sub_basis_id) + ","
+            else:
+                csv_sub_basis_id = ""
+
+            csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + "\n"
+        elif tour_codes_checkbox:
+            if host_ids_checkbox:
+                csv_host_id = str(host_id) + ","
+            else:
+                csv_host_id = ""
+            if tour_codes_checkbox:
+                csv_tour_code = str(tour_code) + ","
+            else:
+                csv_tour_code = ""
+
+            csv_content += csv_host_id + csv_tour_code + "\n"
+        elif host_ids_checkbox:
+            csv_content += host_id + "\n"
+    elif data_level == "5":
+        tour_code = parameters.split(',')[1]
+        basis_id = parameters.split(',')[2]
+        sub_basis_id = parameters.split(',')[3]
+        time_id = parameters.split(',')[4]
+        pickup_key = parameters.split(',')[5]
+
+        if pickup_keys_checkbox:
+            if host_ids_checkbox:
+                csv_host_id = str(host_id) + ","
+            else:
+                csv_host_id = ""
+            if tour_codes_checkbox:
+                csv_tour_code = str(tour_code) + ","
+            else:
+                csv_tour_code = ""
+            if basis_checkbox:
+                csv_basis_id = str(basis_id) + ","
+            else:
+                csv_basis_id = ""
+            if sub_basis_checkbox:
+                csv_sub_basis_id = str(sub_basis_id) + ","
+            else:
+                csv_sub_basis_id = ""
+            if time_ids_checkbox:
+                csv_time_id = str(time_id) + ","
+            else:
+                csv_time_id = ""
+
+            csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + csv_time_id + str(
+                pickup_key) + "\n"
+
+        elif time_ids_checkbox:
+
+            if host_ids_checkbox:
+                csv_host_id = str(host_id) + ","
+            else:
+                csv_host_id = ""
+            if tour_codes_checkbox:
+                csv_tour_code = str(tour_code) + ","
+            else:
+                csv_tour_code = ""
+            if basis_checkbox:
+                csv_basis_id = str(basis_id) + ","
+            else:
+                csv_basis_id = ""
+            if sub_basis_checkbox:
+                csv_sub_basis_id = str(sub_basis_id) + ","
+            else:
+                csv_sub_basis_id = ""
+            if time_ids_checkbox:
+                csv_time_id = str(time_id) + ","
+            else:
+                csv_time_id = ""
+
+            csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + csv_time_id + "\n"
+
+        elif sub_basis_checkbox:
+            if host_ids_checkbox:
+                csv_host_id = str(host_id) + ","
+            else:
+                csv_host_id = ""
+            if tour_codes_checkbox:
+                csv_tour_code = str(tour_code) + ","
+            else:
+                csv_tour_code = ""
+            if basis_checkbox:
+                csv_basis_id = str(basis_id) + ","
+            else:
+                csv_basis_id = ""
+            if sub_basis_checkbox:
+                csv_sub_basis_id = str(sub_basis_id) + ","
+            else:
+                csv_sub_basis_id = ""
+
+            csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + "\n"
+
+        elif basis_checkbox:
+            if host_ids_checkbox:
+                csv_host_id = str(host_id) + ","
+            else:
+                csv_host_id = ""
+            if tour_codes_checkbox:
+                csv_tour_code = str(tour_code) + ","
+            else:
+                csv_tour_code = ""
+            if basis_checkbox:
+                csv_basis_id = str(basis_id) + ","
+            else:
+                csv_basis_id = ""
+            if sub_basis_checkbox:
+                csv_sub_basis_id = str(sub_basis_id) + ","
+            else:
+                csv_sub_basis_id = ""
+
+            csv_content += csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + "\n"
+        elif tour_codes_checkbox:
+            if host_ids_checkbox:
+                csv_host_id = str(host_id) + ","
+            else:
+                csv_host_id = ""
+            if tour_codes_checkbox:
+                csv_tour_code = str(tour_code) + ","
+            else:
+                csv_tour_code = ""
+
+            csv_content += csv_host_id + csv_tour_code + "\n"
+        elif host_ids_checkbox:
+            csv_content += host_id + "\n"
 
     response_data = {
         'csv_content': csv_content,

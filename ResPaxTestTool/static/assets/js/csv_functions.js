@@ -1,28 +1,27 @@
 /**
  * Created by Shaquille on 1/08/2016.
  */
-function addCSVButton(element, csv_request_type, parameters, server_url, filename) {
+function addCSVButton(table_row, table_column, parameters, server_url, filename) {
 
     var button = document.createElement("button");
     var button_value = document.createTextNode("Download CSV");
-
+    var data_level = table_row.getAttribute("data-level");
     button.appendChild(button_value);
-    //button.setAttribute("onclick", "downloadCSV('" + csv_request_type + "','" + parameters + "','" + server_url + "','" + filename + "');");
-    button.setAttribute("onclick", "openCSVMenu('" + csv_request_type + "','" + parameters + "','" + server_url + "','" + filename + "','" + element.innerHTML + "');");
-    button.setAttribute("style", "float:right; color:#0089BB");
+    button.setAttribute("onclick", "openCSVMenu('" + parameters + "','" + server_url + "','" + filename + "','" + table_column.innerHTML + "','" + data_level + "');");
+    button.setAttribute("style", "float:right; clear: right; color:#0089BB");
 
-    element.appendChild(button);
+    table_column.appendChild(button);
 
 
 }
 
-function openCSVMenu(csv_request_type, parameters, server_url, filename, heading) {
+function openCSVMenu(parameters, server_url, filename, heading, data_level) {
     var csv_menu = document.getElementById('csv_menu');
     var csv_menu_heading = document.getElementById('csv_menu_heading').innerHTML = heading;
     var csv_menu_text = document.getElementById('csv_menu_text');
     var dwnld_csv_btn = document.getElementById('dwnld_csv_btn');
 
-    dwnld_csv_btn.setAttribute("onclick", "downloadCSV('" + csv_request_type + "','" + parameters + "','" + server_url + "','" + filename + "');");
+    dwnld_csv_btn.setAttribute("onclick", "downloadCSV('" + parameters + "','" + server_url + "','" + filename + "','" + data_level + "');");
 
     csv_menu.style.display = "block";
 // Get the <span> element that closes the modal
@@ -41,19 +40,14 @@ function openCSVMenu(csv_request_type, parameters, server_url, filename, heading
     }
 }
 
-function downloadCSV(csv_request_type, parameters, server_url, filename) {
+function downloadCSV(parameters, server_url, filename, data_level) {
     var host_ids_checkbox = document.getElementById("csv_host_ids").checked;
     var tour_codes_checkbox = document.getElementById("csv_tour_codes").checked;
     var basis_checkbox = document.getElementById("csv_basis").checked;
     var sub_basis_checkbox = document.getElementById("csv_sub_basis").checked;
     var time_ids_checkbox = document.getElementById("csv_time_id").checked;
     var pickup_keys_checkbox = document.getElementById("csv_pickup_key").checked;
-    console.log(host_ids_checkbox);
-    console.log(tour_codes_checkbox);
-    console.log(basis_checkbox);
-    console.log(sub_basis_checkbox);
-    console.log(time_ids_checkbox);
-    console.log(pickup_keys_checkbox);
+
     $('body').addClass('wait');
     $.ajax({
         type: 'POST',
@@ -62,7 +56,7 @@ function downloadCSV(csv_request_type, parameters, server_url, filename) {
         async: true,
 
         data: {
-            host_id: parameters.split(',')[0],
+            parameters: parameters,
             host_ids_checkbox: host_ids_checkbox,
             tour_codes_checkbox: tour_codes_checkbox,
             basis_checkbox: basis_checkbox,
@@ -70,6 +64,7 @@ function downloadCSV(csv_request_type, parameters, server_url, filename) {
             time_ids_checkbox: time_ids_checkbox,
             pickup_keys_checkbox: pickup_keys_checkbox,
             server_url: server_url,
+            data_level: data_level,
             safe: false,
             csrfmiddlewaretoken: csrftoken
         },
@@ -89,19 +84,26 @@ function downloadCSV(csv_request_type, parameters, server_url, filename) {
 }
 
 function selectAllCheckboxes(checkbox){
+    var host_ids_checkbox = document.getElementById("csv_host_ids");
+    var tour_codes_checkbox = document.getElementById("csv_tour_codes");
+    var basis_checkbox = document.getElementById("csv_basis");
+    var sub_basis_checkbox = document.getElementById("csv_sub_basis");
+    var time_ids_checkbox = document.getElementById("csv_time_id");
+    var pickup_keys_checkbox = document.getElementById("csv_pickup_key");
+
     if (checkbox.checked){
-        var host_ids_checkbox = document.getElementById("csv_host_ids").checked = true;
-        var tour_codes_checkbox = document.getElementById("csv_tour_codes").checked = true;
-        var basis_checkbox = document.getElementById("csv_basis").checked = true;
-        var sub_basis_checkbox = document.getElementById("csv_sub_basis").checked = true;
-        var time_ids_checkbox = document.getElementById("csv_time_id").checked = true;
-        var pickup_keys_checkbox = document.getElementById("csv_pickup_key").checked = true;
+        host_ids_checkbox.checked = true;
+        tour_codes_checkbox.checked = true;
+        basis_checkbox.checked = true;
+        sub_basis_checkbox.checked = true;
+        time_ids_checkbox.checked = true;
+        pickup_keys_checkbox.checked = true;
     }else {
-        var host_ids_checkbox = document.getElementById("csv_host_ids").checked = false;
-        var tour_codes_checkbox = document.getElementById("csv_tour_codes").checked = false;
-        var basis_checkbox = document.getElementById("csv_basis").checked = false;
-        var sub_basis_checkbox = document.getElementById("csv_sub_basis").checked = false;
-        var time_ids_checkbox = document.getElementById("csv_time_id").checked = false;
-        var pickup_keys_checkbox = document.getElementById("csv_pickup_key").checked = false;
+        host_ids_checkbox.checked = false;
+        tour_codes_checkbox.checked = false;
+        basis_checkbox.checked = false;
+        sub_basis_checkbox.checked = false;
+        time_ids_checkbox.checked = false;
+        pickup_keys_checkbox.checked = false;
     }
 }

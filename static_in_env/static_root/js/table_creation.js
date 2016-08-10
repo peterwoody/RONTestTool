@@ -12,14 +12,9 @@ function generateTable(operators, host_ids, server_url) {
         var operator_td = document.createElement("td");
         var operator_td_value = document.createTextNode(operators[i] + ' (' + host_ids[i] + ')');
 
-        var string_value = document.createTextNode("String: (" +
-                    host_ids[i] +
-                    ')');
-
         hostCSVContent += host_ids[i] + "\n";
-        string_value.setAttribute("style", "float: right");
+
         operator_td.appendChild(operator_td_value);
-        operator_td.appendChild(string_value);
         operator_td.setAttribute("colspan", "3");
 
         tableRow.setAttribute("id", (host_ids[i]).toString());
@@ -32,14 +27,14 @@ function generateTable(operators, host_ids, server_url) {
 
         table.appendChild(tableRow);
     }
-    //addCSVButton(tableHeading, "hosts", "", server_url, "tour codes");
-    //addCSVButton(tableHeading, hostCSVContent, server_url, "hosts");
-    //var encodedUri = encodeURI(hostCSVContent);
-    //var hostsCSVLink = document.createElement("a");
-    //hostsCSVLink.innerText = "Download CSV";
-    //hostsCSVLink.setAttribute("href", encodedUri);
-    //hostsCSVLink.setAttribute("download", "hosts.csv");
-    //tableHeading.appendChild(hostsCSVLink);
+
+    var encodedUri = encodeURI(hostCSVContent);
+    var hostsCSVLink = document.createElement("a");
+    hostsCSVLink.innerText = "Download Hosts CSV";
+    hostsCSVLink.setAttribute("href", encodedUri);
+    hostsCSVLink.setAttribute("download", "hosts.csv");
+    hostsCSVLink.setAttribute("style", "float:right; clear: right; color:#D1232A");
+    tableHeading.appendChild(hostsCSVLink);
 }
 
 function getCookie(name) {
@@ -97,27 +92,37 @@ function get_tours(tableRow, id, server_url) {
                 $(tableRow).after(newTableRow);
             } else if (typeof json.tours === 'object') {
                 if (json.tours.length > 0) {
-
+                    console.log("id: "+id);
+                    addCSVButton(tableRow, tableRow.getElementsByTagName("td")[0], id, server_url, "tour codes");
                     for (var i = 0; i in json.tours; i++) {
+                        var new_id = id + ',' + json.tours[i]['strTourCode'].toString();
                         var newTableRow = document.createElement('tr');
                         var tour_code_td = document.createElement('td');
                         var tour_code = json.tours[i]['strTourCode'];
                         var tour_code_td_value = document.createTextNode('Tour Code: ' + tour_code);
+                        var string_p = document.createElement("p");
+                        var string_value = document.createTextNode("(" +
+                            id + "," +
+                            tour_code +
+                            ')');
 
+                        string_p.setAttribute("style", "float: right;");
+                        string_p.appendChild(string_value);
                         tour_code_td.appendChild(tour_code_td_value);
 
+                        tour_code_td.appendChild(string_p);
+
                         tour_code_td.setAttribute('colspan', '4');
-                        newTableRow.setAttribute('id', id + ',' + json.tours[i]['strTourCode'].toString());
+                        newTableRow.setAttribute('id', new_id);
                         newTableRow.setAttribute("onclick", "get_tour_bases(this, this.id,'" + server_url + "'); " +
                             "populate_form_fields('" + host_id + "','" + tour_code + "')");
                         newTableRow.setAttribute("data-level", "2");
 
                         newTableRow.appendChild(tour_code_td);
-
+                        addCSVButton(newTableRow, tour_code_td, new_id, server_url, "tour codes");
                         $(tableRow).after(newTableRow);
                     }
 
-                    addCSVButton(tableRow.getElementsByTagName("td")[0], "tours",id, server_url, "tour codes");
                 } else {
                     var newTableRow = document.createElement('tr');
                     var td = document.createElement('td');
@@ -136,7 +141,7 @@ function get_tours(tableRow, id, server_url) {
             loading_img.remove();
             tableRow.setAttribute('onclick', 'remove_rows(this,"' + server_url + '")');
         }
-    })
+    });
 }
 
 function get_tour_bases(tableRow, id, server_url) {
@@ -170,7 +175,7 @@ function get_tour_bases(tableRow, id, server_url) {
             for (var i = 0; i < json.tour_bases.length; i++) {
                 var tour_basis_id = json.tour_bases[i]['intBasisID'];
                 var tour_sub_basis_id = json.tour_bases[i]['intSubBasisID'];
-
+                var new_id = id + ',' + tour_basis_id + ',' + tour_sub_basis_id;
                 var newTableRow = document.createElement('tr');
 
                 var basis_td = document.createElement("td");
@@ -179,13 +184,24 @@ function get_tour_bases(tableRow, id, server_url) {
                 var basis_td_value = document.createTextNode("Basis: " + json.tour_bases[i]['strBasisDesc'] + ' (' + json.tour_bases[i]['intBasisID'] + ')');
 
                 var subbasis_td_value = document.createTextNode("Subbasis: " + json.tour_bases[i]['strSubBasisDesc'] + ' (' + json.tour_bases[i]['intSubBasisID'] + ')');
+                var string_p = document.createElement("p");
+                var string_value = document.createTextNode("(" +
+                    host_id + "," +
+                    tour_code + "," +
+                    json.tour_bases[i]['intBasisID'] + "," +
+                    json.tour_bases[i]['intSubBasisID'] +
+                    ')');
+
+                string_p.setAttribute("style", "float: right;");
+                string_p.appendChild(string_value);
 
                 basis_td.appendChild(basis_td_value);
                 subbasis_td.appendChild(subbasis_td_value);
+                subbasis_td.appendChild(string_p);
 
                 basis_td.setAttribute('colspan', '1');
                 subbasis_td.setAttribute('colspan', '3');
-                newTableRow.setAttribute('id', id + ',' + tour_basis_id + ',' + tour_sub_basis_id);
+                newTableRow.setAttribute('id', new_id);
                 newTableRow.setAttribute("onclick", "get_tour_times(this, this.id, '" + server_url + "'); populate_form_fields('" + host_id + "','" +
                     tour_code + "','" +
                     tour_basis_id + "','" +
@@ -194,6 +210,7 @@ function get_tour_bases(tableRow, id, server_url) {
 
                 newTableRow.appendChild(basis_td);
                 newTableRow.appendChild(subbasis_td);
+                addCSVButton(newTableRow, subbasis_td, new_id, server_url, "tour codes");
 
                 $(tableRow).after(newTableRow);
             }
@@ -232,19 +249,33 @@ function get_tour_times(tableRow, id, server_url) {
 
         success: function (json) {
             loading_img.remove();
+
             for (var i = 0; i < json.tour_times.length; i++) {
                 var tour_time_id = json.tour_times[i]['intTourTimeID'];
+                var new_id = id + ',' + json.tour_times[i]['intTourTimeID'];
 
                 var newTableRow = document.createElement('tr');
 
                 var time_td = document.createElement("td");
 
                 var time_td_value = document.createTextNode("Time: " + json.tour_times[i]['dteTourTime']['iso8601'] + ' (' + tour_time_id + ')');
+                var string_p = document.createElement("p");
+                var string_value = document.createTextNode("(" +
+                    host_id + "," +
+                    tour_code + "," +
+                    tour_basis_id + "," +
+                    tour_sub_basis_id + "," +
+                    tour_time_id +
+                    ')');
+
+                string_p.setAttribute("style", "float: right;");
+                string_p.appendChild(string_value);
 
                 time_td.appendChild(time_td_value);
+                time_td.appendChild(string_p);
 
                 time_td.setAttribute('colspan', '4');
-                newTableRow.setAttribute('id', id + ',' + json.tour_times[i]['intTourTimeID']);
+                newTableRow.setAttribute('id', new_id);
                 newTableRow.setAttribute('onclick', "get_tour_pickups(this, this.id, '" + server_url + "');populate_form_fields('" + host_id + "','" +
                     tour_code + "','" +
                     tour_basis_id + "','" +
@@ -253,7 +284,7 @@ function get_tour_times(tableRow, id, server_url) {
                 newTableRow.setAttribute("data-level", "4");
 
                 newTableRow.appendChild(time_td);
-
+                addCSVButton(newTableRow, time_td, new_id, server_url, "tour codes");
                 $(tableRow).after(newTableRow);
             }
             tableRow.setAttribute('onclick', 'remove_rows(this,"' + server_url + '")');
@@ -295,6 +326,7 @@ function get_tour_pickups(tableRow, id, server_url) {
         success: function (json) {
             loading_img.remove();
             for (var i = 0; i < json.tour_pickups.length; i++) {
+                var new_id = id + ',' + json.tour_pickups[i]['strPickupKey'];
                 var newTableRow = document.createElement('tr');
 
                 var pickup_id_td = document.createElement("td");
@@ -314,6 +346,7 @@ function get_tour_pickups(tableRow, id, server_url) {
                 pickup_id_td.appendChild(pickup_id_td_value);
                 string_td.appendChild(string_td_value);
 
+                newTableRow.setAttribute('id', new_id);
                 newTableRow.setAttribute("onclick", "populate_form_fields('" + host_id + "','" +
                     tour_code + "','" +
                     tour_basis_id + "','" +
@@ -327,7 +360,7 @@ function get_tour_pickups(tableRow, id, server_url) {
 
                 newTableRow.appendChild(pickup_id_td);
                 newTableRow.appendChild(string_td);
-
+                addCSVButton(newTableRow, string_td, new_id, server_url, "tour codes");
                 $(tableRow).after(newTableRow);
             }
             tableRow.setAttribute('onclick', 'remove_rows(this, "' + server_url + '")');
@@ -398,11 +431,13 @@ function remove_rows(table_row, server_url) {
         case 2:
             table_row.setAttribute('onclick', "get_tour_bases(this, this.id,'" + server_url + "'); " +
                 "populate_form_fields('" + host_id + "','" + tour_code + "')");
+            table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
             break;
         case 4:
             table_row.setAttribute("onclick", "get_tour_times(this, this.id,'" + server_url + "'); " +
                 "populate_form_fields('" + host_id + "','" + tour_code + "','" + tour_basis_id + "','" +
                 tour_sub_basis_id + "')");
+            table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
             break;
         case 5:
             table_row.setAttribute("onclick", "get_tour_pickups(this, this.id,'" + server_url + "'); populate_form_fields('" + host_id + "','" +
@@ -411,6 +446,7 @@ function remove_rows(table_row, server_url) {
                 tour_sub_basis_id + "','" +
                 tour_time_id + "','" +
                 pickup_id + "')");
+            table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
             break;
         default:
             console.log('function remove_rows switch statement error')
@@ -418,8 +454,8 @@ function remove_rows(table_row, server_url) {
 }
 
 
-function generate_xml_request() {
-
+function generate_xml_request(button) {
+    document.getElementById("xml_request").focus();
     var method_name = document.getElementById('method_name').value || null;
     var tour_date = document.getElementById('date').value || null;
     var host_id = document.getElementById('host_id').value || null;
@@ -456,7 +492,9 @@ function generate_xml_request() {
             } else {
                 document.getElementById('xml_request').value = json.generated_xml;
             }
-
+            if (button.id === "generate_submit_btn"){
+                submit_xml_request();
+            }
         }
     })
 }
@@ -571,9 +609,7 @@ function change_format(format) {
     }
 }
 
-function generate_submit_xml_request() {
-    //to be added
-}
+
 
 function test_tool_query() {
     var tour_date = document.getElementById('date').value;
@@ -709,11 +745,58 @@ function fill_form_xml() {
     })
 }
 
+function hide_xml_request_textarea(button){
+    if (document.getElementById("xml_request").hidden === true){
+        document.getElementById("xml_request").hidden = false;
+        button.innerHTML = "Hide";
+    }else {
+        document.getElementById("xml_request").hidden = true;
+        button.innerHTML = "Show";
+    }
+}
+
+function hide_xml_response_textarea(button){
+    if (document.getElementById("xml_response").hidden === true){
+        document.getElementById("xml_response").hidden = false;
+        button.innerHTML = "Hide";
+    }else {
+        document.getElementById("xml_response").hidden = true;
+        button.innerHTML = "Show";
+    }
+}
 
 function show_hide_form_fields() {
     var method_name = document.getElementById("method_name").value;
 
-    if (method_name == 'readHostDetails') {
+    if (method_name == 'readHosts') {
+        $("#host_id").hide();
+        $("#host_id_label").hide();
+        $("#tour_code").hide();
+        $("#tour_code_label").hide();
+        $("#basis").hide();
+        $("#basis_label").hide();
+        $("#sub_basis").hide();
+        $("#sub_basis_label").hide();
+        $("#tour_time_id").hide();
+        $("#tour_time_id_label").hide();
+        $("#pickup_id").hide();
+        $("#pickup_id_label").hide();
+        $("#drop_off_id").hide();
+        $("#drop_off_id_label").hide();
+        $("#date").hide();
+        $("#date_label").hide();
+        $("#type1").hide();
+        $("#type1_label").hide();
+        $("#type2").hide();
+        $("#type2_label").hide();
+        $("#type3").hide();
+        $("#type3_label").hide();
+        $("#type4").hide();
+        $("#type4_label").hide();
+        $("#type5").hide();
+        $("#type5_label").hide();
+    }
+    else if (method_name == 'readHostDetails') {
         $("#host_id").show();
         $("#host_id_label").show();
         $("#tour_code").hide();
@@ -741,6 +824,7 @@ function show_hide_form_fields() {
         $("#type5").hide();
         $("#type5_label").hide();
     }
+
     else if (method_name == 'readTours') {
         $("#host_id").show();
         $("#host_id_label").show();

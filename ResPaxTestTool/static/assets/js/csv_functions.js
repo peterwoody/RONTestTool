@@ -24,10 +24,10 @@ function openCSVMenu(parameters, server_url, filename, heading, data_level) {
     dwnld_csv_btn.setAttribute("onclick", "downloadCSV('" + parameters + "','" + server_url + "','" + filename + "','" + data_level + "');");
 
     csv_menu.style.display = "block";
-// Get the <span> element that closes the modal
+    // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
-// When the user clicks on <span> (x), close the modal
+    // When the user clicks on <span> (x), close the modal
     span.onclick = function () {
         csv_menu.style.display = "none";
     };
@@ -48,7 +48,25 @@ function downloadCSV(parameters, server_url, filename, data_level) {
     var time_ids_checkbox = document.getElementById("csv_time_id").checked;
     var pickup_keys_checkbox = document.getElementById("csv_pickup_key").checked;
 
+    var seconds = 0;
+    var minutes = 0;
+    var hours = 0;
+
     $('body').addClass('wait');
+    function countTime() {
+        seconds++;
+        if (seconds >= 60) {
+            seconds = 0;
+            minutes++;
+            if (minutes >= 60) {
+                minutes = 0;
+                hours++;
+            }
+        }
+    }
+
+    var time_taken_count = setInterval(countTime, 1000);
+
     $.ajax({
         type: 'POST',
         url: '/get_all_host_info/',
@@ -79,11 +97,32 @@ function downloadCSV(parameters, server_url, filename, data_level) {
                 CSVLink.click();
             }
             $('body').removeClass('wait');
+            clearTimeout(time_taken_count);
+            var csv_time_taken = document.getElementById("csv_time_taken");
+            var minutes_string;
+            if (minutes > 1){
+                minutes_string = minutes + " minutes";
+            }else if (minutes == 0){
+                minutes_string = ""
+            }else{
+                minutes_string = minutes + " minute";
+            }
+
+            var seconds_string;
+            if (seconds > 1){
+                seconds_string = seconds + " seconds";
+            } else if (seconds < 1){
+                seconds_string = "less than 1 second"
+            }
+            else{
+                seconds_string = seconds + " second";
+            }
+            csv_time_taken.innerHTML = "Last Export Time = " + minutes_string + seconds_string;
         }
     });
 }
 
-function selectAllCheckboxes(checkbox){
+function selectAllCheckboxes(checkbox) {
     var host_ids_checkbox = document.getElementById("csv_host_ids");
     var tour_codes_checkbox = document.getElementById("csv_tour_codes");
     var basis_checkbox = document.getElementById("csv_basis");
@@ -91,14 +130,14 @@ function selectAllCheckboxes(checkbox){
     var time_ids_checkbox = document.getElementById("csv_time_id");
     var pickup_keys_checkbox = document.getElementById("csv_pickup_key");
 
-    if (checkbox.checked){
+    if (checkbox.checked) {
         host_ids_checkbox.checked = true;
         tour_codes_checkbox.checked = true;
         basis_checkbox.checked = true;
         sub_basis_checkbox.checked = true;
         time_ids_checkbox.checked = true;
         pickup_keys_checkbox.checked = true;
-    }else {
+    } else {
         host_ids_checkbox.checked = false;
         tour_codes_checkbox.checked = false;
         basis_checkbox.checked = false;

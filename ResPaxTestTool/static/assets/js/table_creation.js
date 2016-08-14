@@ -33,7 +33,7 @@ function generateTable(operators, host_ids, server_url) {
     hostsCSVLink.innerText = "Download Hosts CSV";
     hostsCSVLink.setAttribute("href", encodedUri);
     hostsCSVLink.setAttribute("download", "hosts.csv");
-    hostsCSVLink.setAttribute("style", "float:right; clear: right; color:#D1232A");
+    hostsCSVLink.setAttribute("style", "float:right; clear: right; color:#E0D65B");
     tableHeading.appendChild(hostsCSVLink);
 }
 

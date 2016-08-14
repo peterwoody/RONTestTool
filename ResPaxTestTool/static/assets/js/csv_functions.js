@@ -21,7 +21,7 @@ function openCSVMenu(parameters, server_url, filename, heading, data_level) {
     var csv_menu_text = document.getElementById('csv_menu_text');
     var dwnld_csv_btn = document.getElementById('dwnld_csv_btn');
 
-    dwnld_csv_btn.setAttribute("onclick", "downloadCSV('" + parameters + "','" + server_url + "','" + filename + "','" + data_level + "');");
+    dwnld_csv_btn.setAttribute("onclick", "downloadCSV('" + parameters + "','" + server_url + "','" + filename + "','" + data_level + "','" + heading + "');");
 
     csv_menu.style.display = "block";
     // Get the <span> element that closes the modal
@@ -40,13 +40,15 @@ function openCSVMenu(parameters, server_url, filename, heading, data_level) {
     }
 }
 
-function downloadCSV(parameters, server_url, filename, data_level) {
+function downloadCSV(parameters, server_url, filename, data_level, heading) {
     var host_ids_checkbox = document.getElementById("csv_host_ids").checked;
     var tour_codes_checkbox = document.getElementById("csv_tour_codes").checked;
     var basis_checkbox = document.getElementById("csv_basis").checked;
     var sub_basis_checkbox = document.getElementById("csv_sub_basis").checked;
     var time_ids_checkbox = document.getElementById("csv_time_id").checked;
     var pickup_keys_checkbox = document.getElementById("csv_pickup_key").checked;
+    var csv_time_taken = document.getElementById("csv_time_taken");
+    var csv_last_export = document.getElementById("csv_last_export");
 
     var seconds = 0;
     var minutes = 0;
@@ -98,7 +100,29 @@ function downloadCSV(parameters, server_url, filename, data_level) {
             }
             $('body').removeClass('wait');
             clearTimeout(time_taken_count);
-            var csv_time_taken = document.getElementById("csv_time_taken");
+
+            var last_export_string = "Last Export = " + heading;
+            if (host_ids_checkbox){
+                last_export_string += ", Host ID"
+            }
+            if (tour_codes_checkbox){
+                last_export_string += ", Tour Code"
+            }
+            if (basis_checkbox){
+                last_export_string += ", Basis"
+            }
+            if (sub_basis_checkbox){
+                last_export_string += ", Sub Basis"
+            }
+            if (time_ids_checkbox){
+                last_export_string += ", Time ID"
+            }
+            if (pickup_keys_checkbox){
+                last_export_string += ", Pickup Key"
+            }
+
+            csv_last_export.innerHTML =  last_export_string;
+
             var minutes_string;
             if (minutes > 1){
                 minutes_string = minutes + " minutes";
@@ -118,6 +142,7 @@ function downloadCSV(parameters, server_url, filename, data_level) {
                 seconds_string = seconds + " second";
             }
             csv_time_taken.innerHTML = "Last Export Time = " + minutes_string + seconds_string;
+
         }
     });
 }

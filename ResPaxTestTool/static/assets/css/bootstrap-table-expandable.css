@@ -44,7 +44,22 @@ nav ul li {
 }
 
 #centerlist{
-    padding-top: 5px;
+    padding-top: 0px;
+    height: inherit;
+}
+
+#navbarcenter{
+    height: 83px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+#switch_server_btn{
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    height: inherit;
 }
 
 nav ul li button {
@@ -63,6 +78,21 @@ nav ul li:hover > ul {
 
 nav .navbar-right {
     float: right;
+}
+
+nav .backToTop {
+    float: right;
+    height: 83px
+}
+
+nav .backToTop:hover {
+    background: rgba(0, 0, 0, .15);
+    display: block;
+}
+
+nav .backToTop p{
+    margin: 0 0 0;
+    font-weight: bold;
 }
 
 

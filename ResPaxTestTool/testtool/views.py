@@ -5,6 +5,15 @@ import ron_api, datetime, xmlrpclib
 
 def test_tool(request):
     switch_server_button = request.POST.get('switch_server_button')
+
+    not_switch_server_button = 'error'
+
+    if switch_server_button == 'live':
+        not_switch_server_button = 'Live'
+    else:
+        not_switch_server_button = 'Training'
+
+
     submit_value = request.POST.get('submit')
 
     if submit_value == 'switch_server':
@@ -13,10 +22,12 @@ def test_tool(request):
         print(request.POST.get('switch_server_button'))
         if request.POST.get('switch_server_button') == 'Live':
             switch_server_button = 'Training'
+            not_switch_server_button = 'Live'
             server_url = server_url.replace('live', 'train')
 
         else:
             switch_server_button = 'Live'
+            not_switch_server_button = 'Training'
             print(server_url)
             server_url = server_url.replace("train", "live")
             print(server_url)
@@ -37,7 +48,14 @@ def test_tool(request):
             }
             return render(request, "login_error.html", context)
         server_url = url + server_config + '&' + connection.get('session_id')
-        switch_server_button = server_config
+
+        if server_config == 'live':
+            switch_server_button = 'Live'
+            not_switch_server_button = 'Training'
+        else:
+            switch_server_button = 'Training'
+            not_switch_server_button = 'Live'
+
 
     host_name = ron_api.get_hosts('strHostName', server_url)
     host_id = ron_api.get_hosts('strHostID', server_url)
@@ -46,6 +64,7 @@ def test_tool(request):
         "host_name": host_name,
         "host_id": host_id,
         "switch_server_button": switch_server_button,
+        "not_switch_server_button": not_switch_server_button,
         "server_url": server_url
     }
     return render(request, "test_tool.html", context)

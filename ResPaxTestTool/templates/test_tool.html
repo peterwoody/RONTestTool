@@ -30,16 +30,24 @@
             <input id="switch_server_button" name="switch_server_button" value="{{ switch_server_button }}" hidden>
             <ul class="nav navbar-nav" id="navbarcenter">
                 <li id="centerlist">
-                    <button name="submit" value="switch_server" type="submit"
-                            style="text-transform: uppercase">you are {{ switch_server_button }}<br>Click to switch
+                    <button id="switch_server_btn" name="submit" value="switch_server" type="submit"
+                            style="text-transform: uppercase">you are in {{ switch_server_button }}<br>Click to change mode<br> to {{not_switch_server_button}}
                     </button>
                 </li>
             </ul>
         </form>
 
+
+
         <ul class="nav navbar-right">
             <li id="rightList"><a href="/logout/">Log out <span class="sr-only">(current)</span></a></li>
         </ul>
+
+        <div class="nav backToTop" onclick="backToTop()">
+            <img id="to-top-img" src="{% static "img/backToTop.png" %}"/>
+            <p style="text-align: center">To Top</p>
+        </div>
+
     </div>
 
 </nav>
@@ -198,5 +206,9 @@
 <script type="text/javascript">
     generateTable({{ host_name | safe }}, {{ host_id | safe }}, "{{ server_url | safe }}", "{% static "img/loading.gif" %}");
     $('#generate-xml-form').on('change', '#method_name', show_hide_form_fields);
+
+    function backToTop(){
+        window.scrollTo(0,0);
+    }
 
 </script>

@@ -49,6 +49,8 @@ function downloadCSV(parameters, server_url, filename, data_level, heading) {
     var pickup_keys_checkbox = document.getElementById("csv_pickup_key").checked;
     var csv_time_taken = document.getElementById("csv_time_taken");
     var csv_last_export = document.getElementById("csv_last_export");
+    var csv_timer = document.getElementById("csv_timer");
+    csv_timer.innerHTML = "00:00:00";
 
     var seconds = 0;
     var minutes = 0;
@@ -60,11 +62,31 @@ function downloadCSV(parameters, server_url, filename, data_level, heading) {
         if (seconds >= 60) {
             seconds = 0;
             minutes++;
-            if (minutes >= 60) {
-                minutes = 0;
-                hours++;
-            }
         }
+        if (minutes >= 60) {
+            minutes = 0;
+            hours++;
+        }
+
+        var timer_hours;
+        var timer_minutes;
+        var timer_seconds;
+        if (hours <= 9){
+            timer_hours = "0" + hours;
+        } else {
+            timer_hours = hours;
+        }
+        if (minutes <= 9){
+            timer_minutes = "0" + minutes;
+        } else {
+            timer_minutes = minutes;
+        }
+        if (seconds <= 9){
+            timer_seconds = "0" + seconds;
+        } else {
+            timer_seconds = seconds;
+        }
+        csv_timer.innerHTML = timer_hours + ":" + timer_minutes + ":" + timer_seconds;
     }
 
     var time_taken_count = setInterval(countTime, 1000);
@@ -142,6 +164,7 @@ function downloadCSV(parameters, server_url, filename, data_level, heading) {
                 seconds_string = seconds + " second";
             }
             csv_time_taken.innerHTML = "Last Export Time = " + minutes_string + seconds_string;
+            csv_timer.innerHTML = ""
 
         }
     });

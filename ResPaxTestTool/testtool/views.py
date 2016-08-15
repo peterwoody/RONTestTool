@@ -261,6 +261,22 @@ def get_all_host_info(request):
     data_level = request.POST['data_level']
 
     csv_content = ""
+
+    if host_ids_checkbox:
+        csv_content += "Host,"
+    if tour_codes_checkbox:
+        csv_content += "Tour Code,"
+    if basis_checkbox:
+        csv_content += "Basis,"
+    if sub_basis_checkbox:
+        csv_content += "Sub Basis,"
+    if time_ids_checkbox:
+        csv_content += "Time ID,"
+    if pickup_keys_checkbox:
+        csv_content += "Pickup Key\n"
+    else:
+        csv_content += "\n"
+
     if data_level == "1":
         tours = ron_api.read_tours(host_id, server_url)
         if pickup_keys_checkbox:

@@ -147,11 +147,11 @@ function downloadCSV(parameters, server_url, filename, data_level, heading) {
 
             var minutes_string;
             if (minutes > 1){
-                minutes_string = minutes + " minutes";
+                minutes_string = minutes + " minutes ";
             }else if (minutes == 0){
                 minutes_string = ""
             }else{
-                minutes_string = minutes + " minute";
+                minutes_string = minutes + " minute ";
             }
 
             var seconds_string;

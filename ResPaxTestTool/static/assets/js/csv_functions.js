@@ -50,6 +50,8 @@ function downloadCSV(parameters, server_url, filename, data_level, heading) {
     var csv_time_taken = document.getElementById("csv_time_taken");
     var csv_last_export = document.getElementById("csv_last_export");
     var csv_timer = document.getElementById("csv_timer");
+    var csv_separator = document.getElementById("csv_separator").value;
+
     csv_timer.innerHTML = "00:00:00";
 
     var seconds = 0;
@@ -107,6 +109,7 @@ function downloadCSV(parameters, server_url, filename, data_level, heading) {
             pickup_keys_checkbox: pickup_keys_checkbox,
             server_url: server_url,
             data_level: data_level,
+            csv_separator: csv_separator,
             safe: false,
             csrfmiddlewaretoken: csrftoken
         },

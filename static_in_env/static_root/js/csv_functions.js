@@ -21,13 +21,13 @@ function openCSVMenu(parameters, server_url, filename, heading, data_level) {
     var csv_menu_text = document.getElementById('csv_menu_text');
     var dwnld_csv_btn = document.getElementById('dwnld_csv_btn');
 
-    dwnld_csv_btn.setAttribute("onclick", "downloadCSV('" + parameters + "','" + server_url + "','" + filename + "','" + data_level + "');");
+    dwnld_csv_btn.setAttribute("onclick", "downloadCSV('" + parameters + "','" + server_url + "','" + filename + "','" + data_level + "','" + heading + "');");
 
     csv_menu.style.display = "block";
-// Get the <span> element that closes the modal
+    // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
-// When the user clicks on <span> (x), close the modal
+    // When the user clicks on <span> (x), close the modal
     span.onclick = function () {
         csv_menu.style.display = "none";
     };
@@ -40,15 +40,59 @@ function openCSVMenu(parameters, server_url, filename, heading, data_level) {
     }
 }
 
-function downloadCSV(parameters, server_url, filename, data_level) {
+function downloadCSV(parameters, server_url, filename, data_level, heading) {
     var host_ids_checkbox = document.getElementById("csv_host_ids").checked;
     var tour_codes_checkbox = document.getElementById("csv_tour_codes").checked;
     var basis_checkbox = document.getElementById("csv_basis").checked;
     var sub_basis_checkbox = document.getElementById("csv_sub_basis").checked;
     var time_ids_checkbox = document.getElementById("csv_time_id").checked;
     var pickup_keys_checkbox = document.getElementById("csv_pickup_key").checked;
+    var csv_time_taken = document.getElementById("csv_time_taken");
+    var csv_last_export = document.getElementById("csv_last_export");
+    var csv_timer = document.getElementById("csv_timer");
+    var csv_separator = document.getElementById("csv_separator").value;
+
+    csv_timer.innerHTML = "00:00:00";
+
+    var seconds = 0;
+    var minutes = 0;
+    var hours = 0;
 
     $('body').addClass('wait');
+    function countTime() {
+        seconds++;
+        if (seconds >= 60) {
+            seconds = 0;
+            minutes++;
+        }
+        if (minutes >= 60) {
+            minutes = 0;
+            hours++;
+        }
+
+        var timer_hours;
+        var timer_minutes;
+        var timer_seconds;
+        if (hours <= 9){
+            timer_hours = "0" + hours;
+        } else {
+            timer_hours = hours;
+        }
+        if (minutes <= 9){
+            timer_minutes = "0" + minutes;
+        } else {
+            timer_minutes = minutes;
+        }
+        if (seconds <= 9){
+            timer_seconds = "0" + seconds;
+        } else {
+            timer_seconds = seconds;
+        }
+        csv_timer.innerHTML = timer_hours + ":" + timer_minutes + ":" + timer_seconds;
+    }
+
+    var time_taken_count = setInterval(countTime, 1000);
+
     $.ajax({
         type: 'POST',
         url: '/get_all_host_info/',
@@ -65,6 +109,7 @@ function downloadCSV(parameters, server_url, filename, data_level) {
             pickup_keys_checkbox: pickup_keys_checkbox,
             server_url: server_url,
             data_level: data_level,
+            csv_separator: csv_separator,
             safe: false,
             csrfmiddlewaretoken: csrftoken
         },
@@ -79,11 +124,56 @@ function downloadCSV(parameters, server_url, filename, data_level) {
                 CSVLink.click();
             }
             $('body').removeClass('wait');
+            clearTimeout(time_taken_count);
+
+            var last_export_string = "Last Export = " + heading;
+            if (host_ids_checkbox){
+                last_export_string += ", Host ID"
+            }
+            if (tour_codes_checkbox){
+                last_export_string += ", Tour Code"
+            }
+            if (basis_checkbox){
+                last_export_string += ", Basis"
+            }
+            if (sub_basis_checkbox){
+                last_export_string += ", Sub Basis"
+            }
+            if (time_ids_checkbox){
+                last_export_string += ", Time ID"
+            }
+            if (pickup_keys_checkbox){
+                last_export_string += ", Pickup Key"
+            }
+
+            csv_last_export.innerHTML =  last_export_string;
+
+            var minutes_string;
+            if (minutes > 1){
+                minutes_string = minutes + " minutes ";
+            }else if (minutes == 0){
+                minutes_string = ""
+            }else{
+                minutes_string = minutes + " minute ";
+            }
+
+            var seconds_string;
+            if (seconds > 1){
+                seconds_string = seconds + " seconds";
+            } else if (seconds < 1){
+                seconds_string = "less than 1 second"
+            }
+            else{
+                seconds_string = seconds + " second";
+            }
+            csv_time_taken.innerHTML = "Last Export Time = " + minutes_string + seconds_string;
+            csv_timer.innerHTML = ""
+
         }
     });
 }
 
-function selectAllCheckboxes(checkbox){
+function selectAllCheckboxes(checkbox) {
     var host_ids_checkbox = document.getElementById("csv_host_ids");
     var tour_codes_checkbox = document.getElementById("csv_tour_codes");
     var basis_checkbox = document.getElementById("csv_basis");
@@ -91,14 +181,14 @@ function selectAllCheckboxes(checkbox){
     var time_ids_checkbox = document.getElementById("csv_time_id");
     var pickup_keys_checkbox = document.getElementById("csv_pickup_key");
 
-    if (checkbox.checked){
+    if (checkbox.checked) {
         host_ids_checkbox.checked = true;
         tour_codes_checkbox.checked = true;
         basis_checkbox.checked = true;
         sub_basis_checkbox.checked = true;
         time_ids_checkbox.checked = true;
         pickup_keys_checkbox.checked = true;
-    }else {
+    } else {
         host_ids_checkbox.checked = false;
         tour_codes_checkbox.checked = false;
         basis_checkbox.checked = false;

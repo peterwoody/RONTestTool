@@ -81,7 +81,7 @@ nav .navbar-header:hover {
     width: 1500px;
 }
 .table-response th{
-    color: #D1232A;
+    color: #E0D65B;
 }
 
 .table-response table, td, th, tr{
@@ -99,7 +99,7 @@ table.table-expandable > tbody > tr {
 .table>thead>tr>th {
     vertical-align: bottom;
     border-bottom: 2px solid #ddd;
-    color: #D1232A;
+    color: #E0D65B;
     font-size: large;
 }
 

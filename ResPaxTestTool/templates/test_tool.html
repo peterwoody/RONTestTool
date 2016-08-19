@@ -31,12 +31,12 @@
             <ul class="nav navbar-nav" id="navbarcenter">
                 <li id="centerlist">
                     <button id="switch_server_btn" name="submit" value="switch_server" type="submit"
-                            style="text-transform: uppercase">you are in {{ switch_server_button }}<br>Click to change mode<br> to {{not_switch_server_button}}
+                            style="text-transform: uppercase">you are in {{ switch_server_button }}<br>Click to change
+                        mode<br> to {{ not_switch_server_button }}
                     </button>
                 </li>
             </ul>
         </form>
-
 
 
         <ul class="nav navbar-right">
@@ -45,6 +45,7 @@
 
         <div class="nav backToTop" onclick="backToTop()">
             <img id="to-top-img" src="{% static "img/backToTop.png" %}"/>
+
             <p style="text-align: center">To Top</p>
         </div>
 
@@ -99,7 +100,9 @@
             <button id="dwnld_csv_btn">Download CSV</button>
             <hr>
             <h2 id="csv_timer"></h2>
+
             <p id="csv_last_export"></p>
+
             <p id="csv_time_taken"></p>
 
         </div>
@@ -111,59 +114,102 @@
         <input id="generate_submit_btn" type="submit" name="submit" value="Generate & Submit XML"
                onclick="generate_xml_request(this)">
 
-        <label for="method_name">Method Name:</label>
-        <select id="method_name">
-            <option>readHosts</option>
-            <option>readHostDetails</option>
-            <option>readTours</option>
-            <option>readTourDetails</option>
-            <option>readTourBases</option>
-            <option>readTourTimes</option>
-            <option>readTourPickups</option>
-            <option>readTourPrices</option>
-            <option>readTourAvailability</option>
-        </select>
-        <label id="host_id_label" for="host_id" hidden>Host ID:</label>
-        <input id="host_id" name="host_id" type="text" hidden>
+        <div>
+            <label for="method_name">Method Name:</label>
+            <select id="method_name">
+                <option>readHosts</option>
+                <option>readHostDetails</option>
+                <option>readTours</option>
+                <option>readTourDetails</option>
+                <option>readTourBases</option>
+                <option>readTourTimes</option>
+                <option>readTourPickups</option>
+                <option>readTourPrices</option>
+                <option>readTourAvailability</option>
+                <option>writeReservation</option>
+            </select>
+            <label id="host_id_label" for="host_id" hidden>Host ID:</label>
+            <input id="host_id" name="host_id" type="text" hidden>
 
-        <label id="tour_code_label" for="tour_code" hidden>Tour Code:</label>
-        <input id="tour_code" name="tour_code" type="text" hidden>
+            <label id="tour_code_label" for="tour_code" hidden>Tour Code:</label>
+            <input id="tour_code" name="tour_code" type="text" hidden>
 
-        <label id="basis_label" for="basis" hidden>Basis:</label>
-        <input id="basis" name="basis" type="text" hidden>
+            <label id="basis_label" for="basis" hidden>Basis:</label>
+            <input id="basis" name="basis" type="text" hidden>
 
-        <label id="sub_basis_label" for="sub_basis" hidden>Sub Basis:</label>
-        <input id="sub_basis" name="sub_basis" type="text" hidden>
+            <label id="sub_basis_label" for="sub_basis" hidden>Sub Basis:</label>
+            <input id="sub_basis" name="sub_basis" type="text" hidden>
 
-        <label id="tour_time_id_label" for="tour_time_id" hidden>Tour Time ID:</label>
-        <input id="tour_time_id" name="tour_time_id" type="text" hidden>
+            <label id="tour_time_id_label" for="tour_time_id" hidden>Tour Time ID:</label>
+            <input id="tour_time_id" name="tour_time_id" type="text" hidden>
 
-        <label id="pickup_id_label" for="pickup_id" hidden>Pickup ID:</label>
-        <input id="pickup_id" name="pickup_id" type="text" hidden>
+            <label id="pickup_id_label" for="pickup_id" hidden>Pickup Key:</label>
+            <input id="pickup_id" name="pickup_id" type="text" hidden>
 
-        <label id="drop_off_id_label" for="drop_off_id" hidden>Drop Off ID:</label>
-        <input id="drop_off_id" name="drop_off_id" type="text" hidden>
+            <label id="pickup_room_no_label" for="pickup_room_no" hidden>Pickup Room No.:</label>
+            <input id="pickup_room_no" name="pickup_room_no" type="number" hidden>
 
+            <label id="drop_off_id_label" for="drop_off_id" hidden>Drop Off ID:</label>
+            <input id="drop_off_id" name="drop_off_id" type="text" hidden>
 
-        <label id="date_label" for="date" hidden>Date:</label>
-        <input id="date" name="date" type="date" hidden>
+            <label id="date_label" for="date" hidden>Date:</label>
+            <input id="date" name="date" type="date" hidden>
 
-        <label id="type1_label" for="type1" hidden>Number of Pax Type 1:</label>
-        <input id="type1" type="number" hidden>
+            <label id="pax_first_name_label" for="pax_first_name" hidden>First Name:</label>
+            <input id="pax_first_name" name="pax_first_name" type="text" hidden>
 
-        <label id="type2_label" for="type2" hidden>Number of Pax Type 2:</label>
-        <input id="type2" type="number" hidden>
+            <label id="pax_last_name_label" for="pax_last_name" hidden>Last Name:</label>
+            <input id="pax_last_name" name="pax_last_name" type="text" hidden>
 
-        <label id="type3_label" for="type3" hidden>Number of Pax Type 3:</label>
-        <input id="type3" type="number" hidden>
+            <label id="pax_email_label" for="pax_email" hidden>Email:</label>
+            <input id="pax_email" name="pax_email" type="text" hidden>
 
-        <label id="type4_label" for="type4" hidden>Number of Pax Type 4:</label>
-        <input id="type4" type="number" hidden>
+            <label id="no_pax_adults_label" for="no_pax_adults" hidden>No. of Adults:</label>
+            <input id="no_pax_adults" name="no_pax_adults" type="number" value="0" hidden>
 
-        <label id="type5_label" for="type5" hidden>Number of Pax Type 5:</label>
-        <input id="type5" type="number" hidden>
+            <label id="no_pax_child_label" for="no_pax_child" hidden>No. of Children:</label>
+            <input id="no_pax_child" name="no_pax_child" type="number" value="0" hidden>
 
+            <label id="no_pax_infant_label" for="no_pax_infant" hidden>No. of Infants:</label>
+            <input id="no_pax_infant" name="no_pax_infant" type="number" value="0" hidden>
 
+            <label id="no_pax_foc_label" for="no_pax_foc" hidden>No. of Free of Charge PAX:</label>
+            <input id="no_pax_foc" name="no_pax_foc" type="number" value="0" hidden>
+
+            <label id="no_pax_user_defined_label" for="no_pax_user_defined" hidden>No. of User Defined PAX:</label>
+            <input id="no_pax_user_defined" name="no_pax_user_defined" type="number" value="0" hidden>
+
+            <label id="general_comment_label" for="general_comment" hidden>General Comment:</label>
+            <input id="general_comment" name="general_comment" type="text" hidden>
+
+            <label id="booking_confirmed_label" for="booking_confirmed" hidden>Booking Confirmed:</label>
+            <select id="booking_confirmed" hidden>
+                <option value="-1">YES</option>
+                <option value="0">NO</option>
+            </select>
+
+            <label id="payment_option_label" for="payment_option" hidden>Payment Option:</label>
+            <input id="payment_option" name="payment_option" type="text" hidden>
+
+            <label id="card_name_label" for="card_name" hidden>Card Name:</label>
+            <input id="card_name" name="card_name" type="text" hidden>
+
+            <label id="card_pan_label" for="card_pan" hidden>Card PAN:</label>
+            <input id="card_pan" name="card_pan" type="number" hidden>
+
+            <label id="card_vn_label" for="card_vn" hidden>Card VN:</label>
+            <input id="card_vn" name="card_vn" type="number" hidden>
+
+            <label id="card_type_id_label" for="card_type_id" hidden>Card Type:</label>
+            <input id="card_type_id" name="card_type_id" type="text" hidden>
+
+            <label id="card_expiry_month_label" for="card_expiry_month" hidden>Card Expiry Month:</label>
+            <input id="card_expiry_month" name="card_expiry_month" type="number" hidden>
+
+            <label id="card_expiry_year_label" for="card_expiry_year" hidden>Card Expiry Year:</label>
+            <input id="card_expiry_year" name="card_expiry_year" type="number" hidden>
+
+        </div>
     </div>
 
     <div class="XMLRequestArea">
@@ -216,8 +262,8 @@
     generateTable({{ host_name | safe }}, {{ host_id | safe }}, "{{ server_url | safe }}", "{% static "img/loading.gif" %}");
     $('#generate-xml-form').on('change', '#method_name', show_hide_form_fields);
 
-    function backToTop(){
-        window.scrollTo(0,0);
+    function backToTop() {
+        window.scrollTo(0, 0);
     }
 
 </script>

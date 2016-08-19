@@ -188,31 +188,37 @@ table.table-expandable > tbody > tr[data-level='5'] td:first-child {
     top: 110px;
     right: 0;
     left: 20px;
+    bottom: 20px;
     width: 200px;
 }
 
 .generate-xml-form input[type='number']{
-    width: 40px;
+    width: 100%;
 
 }
 
 .generate-xml-form input[type='date']{
-    width: 160px;
+    width: 100%;
 
 }
 
 .generate-xml-form input[type='text']{
 
-    width: 90px;
+    width: 100%;
 }
 
 .generate-xml-form input, select{
-    float: right;
-    width: 200px;
+    width: 100%;
     margin-bottom: 5px;
-    margin-top: 5px;
+}
+.generate-xml-form label{
+    float: none;
+    margin-bottom: 0px;
+}
 
-
+.generate-xml-form div{
+    overflow-y: auto;
+    height: 80%;
 }
 
 .logout {

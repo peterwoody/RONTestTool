@@ -13,13 +13,11 @@ def test_tool(request):
     else:
         not_switch_server_button = 'Training'
 
-
     submit_value = request.POST.get('submit')
 
     if submit_value == 'switch_server':
         server_url = request.POST.get('server_url')
 
-        print(request.POST.get('switch_server_button'))
         if request.POST.get('switch_server_button') == 'Live':
             switch_server_button = 'Training'
             not_switch_server_button = 'Live'
@@ -28,11 +26,8 @@ def test_tool(request):
         else:
             switch_server_button = 'Live'
             not_switch_server_button = 'Training'
-            print(server_url)
-            server_url = server_url.replace("train", "live")
-            print(server_url)
 
-            # ron_api.switch_server(server_url)
+            server_url = server_url.replace("train", "live")
 
     elif submit_value == 'login':
         username = request.POST.get('username')
@@ -55,7 +50,6 @@ def test_tool(request):
         else:
             switch_server_button = 'Training'
             not_switch_server_button = 'Live'
-
 
     host_name = ron_api.get_hosts('strHostName', server_url)
     host_id = ron_api.get_hosts('strHostID', server_url)
@@ -89,7 +83,6 @@ def login_error(request):
 
 
 def generate_xml(request):
-    print(request.POST.get('method_name'))
     method_name = request.POST.get('method_name')
     host_id = request.POST.get('host_id')
     tour_code = request.POST.get('tour_code')
@@ -97,7 +90,25 @@ def generate_xml(request):
     sub_basis_id = request.POST.get('tour_sub_basis_id')
     tour_time_id = request.POST.get('tour_time_id')
     pickup_id = request.POST.get('tour_pickup_id')
+    pickup_room_no = request.POST.get('pickup_room_no')
     drop_off_id = request.POST.get('tour_drop_off_id')
+    pax_first_name = request.POST.get('pax_first_name')
+    pax_last_name = request.POST.get('pax_last_name')
+    pax_email = request.POST.get('pax_email')
+    no_pax_adults = request.POST.get('no_pax_adults')
+    no_pax_child = request.POST.get('no_pax_child')
+    no_pax_infant = request.POST.get('no_pax_infant')
+    no_pax_foc = request.POST.get('no_pax_foc')
+    no_pax_user_defined = request.POST.get('no_pax_user_defined')
+    general_comment = request.POST.get('general_comment')
+    booking_confirmed = request.POST.get('booking_confirmed')
+    payment_option = request.POST.get('payment_option')
+    card_name = request.POST.get('card_name')
+    card_pan = request.POST.get('card_pan')
+    card_vn = request.POST.get('card_vn')
+    card_type_id = request.POST.get('card_type_id')
+    card_expiry_month = request.POST.get('card_expiry_month')
+    card_expiry_year = request.POST.get('card_expiry_year')
 
     if method_name == 'readTours':
         params = (host_id,)
@@ -152,6 +163,29 @@ def generate_xml(request):
             fault = "Please enter a date"
             return JsonResponse({"fault": fault})
 
+    elif method_name == 'writeReservation':
+        try:
+            tour_date = request.POST['tour_date'].split('-')
+            tour_date = datetime.datetime(int(tour_date[0]), int(tour_date[1]), int(tour_date[2]))
+            tour_date = tour_date.strftime('%d-%b-%Y')
+            reservation = {'strTourCode': tour_code, 'intBasisID': basis_id, 'intSubBasisID': sub_basis_id,
+                           'dteTourDate': tour_date, 'intTourTimeID': tour_time_id, 'strPickupKey': pickup_id,
+                           'strPickupRoomNo': pickup_room_no, 'strPaxFirstName': pax_first_name,
+                           'strPaxLastName': pax_last_name, 'strPaxEmail': pax_email, 'intNoPax_Adults': no_pax_adults,
+                           'intNoPax_Child': no_pax_child, 'intNoPax_Infant': no_pax_infant, 'intNoPax_FOC': no_pax_foc,
+                           'intNoPax_UDef1': no_pax_user_defined, 'strGeneralComment': general_comment}
+
+            payment = {'strPaymentOption': payment_option}
+            credit_card = {'strCardName': card_name, 'strCardPAN': card_pan, 'strCardVN': card_vn,
+                           'strCardTypeID': card_type_id, 'intCardExpiryMonth': card_expiry_month,
+                           'intCardExpiryYear': card_expiry_year}
+
+            params = (host_id, booking_confirmed, reservation, payment, credit_card)
+
+        except ValueError:
+            fault = "Please enter a date"
+            return JsonResponse({"fault": fault})
+
     method_response = False
     encoding = 'iso-8859-1'
     allow_none = True
@@ -168,6 +202,7 @@ def generate_xml(request):
 def submit_xml(request):
     server_url = request.POST.get('server_url')
     xml = request.POST.get('xml')
+    xml = xml.strip()
 
     xml_response = ron_api.raw_xml_request(server_url, xml)
 
@@ -179,41 +214,9 @@ def submit_xml(request):
     return JsonResponse(response_data)
 
 
-def test_tool_form(request):
-    print(request.POST.get('submit'))
-    tour_date = request.POST['tour_date'].split('-')
-    tour_date = datetime.datetime(int(tour_date[0]), int(tour_date[1]), int(tour_date[2]))
-
-    tour_date = tour_date.strftime('%d-%b-%Y')
-    print(tour_date)
-    # checkbox = request.POST.get('checkbox').split(',')
-    #
-    # host_id = checkbox[0]
-    # tour_code = checkbox[1]
-    # basis_id = checkbox[2]
-    # sub_basis_id = checkbox[3]
-    # tour_time_id = checkbox[4]
-    #
-    host_id = request.POST['host_id']
-    tour_code = request.POST['tour_code']
-    basis_id = request.POST['tour_basis_id']
-    sub_basis_id = request.POST['tour_sub_basis_id']
-    tour_time_id = request.POST['tour_time_id']
-
-    availability = ron_api.connection.readTourAvailability(host_id, tour_code, basis_id, sub_basis_id, tour_date,
-                                                           tour_time_id)
-
-    response_data = {
-        'availability': availability,
-    }
-
-    return JsonResponse(response_data)
-
-
 def get_tours(request):
     host_id = request.POST.get('id')
     server_url = request.POST.get('server_url')
-    print(server_url)
     tours = ron_api.read_tours(host_id, server_url)
 
     response_data = {
@@ -262,6 +265,18 @@ def get_tour_pickups(request):
 
     response_data = {
         'tour_pickups': tour_pickups,
+    }
+
+    return JsonResponse(response_data)
+
+
+def write_reservation(request):
+    server_url = request.POST.get('server_url')
+
+    confirmation_number = ron_api.write_reservation(server_url)
+
+    response_data = {
+        'confirmation_number': confirmation_number,
     }
 
     return JsonResponse(response_data)
@@ -376,7 +391,7 @@ def get_all_host_info(request):
                             csv_time_id = ""
 
                         csv_content += (
-                                       csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + csv_time_id).rstrip(
+                                           csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + csv_time_id).rstrip(
                             csv_separator) + "\n"
 
         elif sub_basis_checkbox:
@@ -450,7 +465,6 @@ def get_all_host_info(request):
         elif host_ids_checkbox:
             csv_content += host_id + "\n"
     elif data_level == "2":
-        print(parameters)
         tour_code = parameters.split(',')[1]
         if pickup_keys_checkbox:
             tour_bases = ron_api.read_tour_bases(host_id, tour_code, server_url)
@@ -491,8 +505,8 @@ def get_all_host_info(request):
                             csv_time_id = ""
 
                         csv_content += (
-                                       csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + csv_time_id + str(
-                                           pickup_key)).rstrip(csv_separator) + "\n"
+                                           csv_host_id + csv_tour_code + csv_basis_id + csv_sub_basis_id + csv_time_id + str(
+                                               pickup_key)).rstrip(csv_separator) + "\n"
 
         elif time_ids_checkbox:
             tour_bases = ron_api.read_tour_bases(host_id, tour_code, server_url)
@@ -952,10 +966,9 @@ def get_all_host_info(request):
 
 
 def fill_form_xml(request):
-    print(request.POST.get("xml"))
     xml = request.POST.get("xml")
+    xml = xml.strip()
     loaded_xml = xmlrpclib.loads(xml)
-    print (loaded_xml)
 
     response_data = {
         'loaded_xml': loaded_xml

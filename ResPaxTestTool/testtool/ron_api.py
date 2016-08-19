@@ -55,6 +55,28 @@ def raw_xml_request(server_url, xml):
         table_response = process_xml_list_response(host_details)
         xml_response = xmlrpclib.dumps((host_details,))
 
+    elif method == 'readPaymentOptions':
+        host_id = params[0]
+        try:
+            payment_options = (connection.readPaymentOptions(host_id))
+        except xmlrpclib.Fault as error:
+            fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
+            return fault, {"Fault": [fault]}
+
+        table_response = process_xml_list_response(payment_options)
+        xml_response = xmlrpclib.dumps((payment_options,))
+
+    elif method == 'readPaxTypes':
+        host_id = params[0]
+        try:
+            pax_types = (connection.readPaxTypes(host_id))
+        except xmlrpclib.Fault as error:
+            fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
+            return fault, {"Fault": [fault]}
+
+        table_response = process_xml_list_response(pax_types)
+        xml_response = xmlrpclib.dumps((pax_types,))
+
     elif method == 'readTours':
         host_id = params[0]
         try:

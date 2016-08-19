@@ -49,6 +49,10 @@
             <p style="text-align: center">To Top</p>
         </div>
 
+        <div class="nav" style="padding-right: 10px; padding-top: 22px; float: right; height: 83px">
+            <input type="button" id="collapseAllTableRowsbtn" onclick="collapseAllTableRows()" value="Collapse Table">
+        </div>
+
     </div>
 
 </nav>
@@ -119,6 +123,8 @@
             <select id="method_name">
                 <option>readHosts</option>
                 <option>readHostDetails</option>
+                <option>readPaymentOptions</option>
+                <option>readPaxTypes</option>
                 <option>readTours</option>
                 <option>readTourDetails</option>
                 <option>readTourBases</option>
@@ -254,16 +260,15 @@
     </table>
 
 </div>
+
+
+
 </body>
 </html>
 
 
 <script type="text/javascript">
-    generateTable({{ host_name | safe }}, {{ host_id | safe }}, "{{ server_url | safe }}", "{% static "img/loading.gif" %}");
+    generateTable({{ host_name | safe }}, {{ host_id | safe }}, "{{ server_url | safe }}");
     $('#generate-xml-form').on('change', '#method_name', show_hide_form_fields);
-
-    function backToTop() {
-        window.scrollTo(0, 0);
-    }
-
+    function backToTop(){window.scrollTo(0, 0);}
 </script>

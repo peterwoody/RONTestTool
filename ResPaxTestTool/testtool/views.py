@@ -119,6 +119,12 @@ def generate_xml(request):
     elif method_name == 'readHostDetails':
         params = (host_id,)
 
+    elif method_name == 'readPaymentOptions':
+        params = (host_id,)
+
+    elif method_name == 'readPaxTypes':
+        params = (host_id,)
+
     elif method_name == 'readTourDetails':
         params = (host_id, tour_code)
 

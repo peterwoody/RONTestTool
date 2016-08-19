@@ -1,7 +1,6 @@
 /**
  * Created by Shaquille on 8/01/2016.
  */
-
 function generateTable(operators, host_ids, server_url) {
     var tableHeading = document.getElementById("test-tool-table-heading");
     var hostCSVContent = "data:text/csv;charset=utf-8,";
@@ -404,6 +403,10 @@ function create_selector(level) {
     return "[data-level='" + level + "']";
 }
 
+function collapseAllTableRows(){
+    $('.expanded').click();
+}
+
 function remove_rows(table_row, server_url) {
 
     var this_level = parseInt($(table_row).data("level"), 10);
@@ -426,18 +429,24 @@ function remove_rows(table_row, server_url) {
         case 1:
             table_row.setAttribute("onclick", "get_tours(this, this.id,'" + server_url + "'); " +
                 "populate_form_fields('" + host_id + "')");
-            table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
+            try{
+                table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
+            }catch(err) {console.log("Error: Download csv button does not exist to be deleted")}
             break;
         case 2:
             table_row.setAttribute('onclick', "get_tour_bases(this, this.id,'" + server_url + "'); " +
                 "populate_form_fields('" + host_id + "','" + tour_code + "')");
-            table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
+            try{
+                table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
+            }catch(err) {console.log("Error: Download csv button does not exist to be deleted")}
             break;
         case 4:
             table_row.setAttribute("onclick", "get_tour_times(this, this.id,'" + server_url + "'); " +
                 "populate_form_fields('" + host_id + "','" + tour_code + "','" + tour_basis_id + "','" +
                 tour_sub_basis_id + "')");
-            table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
+            try{
+                table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
+            }catch(err) {console.log("Error: Download csv button does not exist to be deleted")}
             break;
         case 5:
             table_row.setAttribute("onclick", "get_tour_pickups(this, this.id,'" + server_url + "'); populate_form_fields('" + host_id + "','" +
@@ -446,7 +455,9 @@ function remove_rows(table_row, server_url) {
                 tour_sub_basis_id + "','" +
                 tour_time_id + "','" +
                 pickup_id + "')");
-            table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
+            try{
+                table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
+            }catch(err) {console.log("Error: Download csv button does not exist to be deleted")}
             break;
         default:
             console.log('function remove_rows switch statement error')
@@ -746,6 +757,12 @@ function fill_form_xml() {
                 case "readHostDetails":
                     host_id.value = json.loaded_xml[0][0];
                     break;
+                case "readPaymentOptions":
+                    host_id.value = json.loaded_xml[0][0];
+                    break;
+                case "readPaxTypes":
+                    host_id.value = json.loaded_xml[0][0];
+                    break;
                 case "readTours":
                     host_id.value = json.loaded_xml[0][0];
                     break;
@@ -924,7 +941,7 @@ function show_hide_form_fields() {
         $("#card_expiry_year").hide();
         $("#card_expiry_year_label").hide();
     }
-    else if (method_name == 'readHostDetails') {
+    else if  ( (method_name == 'readHostDetails') ||     (method_name == 'readPaymentOptions') || (method_name == 'readTours') || (method_name == 'readPaxTypes')){
         $("#host_id").show();
         $("#host_id_label").show();
         $("#tour_code").hide();
@@ -996,220 +1013,7 @@ function show_hide_form_fields() {
         $("#card_expiry_year_label").hide();
     }
 
-    else if (method_name == 'readTours') {
-        $("#host_id").show();
-        $("#host_id_label").show();
-        $("#tour_code").hide();
-        $("#tour_code_label").hide();
-        $("#basis").hide();
-        $("#basis_label").hide();
-        $("#sub_basis").hide();
-        $("#sub_basis_label").hide();
-        $("#tour_time_id").hide();
-        $("#tour_time_id_label").hide();
-        $("#pickup_id").hide();
-        $("#pickup_id_label").hide();
-        $("#pickup_room_no").hide();
-        $("#pickup_room_no_label").hide();
-        $("#drop_off_id").hide();
-        $("#drop_off_id_label").hide();
-        $("#date").hide();
-        $("#date_label").hide();
-
-        $("#pax_first_name").hide();
-        $("#pax_first_name_label").hide();
-
-        $("#pax_last_name").hide();
-        $("#pax_last_name_label").hide();
-
-        $("#pax_email").hide();
-        $("#pax_email_label").hide();
-
-        $("#no_pax_adults").hide();
-        $("#no_pax_adults_label").hide();
-
-        $("#no_pax_child").hide();
-        $("#no_pax_child_label").hide();
-
-        $("#no_pax_infant").hide();
-        $("#no_pax_infant_label").hide();
-
-        $("#no_pax_foc").hide();
-        $("#no_pax_foc_label").hide();
-
-        $("#no_pax_user_defined").hide();
-        $("#no_pax_user_defined_label").hide();
-
-        $("#general_comment").hide();
-        $("#general_comment_label").hide();
-
-        $("#booking_confirmed").hide();
-        $("#booking_confirmed_label").hide();
-
-        $("#payment_option").hide();
-        $("#payment_option_label").hide();
-
-        $("#card_name").hide();
-        $("#card_name_label").hide();
-
-        $("#card_pan").hide();
-        $("#card_pan_label").hide();
-
-        $("#card_vn").hide();
-        $("#card_vn_label").hide();
-
-        $("#card_type_id").hide();
-        $("#card_type_id_label").hide();
-
-        $("#card_expiry_month").hide();
-        $("#card_expiry_month_label").hide();
-
-        $("#card_expiry_year").hide();
-        $("#card_expiry_year_label").hide();
-    }
-    else if (method_name == 'readTourDetails') {
-        $("#host_id").show();
-        $("#host_id_label").show();
-        $("#tour_code").show();
-        $("#tour_code_label").show();
-        $("#basis").hide();
-        $("#basis_label").hide();
-        $("#sub_basis").hide();
-        $("#sub_basis_label").hide();
-        $("#tour_time_id").hide();
-        $("#tour_time_id_label").hide();
-        $("#pickup_id").hide();
-        $("#pickup_id_label").hide();
-        $("#pickup_room_no").hide();
-        $("#pickup_room_no_label").hide();
-        $("#drop_off_id").hide();
-        $("#drop_off_id_label").hide();
-        $("#date").hide();
-        $("#date_label").hide();
-
-        $("#pax_first_name").hide();
-        $("#pax_first_name_label").hide();
-
-        $("#pax_last_name").hide();
-        $("#pax_last_name_label").hide();
-
-        $("#pax_email").hide();
-        $("#pax_email_label").hide();
-
-        $("#no_pax_adults").hide();
-        $("#no_pax_adults_label").hide();
-
-        $("#no_pax_child").hide();
-        $("#no_pax_child_label").hide();
-
-        $("#no_pax_infant").hide();
-        $("#no_pax_infant_label").hide();
-
-        $("#no_pax_foc").hide();
-        $("#no_pax_foc_label").hide();
-
-        $("#no_pax_user_defined").hide();
-        $("#no_pax_user_defined_label").hide();
-
-        $("#general_comment").hide();
-        $("#general_comment_label").hide();
-
-        $("#booking_confirmed").hide();
-        $("#booking_confirmed_label").hide();
-
-        $("#payment_option").hide();
-        $("#payment_option_label").hide();
-
-        $("#card_name").hide();
-        $("#card_name_label").hide();
-
-        $("#card_pan").hide();
-        $("#card_pan_label").hide();
-
-        $("#card_vn").hide();
-        $("#card_vn_label").hide();
-
-        $("#card_type_id").hide();
-        $("#card_type_id_label").hide();
-
-        $("#card_expiry_month").hide();
-        $("#card_expiry_month_label").hide();
-
-        $("#card_expiry_year").hide();
-        $("#card_expiry_year_label").hide();
-    }
-    else if (method_name == 'readTourBases') {
-        $("#host_id").show();
-        $("#host_id_label").show();
-        $("#tour_code").show();
-        $("#tour_code_label").show();
-        $("#basis").hide();
-        $("#basis_label").hide();
-        $("#sub_basis").hide();
-        $("#sub_basis_label").hide();
-        $("#tour_time_id").hide();
-        $("#tour_time_id_label").hide();
-        $("#pickup_id").hide();
-        $("#pickup_id_label").hide();
-        $("#pickup_room_no").hide();
-        $("#pickup_room_no_label").hide();
-        $("#drop_off_id").hide();
-        $("#drop_off_id_label").hide();
-        $("#date").hide();
-        $("#date_label").hide();
-
-        $("#pax_first_name").hide();
-        $("#pax_first_name_label").hide();
-
-        $("#pax_last_name").hide();
-        $("#pax_last_name_label").hide();
-
-        $("#pax_email").hide();
-        $("#pax_email_label").hide();
-
-        $("#no_pax_adults").hide();
-        $("#no_pax_adults_label").hide();
-
-        $("#no_pax_child").hide();
-        $("#no_pax_child_label").hide();
-
-        $("#no_pax_infant").hide();
-        $("#no_pax_infant_label").hide();
-
-        $("#no_pax_foc").hide();
-        $("#no_pax_foc_label").hide();
-
-        $("#no_pax_user_defined").hide();
-        $("#no_pax_user_defined_label").hide();
-
-        $("#general_comment").hide();
-        $("#general_comment_label").hide();
-
-        $("#booking_confirmed").hide();
-        $("#booking_confirmed_label").hide();
-
-        $("#payment_option").hide();
-        $("#payment_option_label").hide();
-
-        $("#card_name").hide();
-        $("#card_name_label").hide();
-
-        $("#card_pan").hide();
-        $("#card_pan_label").hide();
-
-        $("#card_vn").hide();
-        $("#card_vn_label").hide();
-
-        $("#card_type_id").hide();
-        $("#card_type_id_label").hide();
-
-        $("#card_expiry_month").hide();
-        $("#card_expiry_month_label").hide();
-
-        $("#card_expiry_year").hide();
-        $("#card_expiry_year_label").hide();
-    }
-    else if (method_name == 'readTourTimes') {
+    else if  ((method_name == 'readTourDetails') || (method_name == 'readTourBases') || (method_name == 'readTourTimes')){
         $("#host_id").show();
         $("#host_id_label").show();
         $("#tour_code").show();

@@ -38,21 +38,6 @@
             return "[data-level='" + level + "']";
         }
 
-        function generateTable(array, array2){
-            var table = document.getElementById("test-tool-table");
-            var row = table.insertRow(0);
-            for (var i = 0; i in array; i++){
-                var start = 2;
-                row = table.insertRow(start);
-                row.insertCell(0).innerHTML = array[i];
-                row.insertCell(1).innerHTML = array2[i];
-                start--
-            }
-
-
-            console.log("gfdfgd");
-        }
-
         $("tr.expandable").click(function () {
             var this_level = parseInt($(this).data("level"), 10);
             var this_level_selector = create_selector(this_level);

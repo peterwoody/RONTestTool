@@ -36,6 +36,8 @@ function generateTable(operators, host_ids, server_url) {
     tableHeading.appendChild(hostsCSVLink);
 }
 
+function backToTop(){window.scrollTo(0, 0);}
+
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
@@ -404,7 +406,7 @@ function create_selector(level) {
 }
 
 function collapseAllTableRows(){
-    $('.expanded').click();
+    $('.expanded[data-level="1"]').click();
 }
 
 function remove_rows(table_row, server_url) {
@@ -466,6 +468,7 @@ function remove_rows(table_row, server_url) {
 
 
 function generate_xml_request(button) {
+    window.scrollTo(0, 0);
     document.getElementById("xml_request").focus();
     var method_name = document.getElementById('method_name').value || null;
     var tour_date = document.getElementById('date').value || null;
@@ -867,511 +870,68 @@ function hide_xml_response_textarea(button) {
     }
 }
 
-function show_hide_form_fields() {
+function show_hide_form_fields(){
     var method_name = document.getElementById("method_name").value;
+    var idArray = [
+        "host_id","tour_code","basis","sub_basis","tour_time_id","pickup_id","pickup_room_no","drop_off_id","date","pax_first_name"
+        ,"pax_last_name","pax_email","no_pax_adults","no_pax_child","no_pax_infant","no_pax_foc","no_pax_user_defined","general_comment","booking_confirmed","payment_option"
+        ,"card_name","card_pan","card_vn","card_type_id","card_expiry_month","card_expiry_year"];
+    var boolArray = [
+        false, false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false];
 
     if (method_name == 'readHosts') {
-        $("#host_id").hide();
-        $("#host_id_label").hide();
-        $("#tour_code").hide();
-        $("#tour_code_label").hide();
-        $("#basis").hide();
-        $("#basis_label").hide();
-        $("#sub_basis").hide();
-        $("#sub_basis_label").hide();
-        $("#tour_time_id").hide();
-        $("#tour_time_id_label").hide();
-        $("#pickup_id").hide();
-        $("#pickup_id_label").hide();
-        $("#pickup_room_no").hide();
-        $("#pickup_room_no_label").hide();
-        $("#drop_off_id").hide();
-        $("#drop_off_id_label").hide();
-        $("#date").hide();
-        $("#date_label").hide();
-
-        $("#pax_first_name").hide();
-        $("#pax_first_name_label").hide();
-
-        $("#pax_last_name").hide();
-        $("#pax_last_name_label").hide();
-
-        $("#pax_email").hide();
-        $("#pax_email_label").hide();
-
-        $("#no_pax_adults").hide();
-        $("#no_pax_adults_label").hide();
-
-        $("#no_pax_child").hide();
-        $("#no_pax_child_label").hide();
-
-        $("#no_pax_infant").hide();
-        $("#no_pax_infant_label").hide();
-
-        $("#no_pax_foc").hide();
-        $("#no_pax_foc_label").hide();
-
-        $("#no_pax_user_defined").hide();
-        $("#no_pax_user_defined_label").hide();
-
-        $("#general_comment").hide();
-        $("#general_comment_label").hide();
-
-        $("#booking_confirmed").hide();
-        $("#booking_confirmed_label").hide();
-
-        $("#payment_option").hide();
-        $("#payment_option_label").hide();
-
-        $("#card_name").hide();
-        $("#card_name_label").hide();
-
-        $("#card_pan").hide();
-        $("#card_pan_label").hide();
-
-        $("#card_vn").hide();
-        $("#card_vn_label").hide();
-
-        $("#card_type_id").hide();
-        $("#card_type_id_label").hide();
-
-        $("#card_expiry_month").hide();
-        $("#card_expiry_month_label").hide();
-
-        $("#card_expiry_year").hide();
-        $("#card_expiry_year_label").hide();
+        //blank because the array does not change
     }
+        
     else if  ( (method_name == 'readHostDetails') ||     (method_name == 'readPaymentOptions') || (method_name == 'readTours') || (method_name == 'readPaxTypes')){
-        $("#host_id").show();
-        $("#host_id_label").show();
-        $("#tour_code").hide();
-        $("#tour_code_label").hide();
-        $("#basis").hide();
-        $("#basis_label").hide();
-        $("#sub_basis").hide();
-        $("#sub_basis_label").hide();
-        $("#tour_time_id").hide();
-        $("#tour_time_id_label").hide();
-        $("#pickup_id").hide();
-        $("#pickup_id_label").hide();
-        $("#pickup_room_no").hide();
-        $("#pickup_room_no_label").hide();
-        $("#drop_off_id").hide();
-        $("#drop_off_id_label").hide();
-        $("#date").hide();
-        $("#date_label").hide();
-
-        $("#pax_first_name").hide();
-        $("#pax_first_name_label").hide();
-
-        $("#pax_last_name").hide();
-        $("#pax_last_name_label").hide();
-
-        $("#pax_email").hide();
-        $("#pax_email_label").hide();
-
-        $("#no_pax_adults").hide();
-        $("#no_pax_adults_label").hide();
-
-        $("#no_pax_child").hide();
-        $("#no_pax_child_label").hide();
-
-        $("#no_pax_infant").hide();
-        $("#no_pax_infant_label").hide();
-
-        $("#no_pax_foc").hide();
-        $("#no_pax_foc_label").hide();
-
-        $("#no_pax_user_defined").hide();
-        $("#no_pax_user_defined_label").hide();
-
-        $("#general_comment").hide();
-        $("#general_comment_label").hide();
-
-        $("#booking_confirmed").hide();
-        $("#booking_confirmed_label").hide();
-
-        $("#payment_option").hide();
-        $("#payment_option_label").hide();
-
-        $("#card_name").hide();
-        $("#card_name_label").hide();
-
-        $("#card_pan").hide();
-        $("#card_pan_label").hide();
-
-        $("#card_vn").hide();
-        $("#card_vn_label").hide();
-
-        $("#card_type_id").hide();
-        $("#card_type_id_label").hide();
-
-        $("#card_expiry_month").hide();
-        $("#card_expiry_month_label").hide();
-
-        $("#card_expiry_year").hide();
-        $("#card_expiry_year_label").hide();
+        boolArray = [
+        true, false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false];
     }
 
     else if  ((method_name == 'readTourDetails') || (method_name == 'readTourBases') || (method_name == 'readTourTimes')){
-        $("#host_id").show();
-        $("#host_id_label").show();
-        $("#tour_code").show();
-        $("#tour_code_label").show();
-        $("#basis").hide();
-        $("#basis_label").hide();
-        $("#sub_basis").hide();
-        $("#sub_basis_label").hide();
-        $("#tour_time_id").hide();
-        $("#tour_time_id_label").hide();
-        $("#pickup_id").hide();
-        $("#pickup_id_label").hide();
-        $("#pickup_room_no").hide();
-        $("#pickup_room_no_label").hide();
-        $("#drop_off_id").hide();
-        $("#drop_off_id_label").hide();
-        $("#date").hide();
-        $("#date_label").hide();
-
-        $("#pax_first_name").hide();
-        $("#pax_first_name_label").hide();
-
-        $("#pax_last_name").hide();
-        $("#pax_last_name_label").hide();
-
-        $("#pax_email").hide();
-        $("#pax_email_label").hide();
-
-        $("#no_pax_adults").hide();
-        $("#no_pax_adults_label").hide();
-
-        $("#no_pax_child").hide();
-        $("#no_pax_child_label").hide();
-
-        $("#no_pax_infant").hide();
-        $("#no_pax_infant_label").hide();
-
-        $("#no_pax_foc").hide();
-        $("#no_pax_foc_label").hide();
-
-        $("#no_pax_user_defined").hide();
-        $("#no_pax_user_defined_label").hide();
-
-        $("#general_comment").hide();
-        $("#general_comment_label").hide();
-
-        $("#booking_confirmed").hide();
-        $("#booking_confirmed_label").hide();
-
-        $("#payment_option").hide();
-        $("#payment_option_label").hide();
-
-        $("#card_name").hide();
-        $("#card_name_label").hide();
-
-        $("#card_pan").hide();
-        $("#card_pan_label").hide();
-
-        $("#card_vn").hide();
-        $("#card_vn_label").hide();
-
-        $("#card_type_id").hide();
-        $("#card_type_id_label").hide();
-
-        $("#card_expiry_month").hide();
-        $("#card_expiry_month_label").hide();
-
-        $("#card_expiry_year").hide();
-        $("#card_expiry_year_label").hide();
+        boolArray = [
+        true, true, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false];
     }
     else if (method_name == 'readTourPickups') {
-        $("#host_id").show();
-        $("#host_id_label").show();
-        $("#tour_code").show();
-        $("#tour_code_label").show();
-        $("#basis").show();
-        $("#basis_label").show();
-        $("#sub_basis").hide();
-        $("#sub_basis_label").hide();
-        $("#tour_time_id").show();
-        $("#tour_time_id_label").show();
-        $("#pickup_id").hide();
-        $("#pickup_id_label").hide();
-        $("#pickup_room_no").hide();
-        $("#pickup_room_no_label").hide();
-        $("#drop_off_id").hide();
-        $("#drop_off_id_label").hide();
-        $("#date").show();
-        $("#date_label").show();
-
-        $("#pax_first_name").hide();
-        $("#pax_first_name_label").hide();
-
-        $("#pax_last_name").hide();
-        $("#pax_last_name_label").hide();
-
-        $("#pax_email").hide();
-        $("#pax_email_label").hide();
-
-        $("#no_pax_adults").hide();
-        $("#no_pax_adults_label").hide();
-
-        $("#no_pax_child").hide();
-        $("#no_pax_child_label").hide();
-
-        $("#no_pax_infant").hide();
-        $("#no_pax_infant_label").hide();
-
-        $("#no_pax_foc").hide();
-        $("#no_pax_foc_label").hide();
-
-        $("#no_pax_user_defined").hide();
-        $("#no_pax_user_defined_label").hide();
-
-        $("#general_comment").hide();
-        $("#general_comment_label").hide();
-
-        $("#booking_confirmed").hide();
-        $("#booking_confirmed_label").hide();
-
-        $("#payment_option").hide();
-        $("#payment_option_label").hide();
-
-        $("#card_name").hide();
-        $("#card_name_label").hide();
-
-        $("#card_pan").hide();
-        $("#card_pan_label").hide();
-
-        $("#card_vn").hide();
-        $("#card_vn_label").hide();
-
-        $("#card_type_id").hide();
-        $("#card_type_id_label").hide();
-
-        $("#card_expiry_month").hide();
-        $("#card_expiry_month_label").hide();
-
-        $("#card_expiry_year").hide();
-        $("#card_expiry_year_label").hide();
+        boolArray = [
+        true, true, true, false, true, false, false, false, true, false,
+        false, false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false];
     }
     else if (method_name == 'readTourPrices') {
-        $("#host_id").show();
-        $("#host_id_label").show();
-        $("#tour_code").show();
-        $("#tour_code_label").show();
-        $("#basis").show();
-        $("#basis_label").show();
-        $("#sub_basis").show();
-        $("#sub_basis_label").show();
-        $("#tour_time_id").show();
-        $("#tour_time_id_label").show();
-        $("#pickup_id").show();
-        $("#pickup_id_label").show();
-        $("#pickup_room_no").hide();
-        $("#pickup_room_no_label").hide();
-        $("#drop_off_id").show();
-        $("#drop_off_id_label").show();
-        $("#date").show();
-        $("#date_label").show();
-
-        $("#pax_first_name").hide();
-        $("#pax_first_name_label").hide();
-
-        $("#pax_last_name").hide();
-        $("#pax_last_name_label").hide();
-
-        $("#pax_email").hide();
-        $("#pax_email_label").hide();
-
-        $("#no_pax_adults").hide();
-        $("#no_pax_adults_label").hide();
-
-        $("#no_pax_child").hide();
-        $("#no_pax_child_label").hide();
-
-        $("#no_pax_infant").hide();
-        $("#no_pax_infant_label").hide();
-
-        $("#no_pax_foc").hide();
-        $("#no_pax_foc_label").hide();
-
-        $("#no_pax_user_defined").hide();
-        $("#no_pax_user_defined_label").hide();
-
-        $("#general_comment").hide();
-        $("#general_comment_label").hide();
-
-        $("#booking_confirmed").hide();
-        $("#booking_confirmed_label").hide();
-
-        $("#payment_option").hide();
-        $("#payment_option_label").hide();
-
-        $("#card_name").hide();
-        $("#card_name_label").hide();
-
-        $("#card_pan").hide();
-        $("#card_pan_label").hide();
-
-        $("#card_vn").hide();
-        $("#card_vn_label").hide();
-
-        $("#card_type_id").hide();
-        $("#card_type_id_label").hide();
-
-        $("#card_expiry_month").hide();
-        $("#card_expiry_month_label").hide();
-
-        $("#card_expiry_year").hide();
-        $("#card_expiry_year_label").hide();
+        boolArray = [
+        true, true, true, true, true, true, false, true, true, false,
+        false, false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false];
     }
     else if (method_name == 'readTourAvailability') {
-        $("#host_id").show();
-        $("#host_id_label").show();
-        $("#tour_code").show();
-        $("#tour_code_label").show();
-        $("#basis").show();
-        $("#basis_label").show();
-        $("#sub_basis").show();
-        $("#sub_basis_label").show();
-        $("#tour_time_id").show();
-        $("#tour_time_id_label").show();
-        $("#pickup_id").hide();
-        $("#pickup_id_label").hide();
-        $("#pickup_room_no").hide();
-        $("#pickup_room_no_label").hide();
-        $("#drop_off_id").hide();
-        $("#drop_off_id_label").hide();
-        $("#date").show();
-        $("#date_label").show();
-
-        $("#pax_first_name").hide();
-        $("#pax_first_name_label").hide();
-
-        $("#pax_last_name").hide();
-        $("#pax_last_name_label").hide();
-
-        $("#pax_email").hide();
-        $("#pax_email_label").hide();
-
-        $("#no_pax_adults").hide();
-        $("#no_pax_adults_label").hide();
-
-        $("#no_pax_child").hide();
-        $("#no_pax_child_label").hide();
-
-        $("#no_pax_infant").hide();
-        $("#no_pax_infant_label").hide();
-
-        $("#no_pax_foc").hide();
-        $("#no_pax_foc_label").hide();
-
-        $("#no_pax_user_defined").hide();
-        $("#no_pax_user_defined_label").hide();
-
-        $("#general_comment").hide();
-        $("#general_comment_label").hide();
-
-        $("#booking_confirmed").hide();
-        $("#booking_confirmed_label").hide();
-
-        $("#payment_option").hide();
-        $("#payment_option_label").hide();
-
-        $("#card_name").hide();
-        $("#card_name_label").hide();
-
-        $("#card_pan").hide();
-        $("#card_pan_label").hide();
-
-        $("#card_vn").hide();
-        $("#card_vn_label").hide();
-
-        $("#card_type_id").hide();
-        $("#card_type_id_label").hide();
-
-        $("#card_expiry_month").hide();
-        $("#card_expiry_month_label").hide();
-
-        $("#card_expiry_year").hide();
-        $("#card_expiry_year_label").hide();
+        boolArray = [
+        true, true, true, true, true, false, false, false, true, false,
+        false, false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false];
     }
     else if (method_name == 'writeReservation') {
-        $("#host_id").show();
-        $("#host_id_label").show();
-        $("#tour_code").show();
-        $("#tour_code_label").show();
-        $("#basis").show();
-        $("#basis_label").show();
-        $("#sub_basis").show();
-        $("#sub_basis_label").show();
-        $("#tour_time_id").show();
-        $("#tour_time_id_label").show();
-        $("#pickup_id").show();
-        $("#pickup_id_label").show();
-
-        $("#pickup_room_no").show();
-        $("#pickup_room_no_label").show();
-
-        $("#drop_off_id").hide();
-        $("#drop_off_id_label").hide();
-        $("#date").show();
-        $("#date_label").show();
-
-        $("#pax_first_name").show();
-        $("#pax_first_name_label").show();
-
-        $("#pax_last_name").show();
-        $("#pax_last_name_label").show();
-
-        $("#pax_email").show();
-        $("#pax_email_label").show();
-
-        $("#no_pax_adults").show();
-        $("#no_pax_adults_label").show();
-
-        $("#no_pax_child").show();
-        $("#no_pax_child_label").show();
-
-        $("#no_pax_infant").show();
-        $("#no_pax_infant_label").show();
-
-        $("#no_pax_foc").show();
-        $("#no_pax_foc_label").show();
-
-        $("#no_pax_user_defined").show();
-        $("#no_pax_user_defined_label").show();
-
-        $("#general_comment").show();
-        $("#general_comment_label").show();
-
-        $("#booking_confirmed").show();
-        $("#booking_confirmed_label").show();
-
-        $("#payment_option").show();
-        $("#payment_option_label").show();
-
-        $("#card_name").show();
-        $("#card_name_label").show();
-
-        $("#card_pan").show();
-        $("#card_pan_label").show();
-
-        $("#card_vn").show();
-        $("#card_vn_label").show();
-
-        $("#card_type_id").show();
-        $("#card_type_id_label").show();
-
-        $("#card_expiry_month").show();
-        $("#card_expiry_month_label").show();
-
-        $("#card_expiry_year").show();
-        $("#card_expiry_year_label").show();
-
+        boolArray = [
+        true, true, true, true, true, true, true, true, true, true,
+        true, true, true, true, true, true, true, true, true, true,
+        true, true, true, true, true, true];
     }
 
+    for (var i=0; i < boolArray.length; i++){
+        if (boolArray[i]){
+            $("#"+idArray[i]).show();
+            $("#"+idArray[i]+"_label").show();
+        }else{
+            $("#"+idArray[i]).hide();
+            $("#"+idArray[i]+"_label").hide();
+        }
+    }
 }
 
 

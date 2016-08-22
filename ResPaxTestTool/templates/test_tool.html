@@ -50,7 +50,8 @@
         </div>
 
         <div class="nav" style="padding-right: 10px; padding-top: 22px; float: right; height: 83px">
-            <input type="button" id="collapseAllTableRowsbtn" onclick="collapseAllTableRows()" value="Collapse Table">
+{#            <input type="button" id="collapseAllTableRowsbtn" onclick="collapseAllTableRows()" value="Collapse Table">#}
+            <input type="button" id="collapseAllTableRowsbtn" onclick="testtesttest()" value="Collapse Table">
         </div>
 
     </div>
@@ -270,5 +271,4 @@
 <script type="text/javascript">
     generateTable({{ host_name | safe }}, {{ host_id | safe }}, "{{ server_url | safe }}");
     $('#generate-xml-form').on('change', '#method_name', show_hide_form_fields);
-    function backToTop(){window.scrollTo(0, 0);}
 </script>

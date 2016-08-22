@@ -157,9 +157,10 @@ def raw_xml_request(server_url, xml):
         reservation = params[1]
         payment = params[2]
         try:
-            xml_response = connection.checkReservation(host_id, reservation, payment)
+            check_reservation = connection.checkReservation(host_id, reservation, payment)
 
-            xml_response = xmlrpclib.dumps((xml_response,))
+            table_response = process_xml_list_response(check_reservation)
+            xml_response = xmlrpclib.dumps((check_reservation,))
         except xmlrpclib.Fault as error:
             fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
             return fault, {"Fault": [fault]}
@@ -168,9 +169,15 @@ def raw_xml_request(server_url, xml):
         reservation = params[1]
         payment = params[2]
         try:
-            xml_response = connection.checkReservationAndPrices(host_id, reservation, payment)
+            check_reservation_and_prices = connection.checkReservationAndPrices(host_id, reservation, payment)
+            dictionary_keys =  process_xml_dict_response(check_reservation_and_prices).keys()
+            print("check_reservation_and_prices: ", check_reservation_and_prices.keys())
+            print("process_xml check_reservation_and_prices: ", process_xml_dict_response(check_reservation_and_prices)["arrReadTourPrices"][0])
 
-            xml_response = xmlrpclib.dumps((xml_response,))
+            # check_reservation_and_prices = dict({"checkReservation": "No errors were found in the precommit check"}, (check_reservation_and_prices)["arrReadTourPrices"])
+            check_reservation_and_prices = process_xml_dict_response(check_reservation_and_prices)["arrReadTourPrices"]
+            table_response = process_xml_list_response(check_reservation_and_prices)
+            xml_response = xmlrpclib.dumps((check_reservation_and_prices,))
         except xmlrpclib.Fault as error:
             fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
             return fault, {"Fault": [fault]}
@@ -181,9 +188,10 @@ def raw_xml_request(server_url, xml):
         payment = params[3]
         credit_card = params[4]
         try:
-            xml_response = connection.writeReservation(host_id, is_confirmed, reservation, payment, credit_card)
+            write_reservation = connection.writeReservation(host_id, is_confirmed, reservation, payment, credit_card)
 
-            xml_response = xmlrpclib.dumps((xml_response,))
+            table_response = process_xml_dict_response(write_reservation)
+            xml_response = xmlrpclib.dumps((write_reservation,))
         except xmlrpclib.Fault as error:
             fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
             return fault, {"Fault": [fault]}

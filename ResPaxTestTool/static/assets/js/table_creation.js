@@ -566,6 +566,9 @@ function submit_xml_request() {
             var table_body = document.createElement('tbody');
             var table_row = document.createElement('tr');
 
+            console.log("dictionary: ", dictionary);
+            console.log("dictionary_keys: ", dictionary_keys);
+
             for (var i = 0; i < Object.keys(dictionary).length; i++) {
 
                 var table_head = document.createElement('th');
@@ -575,11 +578,10 @@ function submit_xml_request() {
 
                 table_row.appendChild(table_head);
 
-
                 table_body.appendChild(table_row);
-
-
             }
+
+
 
             var k = 0;
             for (var j = 0; j < dictionary[dictionary_keys[k]].length; j++) {
@@ -587,7 +589,7 @@ function submit_xml_request() {
                 for (i = 0; i < Object.keys(dictionary).length; i++) {
 
                     var table_column = document.createElement('td');
-
+                    console.log(dictionary[dictionary_keys[i]]);
                     var table_row_value = document.createTextNode(dictionary[dictionary_keys[i]][j]);
 
                     table_column.appendChild(table_row_value);
@@ -794,6 +796,50 @@ function fill_form_xml() {
                     var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
                     tour_date.value = formattedDate;
 
+                    break;
+                case "checkReservation":
+                    host_id.value = json.loaded_xml[0][0];
+                    tour_code.value = json.loaded_xml[0][1]["strTourCode"];
+                    tour_basis_id.value = json.loaded_xml[0][1]["intBasisID"];
+                    tour_sub_basis_id.value = json.loaded_xml[0][1]["intSubBasisID"];
+                    tour_time_id.value = json.loaded_xml[0][1]["intTourTimeID"];
+                    var date = new Date(json.loaded_xml[0][1]["dteTourDate"]);
+                    var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+                    tour_date.value = formattedDate;
+                    tour_pickup_id.value = json.loaded_xml[0][1]["strPickupKey"];
+                    pickup_room_no.value = json.loaded_xml[0][1]["strPickupRoomNo"];
+                    pax_first_name.value = json.loaded_xml[0][1]["strPaxFirstName"];
+                    pax_last_name.value = json.loaded_xml[0][1]["strPaxLastName"];
+                    pax_email.value = json.loaded_xml[0][1]["strPaxEmail"];
+                    no_pax_adults.value = json.loaded_xml[0][1]["intNoPax_Adults"];
+                    no_pax_child.value = json.loaded_xml[0][1]["intNoPax_Child"];
+                    no_pax_infant.value = json.loaded_xml[0][1]["intNoPax_Infant"];
+                    no_pax_foc.value = json.loaded_xml[0][1]["intNoPax_FOC"];
+                    no_pax_user_defined.value = json.loaded_xml[0][1]["intNoPax_UDef1"];
+                    general_comment.value = json.loaded_xml[0][1]["strGeneralComment"];
+                    payment_option.value = json.loaded_xml[0][2]["strPaymentOption"];
+                    break;
+                case "checkReservationAndPrices":
+                    host_id.value = json.loaded_xml[0][0];
+                    tour_code.value = json.loaded_xml[0][1]["strTourCode"];
+                    tour_basis_id.value = json.loaded_xml[0][1]["intBasisID"];
+                    tour_sub_basis_id.value = json.loaded_xml[0][1]["intSubBasisID"];
+                    tour_time_id.value = json.loaded_xml[0][1]["intTourTimeID"];
+                    var date = new Date(json.loaded_xml[0][1]["dteTourDate"]);
+                    var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+                    tour_date.value = formattedDate;
+                    tour_pickup_id.value = json.loaded_xml[0][1]["strPickupKey"];
+                    pickup_room_no.value = json.loaded_xml[0][1]["strPickupRoomNo"];
+                    pax_first_name.value = json.loaded_xml[0][1]["strPaxFirstName"];
+                    pax_last_name.value = json.loaded_xml[0][1]["strPaxLastName"];
+                    pax_email.value = json.loaded_xml[0][1]["strPaxEmail"];
+                    no_pax_adults.value = json.loaded_xml[0][1]["intNoPax_Adults"];
+                    no_pax_child.value = json.loaded_xml[0][1]["intNoPax_Child"];
+                    no_pax_infant.value = json.loaded_xml[0][1]["intNoPax_Infant"];
+                    no_pax_foc.value = json.loaded_xml[0][1]["intNoPax_FOC"];
+                    no_pax_user_defined.value = json.loaded_xml[0][1]["intNoPax_UDef1"];
+                    general_comment.value = json.loaded_xml[0][1]["strGeneralComment"];
+                    payment_option.value = json.loaded_xml[0][2]["strPaymentOption"];
                     break;
                 case "writeReservation":
                     host_id.value = json.loaded_xml[0][0];
@@ -1492,6 +1538,80 @@ function show_hide_form_fields() {
 
         $("#card_expiry_year").hide();
         $("#card_expiry_year_label").hide();
+    }
+    else if (method_name == 'checkReservation' || 'checkReservationAndPrices') {
+        $("#host_id").show();
+        $("#host_id_label").show();
+        $("#tour_code").show();
+        $("#tour_code_label").show();
+        $("#basis").show();
+        $("#basis_label").show();
+        $("#sub_basis").show();
+        $("#sub_basis_label").show();
+        $("#tour_time_id").show();
+        $("#tour_time_id_label").show();
+        $("#pickup_id").show();
+        $("#pickup_id_label").show();
+
+        $("#pickup_room_no").show();
+        $("#pickup_room_no_label").show();
+
+        $("#drop_off_id").hide();
+        $("#drop_off_id_label").hide();
+        $("#date").show();
+        $("#date_label").show();
+
+        $("#pax_first_name").show();
+        $("#pax_first_name_label").show();
+
+        $("#pax_last_name").show();
+        $("#pax_last_name_label").show();
+
+        $("#pax_email").show();
+        $("#pax_email_label").show();
+
+        $("#no_pax_adults").show();
+        $("#no_pax_adults_label").show();
+
+        $("#no_pax_child").show();
+        $("#no_pax_child_label").show();
+
+        $("#no_pax_infant").show();
+        $("#no_pax_infant_label").show();
+
+        $("#no_pax_foc").show();
+        $("#no_pax_foc_label").show();
+
+        $("#no_pax_user_defined").show();
+        $("#no_pax_user_defined_label").show();
+
+        $("#general_comment").show();
+        $("#general_comment_label").show();
+
+        $("#booking_confirmed").show();
+        $("#booking_confirmed_label").show();
+
+        $("#payment_option").show();
+        $("#payment_option_label").show();
+
+        $("#card_name").hide();
+        $("#card_name_label").hide();
+
+        $("#card_pan").hide();
+        $("#card_pan_label").hide();
+
+        $("#card_vn").hide();
+        $("#card_vn_label").hide();
+
+        $("#card_type_id").hide();
+        $("#card_type_id_label").hide();
+
+        $("#card_expiry_month").hide();
+        $("#card_expiry_month_label").hide();
+
+        $("#card_expiry_year").hide();
+        $("#card_expiry_year_label").hide();
+
     }
     else if (method_name == 'writeReservation') {
         $("#host_id").show();

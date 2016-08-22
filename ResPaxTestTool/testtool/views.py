@@ -163,6 +163,46 @@ def generate_xml(request):
             fault = "Please enter a date"
             return JsonResponse({"fault": fault})
 
+    elif method_name == 'checkReservation':
+        try:
+            tour_date = request.POST['tour_date'].split('-')
+            tour_date = datetime.datetime(int(tour_date[0]), int(tour_date[1]), int(tour_date[2]))
+            tour_date = tour_date.strftime('%d-%b-%Y')
+            reservation = {'strTourCode': tour_code, 'intBasisID': basis_id, 'intSubBasisID': sub_basis_id,
+                           'dteTourDate': tour_date, 'intTourTimeID': tour_time_id, 'strPickupKey': pickup_id,
+                           'strPickupRoomNo': pickup_room_no, 'strPaxFirstName': pax_first_name,
+                           'strPaxLastName': pax_last_name, 'strPaxEmail': pax_email, 'intNoPax_Adults': no_pax_adults,
+                           'intNoPax_Child': no_pax_child, 'intNoPax_Infant': no_pax_infant, 'intNoPax_FOC': no_pax_foc,
+                           'intNoPax_UDef1': no_pax_user_defined, 'strGeneralComment': general_comment}
+
+            payment = {'strPaymentOption': payment_option}
+
+            params = (host_id, reservation, payment)
+
+        except ValueError:
+            fault = "Please enter a date"
+            return JsonResponse({"fault": fault})
+
+    elif method_name == 'checkReservationAndPrices':
+        try:
+            tour_date = request.POST['tour_date'].split('-')
+            tour_date = datetime.datetime(int(tour_date[0]), int(tour_date[1]), int(tour_date[2]))
+            tour_date = tour_date.strftime('%d-%b-%Y')
+            reservation = {'strTourCode': tour_code, 'intBasisID': basis_id, 'intSubBasisID': sub_basis_id,
+                           'dteTourDate': tour_date, 'intTourTimeID': tour_time_id, 'strPickupKey': pickup_id,
+                           'strPickupRoomNo': pickup_room_no, 'strPaxFirstName': pax_first_name,
+                           'strPaxLastName': pax_last_name, 'strPaxEmail': pax_email, 'intNoPax_Adults': no_pax_adults,
+                           'intNoPax_Child': no_pax_child, 'intNoPax_Infant': no_pax_infant, 'intNoPax_FOC': no_pax_foc,
+                           'intNoPax_UDef1': no_pax_user_defined, 'strGeneralComment': general_comment}
+
+            payment = {'strPaymentOption': payment_option}
+
+            params = (host_id, reservation, payment)
+
+        except ValueError:
+            fault = "Please enter a date"
+            return JsonResponse({"fault": fault})
+
     elif method_name == 'writeReservation':
         try:
             tour_date = request.POST['tour_date'].split('-')

@@ -1,7 +1,6 @@
 /**
  * Created by Shaquille on 8/01/2016.
  */
-
 function generateTable(operators, host_ids, server_url) {
     var tableHeading = document.getElementById("test-tool-table-heading");
     var hostCSVContent = "data:text/csv;charset=utf-8,";
@@ -36,6 +35,8 @@ function generateTable(operators, host_ids, server_url) {
     hostsCSVLink.setAttribute("style", "float:right; clear: right; color:#E0D65B");
     tableHeading.appendChild(hostsCSVLink);
 }
+
+function backToTop(){window.scrollTo(0, 0);}
 
 function getCookie(name) {
     var cookieValue = null;
@@ -92,7 +93,7 @@ function get_tours(tableRow, id, server_url) {
                 $(tableRow).after(newTableRow);
             } else if (typeof json.tours === 'object') {
                 if (json.tours.length > 0) {
-                    console.log("id: "+id);
+                    console.log("id: " + id);
                     addCSVButton(tableRow, tableRow.getElementsByTagName("td")[0], id, server_url, "tour codes");
                     for (var i = 0; i in json.tours; i++) {
                         var new_id = id + ',' + json.tours[i]['strTourCode'].toString();
@@ -404,6 +405,10 @@ function create_selector(level) {
     return "[data-level='" + level + "']";
 }
 
+function collapseAllTableRows(){
+    $('.expanded[data-level="1"]').click();
+}
+
 function remove_rows(table_row, server_url) {
 
     var this_level = parseInt($(table_row).data("level"), 10);
@@ -426,18 +431,27 @@ function remove_rows(table_row, server_url) {
         case 1:
             table_row.setAttribute("onclick", "get_tours(this, this.id,'" + server_url + "'); " +
                 "populate_form_fields('" + host_id + "')");
-            table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
+            try{
+                Array.prototype.slice.call(table_row.getElementsByTagName("td")[0].getElementsByTagName("button")).forEach(
+                    function (item) {
+                        item.remove();
+                    });
+            }catch(err) {console.log("Error: Download csv button does not exist to be deleted")}
             break;
         case 2:
             table_row.setAttribute('onclick', "get_tour_bases(this, this.id,'" + server_url + "'); " +
                 "populate_form_fields('" + host_id + "','" + tour_code + "')");
-            table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
+            // try{
+            //     table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
+            // }catch(err) {console.log("Error: Download csv button does not exist to be deleted")}
             break;
         case 4:
             table_row.setAttribute("onclick", "get_tour_times(this, this.id,'" + server_url + "'); " +
                 "populate_form_fields('" + host_id + "','" + tour_code + "','" + tour_basis_id + "','" +
                 tour_sub_basis_id + "')");
-            table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
+            try{
+                table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
+            }catch(err) {console.log("Error: Download csv button does not exist to be deleted")}
             break;
         case 5:
             table_row.setAttribute("onclick", "get_tour_pickups(this, this.id,'" + server_url + "'); populate_form_fields('" + host_id + "','" +
@@ -446,7 +460,9 @@ function remove_rows(table_row, server_url) {
                 tour_sub_basis_id + "','" +
                 tour_time_id + "','" +
                 pickup_id + "')");
-            table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
+            try{
+                table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
+            }catch(err) {console.log("Error: Download csv button does not exist to be deleted")}
             break;
         default:
             console.log('function remove_rows switch statement error')
@@ -455,6 +471,7 @@ function remove_rows(table_row, server_url) {
 
 
 function generate_xml_request(button) {
+    window.scrollTo(0, 0);
     document.getElementById("xml_request").focus();
     var method_name = document.getElementById('method_name').value || null;
     var tour_date = document.getElementById('date').value || null;
@@ -464,7 +481,25 @@ function generate_xml_request(button) {
     var tour_sub_basis_id = document.getElementById('sub_basis').value || null;
     var tour_time_id = document.getElementById('tour_time_id').value || null;
     var tour_pickup_id = document.getElementById('pickup_id').value || null;
+    var pickup_room_no = document.getElementById('pickup_room_no').value || null;
     var tour_drop_off_id = document.getElementById('drop_off_id').value || null;
+    var pax_first_name = document.getElementById('pax_first_name').value || null;
+    var pax_last_name = document.getElementById('pax_last_name').value || null;
+    var pax_email = document.getElementById('pax_email').value || null;
+    var no_pax_adults = document.getElementById('no_pax_adults').value || null;
+    var no_pax_child = document.getElementById('no_pax_child').value || null;
+    var no_pax_infant = document.getElementById('no_pax_infant').value || null;
+    var no_pax_foc = document.getElementById('no_pax_foc').value || null;
+    var no_pax_user_defined = document.getElementById('no_pax_user_defined').value || null;
+    var general_comment = document.getElementById('general_comment').value || null;
+    var booking_confirmed = document.getElementById('booking_confirmed').value || null;
+    var payment_option = document.getElementById('payment_option').value || null;
+    var card_name = document.getElementById('card_name').value || null;
+    var card_pan = document.getElementById('card_pan').value || null;
+    var card_vn = document.getElementById('card_vn').value || null;
+    var card_type_id = document.getElementById('card_type_id').value || null;
+    var card_expiry_month = document.getElementById('card_expiry_month').value || null;
+    var card_expiry_year = document.getElementById('card_expiry_year').value || null;
 
     $.ajax({
         type: 'POST',
@@ -481,7 +516,25 @@ function generate_xml_request(button) {
             tour_basis_id: tour_basis_id,
             tour_sub_basis_id: tour_sub_basis_id,
             tour_pickup_id: tour_pickup_id,
+            pickup_room_no: pickup_room_no,
             tour_drop_off_id: tour_drop_off_id,
+            pax_first_name: pax_first_name,
+            pax_last_name: pax_last_name,
+            pax_email: pax_email,
+            no_pax_adults: no_pax_adults,
+            no_pax_child: no_pax_child,
+            no_pax_infant: no_pax_infant,
+            no_pax_foc: no_pax_foc,
+            no_pax_user_defined: no_pax_user_defined,
+            general_comment: general_comment,
+            booking_confirmed: booking_confirmed,
+            payment_option: payment_option,
+            card_name: card_name,
+            card_pan: card_pan,
+            card_vn: card_vn,
+            card_type_id: card_type_id,
+            card_expiry_month: card_expiry_month,
+            card_expiry_year: card_expiry_year,
             safe: false,
             csrfmiddlewaretoken: csrftoken
         },
@@ -492,7 +545,7 @@ function generate_xml_request(button) {
             } else {
                 document.getElementById('xml_request').value = json.generated_xml;
             }
-            if (button.id === "generate_submit_btn"){
+            if (button.id === "generate_submit_btn") {
                 submit_xml_request();
             }
         }
@@ -502,7 +555,9 @@ function generate_xml_request(button) {
 function submit_xml_request() {
     var server_url = document.getElementById('server_url').value;
     var xml = document.getElementById('xml_request').value;
-
+    document.getElementById('xml_response').textContent = "";
+    var table = document.getElementById('table_response');
+    $(table).empty();
     $.ajax({
         type: 'POST',
         url: '/submit_xml/',
@@ -537,11 +592,10 @@ function submit_xml_request() {
 
                 table_row.appendChild(table_head);
 
-
                 table_body.appendChild(table_row);
-
-
             }
+
+
 
             var k = 0;
             for (var j = 0; j < dictionary[dictionary_keys[k]].length; j++) {
@@ -549,7 +603,6 @@ function submit_xml_request() {
                 for (i = 0; i < Object.keys(dictionary).length; i++) {
 
                     var table_column = document.createElement('td');
-
                     var table_row_value = document.createTextNode(dictionary[dictionary_keys[i]][j]);
 
                     table_column.appendChild(table_row_value);
@@ -608,7 +661,6 @@ function change_format(format) {
 
     }
 }
-
 
 
 function test_tool_query() {
@@ -671,6 +723,24 @@ function fill_form_xml() {
     var tour_time_id = document.getElementById('tour_time_id');
     var tour_pickup_id = document.getElementById('pickup_id');
     var tour_drop_off_id = document.getElementById('drop_off_id');
+    var pickup_room_no = document.getElementById('pickup_room_no');
+    var pax_first_name = document.getElementById('pax_first_name');
+    var pax_last_name = document.getElementById('pax_last_name');
+    var pax_email = document.getElementById('pax_email');
+    var no_pax_adults = document.getElementById('no_pax_adults');
+    var no_pax_child = document.getElementById('no_pax_child');
+    var no_pax_infant = document.getElementById('no_pax_infant');
+    var no_pax_foc = document.getElementById('no_pax_foc');
+    var no_pax_user_defined = document.getElementById('no_pax_user_defined');
+    var general_comment = document.getElementById('general_comment');
+    var booking_confirmed = document.getElementById('booking_confirmed');
+    var payment_option = document.getElementById('payment_option');
+    var card_name = document.getElementById('card_name');
+    var card_pan = document.getElementById('card_pan');
+    var card_vn = document.getElementById('card_vn');
+    var card_type_id = document.getElementById('card_type_id');
+    var card_expiry_month = document.getElementById('card_expiry_month');
+    var card_expiry_year = document.getElementById('card_expiry_year');
 
     $.ajax({
         type: 'POST',
@@ -689,6 +759,12 @@ function fill_form_xml() {
 
             switch (method_name.value) {
                 case "readHostDetails":
+                    host_id.value = json.loaded_xml[0][0];
+                    break;
+                case "readPaymentOptions":
+                    host_id.value = json.loaded_xml[0][0];
+                    break;
+                case "readPaxTypes":
                     host_id.value = json.loaded_xml[0][0];
                     break;
                 case "readTours":
@@ -738,6 +814,80 @@ function fill_form_xml() {
                     var date = new Date(json.loaded_xml[0][4]);
                     var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
                     tour_date.value = formattedDate;
+
+                    break;
+                case "checkReservation":
+                    host_id.value = json.loaded_xml[0][0];
+                    tour_code.value = json.loaded_xml[0][1]["strTourCode"];
+                    tour_basis_id.value = json.loaded_xml[0][1]["intBasisID"];
+                    tour_sub_basis_id.value = json.loaded_xml[0][1]["intSubBasisID"];
+                    tour_time_id.value = json.loaded_xml[0][1]["intTourTimeID"];
+                    var date = new Date(json.loaded_xml[0][1]["dteTourDate"]);
+                    var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+                    tour_date.value = formattedDate;
+                    tour_pickup_id.value = json.loaded_xml[0][1]["strPickupKey"];
+                    pickup_room_no.value = json.loaded_xml[0][1]["strPickupRoomNo"];
+                    pax_first_name.value = json.loaded_xml[0][1]["strPaxFirstName"];
+                    pax_last_name.value = json.loaded_xml[0][1]["strPaxLastName"];
+                    pax_email.value = json.loaded_xml[0][1]["strPaxEmail"];
+                    no_pax_adults.value = json.loaded_xml[0][1]["intNoPax_Adults"];
+                    no_pax_child.value = json.loaded_xml[0][1]["intNoPax_Child"];
+                    no_pax_infant.value = json.loaded_xml[0][1]["intNoPax_Infant"];
+                    no_pax_foc.value = json.loaded_xml[0][1]["intNoPax_FOC"];
+                    no_pax_user_defined.value = json.loaded_xml[0][1]["intNoPax_UDef1"];
+                    general_comment.value = json.loaded_xml[0][1]["strGeneralComment"];
+                    payment_option.value = json.loaded_xml[0][2]["strPaymentOption"];
+                    break;
+                case "checkReservationAndPrices":
+                    host_id.value = json.loaded_xml[0][0];
+                    tour_code.value = json.loaded_xml[0][1]["strTourCode"];
+                    tour_basis_id.value = json.loaded_xml[0][1]["intBasisID"];
+                    tour_sub_basis_id.value = json.loaded_xml[0][1]["intSubBasisID"];
+                    tour_time_id.value = json.loaded_xml[0][1]["intTourTimeID"];
+                    var date = new Date(json.loaded_xml[0][1]["dteTourDate"]);
+                    var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+                    tour_date.value = formattedDate;
+                    tour_pickup_id.value = json.loaded_xml[0][1]["strPickupKey"];
+                    pickup_room_no.value = json.loaded_xml[0][1]["strPickupRoomNo"];
+                    pax_first_name.value = json.loaded_xml[0][1]["strPaxFirstName"];
+                    pax_last_name.value = json.loaded_xml[0][1]["strPaxLastName"];
+                    pax_email.value = json.loaded_xml[0][1]["strPaxEmail"];
+                    no_pax_adults.value = json.loaded_xml[0][1]["intNoPax_Adults"];
+                    no_pax_child.value = json.loaded_xml[0][1]["intNoPax_Child"];
+                    no_pax_infant.value = json.loaded_xml[0][1]["intNoPax_Infant"];
+                    no_pax_foc.value = json.loaded_xml[0][1]["intNoPax_FOC"];
+                    no_pax_user_defined.value = json.loaded_xml[0][1]["intNoPax_UDef1"];
+                    general_comment.value = json.loaded_xml[0][1]["strGeneralComment"];
+                    payment_option.value = json.loaded_xml[0][2]["strPaymentOption"];
+                    break;
+                case "writeReservation":
+                    host_id.value = json.loaded_xml[0][0];
+                    booking_confirmed.value = json.loaded_xml[0][1];
+                    tour_code.value = json.loaded_xml[0][2]["strTourCode"];
+                    tour_basis_id.value = json.loaded_xml[0][2]["intBasisID"];
+                    tour_sub_basis_id.value = json.loaded_xml[0][2]["intSubBasisID"];
+                    tour_time_id.value = json.loaded_xml[0][2]["intTourTimeID"];
+                    var date = new Date(json.loaded_xml[0][2]["dteTourDate"]);
+                    var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+                    tour_date.value = formattedDate;
+                    tour_pickup_id.value = json.loaded_xml[0][2]["strPickupKey"];
+                    pickup_room_no.value = json.loaded_xml[0][2]["strPickupRoomNo"];
+                    pax_first_name.value = json.loaded_xml[0][2]["strPaxFirstName"];
+                    pax_last_name.value = json.loaded_xml[0][2]["strPaxLastName"];
+                    pax_email.value = json.loaded_xml[0][2]["strPaxEmail"];
+                    no_pax_adults.value = json.loaded_xml[0][2]["intNoPax_Adults"];
+                    no_pax_child.value = json.loaded_xml[0][2]["intNoPax_Child"];
+                    no_pax_infant.value = json.loaded_xml[0][2]["intNoPax_Infant"];
+                    no_pax_foc.value = json.loaded_xml[0][2]["intNoPax_FOC"];
+                    no_pax_user_defined.value = json.loaded_xml[0][2]["intNoPax_UDef1"];
+                    general_comment.value = json.loaded_xml[0][2]["strGeneralComment"];
+                    payment_option.value = json.loaded_xml[0][3]["strPaymentOption"];
+                    card_name.value = json.loaded_xml[0][4]["strCardName"];
+                    card_pan.value = json.loaded_xml[0][4]["strCardPAN"];
+                    card_vn.value = json.loaded_xml[0][4]["strCardVN"];
+                    card_type_id.value = json.loaded_xml[0][4]["strCardTypeID"];
+                    card_expiry_month.value = json.loaded_xml[0][4]["intCardExpiryMonth"];
+                    card_expiry_year.value = json.loaded_xml[0][4]["intCardExpiryYear"];
                     break;
             }
             show_hide_form_fields();
@@ -745,283 +895,90 @@ function fill_form_xml() {
     })
 }
 
-function hide_xml_request_textarea(button){
-    if (document.getElementById("xml_request").hidden === true){
+function hide_xml_request_textarea(button) {
+    if (document.getElementById("xml_request").hidden === true) {
         document.getElementById("xml_request").hidden = false;
         button.innerHTML = "Hide";
-    }else {
+    } else {
         document.getElementById("xml_request").hidden = true;
         button.innerHTML = "Show";
     }
 }
 
-function hide_xml_response_textarea(button){
-    if (document.getElementById("xml_response").hidden === true){
+function hide_xml_response_textarea(button) {
+    if (document.getElementById("xml_response").hidden === true) {
         document.getElementById("xml_response").hidden = false;
         button.innerHTML = "Hide";
-    }else {
+    } else {
         document.getElementById("xml_response").hidden = true;
         button.innerHTML = "Show";
     }
 }
 
-function show_hide_form_fields() {
+
+function show_hide_form_fields(){
     var method_name = document.getElementById("method_name").value;
 
+    var methodDict = { "host_id": false,"tour_code": false,"basis": false,"sub_basis": false,"tour_time_id": false,
+                    "pickup_id": false,"pickup_room_no": false,"drop_off_id": false,"date": false,"pax_first_name": false,
+                    "pax_last_name": false,"pax_email": false,"nfo_pax_adults": false,"no_pax_child": false,"no_pax_infant": false,
+                    "no_pax_foc": false,"no_pax_user_defined": false,"general_comment": false,"booking_confirmed": false,"payment_option": false,
+                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false};
+
     if (method_name == 'readHosts') {
-        $("#host_id").hide();
-        $("#host_id_label").hide();
-        $("#tour_code").hide();
-        $("#tour_code_label").hide();
-        $("#basis").hide();
-        $("#basis_label").hide();
-        $("#sub_basis").hide();
-        $("#sub_basis_label").hide();
-        $("#tour_time_id").hide();
-        $("#tour_time_id_label").hide();
-        $("#pickup_id").hide();
-        $("#pickup_id_label").hide();
-        $("#drop_off_id").hide();
-        $("#drop_off_id_label").hide();
-        $("#date").hide();
-        $("#date_label").hide();
-        $("#type1").hide();
-        $("#type1_label").hide();
-        $("#type2").hide();
-        $("#type2_label").hide();
-        $("#type3").hide();
-        $("#type3_label").hide();
-        $("#type4").hide();
-        $("#type4_label").hide();
-        $("#type5").hide();
-        $("#type5_label").hide();
-    }
-    else if (method_name == 'readHostDetails') {
-        $("#host_id").show();
-        $("#host_id_label").show();
-        $("#tour_code").hide();
-        $("#tour_code_label").hide();
-        $("#basis").hide();
-        $("#basis_label").hide();
-        $("#sub_basis").hide();
-        $("#sub_basis_label").hide();
-        $("#tour_time_id").hide();
-        $("#tour_time_id_label").hide();
-        $("#pickup_id").hide();
-        $("#pickup_id_label").hide();
-        $("#drop_off_id").hide();
-        $("#drop_off_id_label").hide();
-        $("#date").hide();
-        $("#date_label").hide();
-        $("#type1").hide();
-        $("#type1_label").hide();
-        $("#type2").hide();
-        $("#type2_label").hide();
-        $("#type3").hide();
-        $("#type3_label").hide();
-        $("#type4").hide();
-        $("#type4_label").hide();
-        $("#type5").hide();
-        $("#type5_label").hide();
+        //blank because the array does not change
     }
 
-    else if (method_name == 'readTours') {
-        $("#host_id").show();
-        $("#host_id_label").show();
-        $("#tour_code").hide();
-        $("#tour_code_label").hide();
-        $("#basis").hide();
-        $("#basis_label").hide();
-        $("#sub_basis").hide();
-        $("#sub_basis_label").hide();
-        $("#tour_time_id").hide();
-        $("#tour_time_id_label").hide();
-        $("#pickup_id").hide();
-        $("#pickup_id_label").hide();
-        $("#drop_off_id").hide();
-        $("#drop_off_id_label").hide();
-        $("#date").hide();
-        $("#date_label").hide();
-        $("#type1").hide();
-        $("#type1_label").hide();
-        $("#type2").hide();
-        $("#type2_label").hide();
-        $("#type3").hide();
-        $("#type3_label").hide();
-        $("#type4").hide();
-        $("#type4_label").hide();
-        $("#type5").hide();
-        $("#type5_label").hide();
+    else if  ( (method_name == 'readHostDetails') ||     (method_name == 'readPaymentOptions') || (method_name == 'readTours') || (method_name == 'readPaxTypes')){
+        methodDict.host_id = true;
     }
-    else if (method_name == 'readTourDetails') {
-        $("#host_id").show();
-        $("#host_id_label").show();
-        $("#tour_code").show();
-        $("#tour_code_label").show();
-        $("#basis").hide();
-        $("#basis_label").hide();
-        $("#sub_basis").hide();
-        $("#sub_basis_label").hide();
-        $("#tour_time_id").hide();
-        $("#tour_time_id_label").hide();
-        $("#pickup_id").hide();
-        $("#pickup_id_label").hide();
-        $("#drop_off_id").hide();
-        $("#drop_off_id_label").hide();
-        $("#date").hide();
-        $("#date_label").hide();
-        $("#type1").hide();
-        $("#type1_label").hide();
-        $("#type2").hide();
-        $("#type2_label").hide();
-        $("#type3").hide();
-        $("#type3_label").hide();
-        $("#type4").hide();
-        $("#type4_label").hide();
-        $("#type5").hide();
-        $("#type5_label").hide();
-    }
-    else if (method_name == 'readTourBases') {
-        $("#host_id").show();
-        $("#host_id_label").show();
-        $("#tour_code").show();
-        $("#tour_code_label").show();
-        $("#basis").hide();
-        $("#basis_label").hide();
-        $("#sub_basis").hide();
-        $("#sub_basis_label").hide();
-        $("#tour_time_id").hide();
-        $("#tour_time_id_label").hide();
-        $("#pickup_id").hide();
-        $("#pickup_id_label").hide();
-        $("#drop_off_id").hide();
-        $("#drop_off_id_label").hide();
-        $("#date").hide();
-        $("#date_label").hide();
-        $("#type1").hide();
-        $("#type1_label").hide();
-        $("#type2").hide();
-        $("#type2_label").hide();
-        $("#type3").hide();
-        $("#type3_label").hide();
-        $("#type4").hide();
-        $("#type4_label").hide();
-        $("#type5").hide();
-        $("#type5_label").hide();
-    }
-    else if (method_name == 'readTourTimes') {
-        $("#host_id").show();
-        $("#host_id_label").show();
-        $("#tour_code").show();
-        $("#tour_code_label").show();
-        $("#basis").hide();
-        $("#basis_label").hide();
-        $("#sub_basis").hide();
-        $("#sub_basis_label").hide();
-        $("#tour_time_id").hide();
-        $("#tour_time_id_label").hide();
-        $("#pickup_id").hide();
-        $("#pickup_id_label").hide();
-        $("#drop_off_id").hide();
-        $("#drop_off_id_label").hide();
-        $("#date").hide();
-        $("#date_label").hide();
-        $("#type1").hide();
-        $("#type1_label").hide();
-        $("#type2").hide();
-        $("#type2_label").hide();
-        $("#type3").hide();
-        $("#type3_label").hide();
-        $("#type4").hide();
-        $("#type4_label").hide();
-        $("#type5").hide();
-        $("#type5_label").hide();
+    else if  ((method_name == 'readTourDetails') || (method_name == 'readTourBases') || (method_name == 'readTourTimes')){
+        methodDict.host_id = true;
+        methodDict.tour_code = true;
     }
     else if (method_name == 'readTourPickups') {
-        $("#host_id").show();
-        $("#host_id_label").show();
-        $("#tour_code").show();
-        $("#tour_code_label").show();
-        $("#basis").show();
-        $("#basis_label").show();
-        $("#sub_basis").hide();
-        $("#sub_basis_label").hide();
-        $("#tour_time_id").show();
-        $("#tour_time_id_label").show();
-        $("#pickup_id").hide();
-        $("#pickup_id_label").hide();
-        $("#drop_off_id").hide();
-        $("#drop_off_id_label").hide();
-        $("#date").show();
-        $("#date_label").show();
-        $("#type1").hide();
-        $("#type1_label").hide();
-        $("#type2").hide();
-        $("#type2_label").hide();
-        $("#type3").hide();
-        $("#type3_label").hide();
-        $("#type4").hide();
-        $("#type4_label").hide();
-        $("#type5").hide();
-        $("#type5_label").hide();
+        methodDict.host_id = true;
+        methodDict.tour_code = true;
+        methodDict.basis = true;
+        methodDict.tour_time_id = true;
+        methodDict.date = true;
     }
     else if (method_name == 'readTourPrices') {
-        $("#host_id").show();
-        $("#host_id_label").show();
-        $("#tour_code").show();
-        $("#tour_code_label").show();
-        $("#basis").show();
-        $("#basis_label").show();
-        $("#sub_basis").show();
-        $("#sub_basis_label").show();
-        $("#tour_time_id").show();
-        $("#tour_time_id_label").show();
-        $("#pickup_id").show();
-        $("#pickup_id_label").show();
-        $("#drop_off_id").show();
-        $("#drop_off_id_label").show();
-        $("#date").show();
-        $("#date_label").show();
-        $("#type1").hide();
-        $("#type1_label").hide();
-        $("#type2").hide();
-        $("#type2_label").hide();
-        $("#type3").hide();
-        $("#type3_label").hide();
-        $("#type4").hide();
-        $("#type4_label").hide();
-        $("#type5").hide();
-        $("#type5_label").hide();
+        methodDict = { "host_id": true,"tour_code": true,"basis": true,"sub_basis": true,"tour_time_id": true,
+                    "pickup_id": true,"pickup_room_no": false,"drop_off_id": true,"date": true,"pax_first_name": false,
+                    "pax_last_name": false,"pax_email": false,"nfo_pax_adults": false,"no_pax_child": false,"no_pax_infant": false,
+                    "no_pax_foc": false,"no_pax_user_defined": false,"general_comment": false,"booking_confirmed": false,"payment_option": false,
+                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false};
     }
     else if (method_name == 'readTourAvailability') {
-        $("#host_id").show();
-        $("#host_id_label").show();
-        $("#tour_code").show();
-        $("#tour_code_label").show();
-        $("#basis").show();
-        $("#basis_label").show();
-        $("#sub_basis").show();
-        $("#sub_basis_label").show();
-        $("#tour_time_id").show();
-        $("#tour_time_id_label").show();
-        $("#pickup_id").hide();
-        $("#pickup_id_label").hide();
-        $("#drop_off_id").hide();
-        $("#drop_off_id_label").hide();
-        $("#date").show();
-        $("#date_label").show();
-        $("#type1").hide();
-        $("#type1_label").hide();
-        $("#type2").hide();
-        $("#type2_label").hide();
-        $("#type3").hide();
-        $("#type3_label").hide();
-        $("#type4").hide();
-        $("#type4_label").hide();
-        $("#type5").hide();
-        $("#type5_label").hide();
+        methodDict = { "host_id": true,"tour_code": true,"basis": true,"sub_basis": true,"tour_time_id": true,
+                    "pickup_id": false,"pickup_room_no": false,"drop_off_id": false,"date": true,"pax_first_name": false,
+                    "pax_last_name": false,"pax_email": false,"nfo_pax_adults": false,"no_pax_child": false,"no_pax_infant": false,
+                    "no_pax_foc": false,"no_pax_user_defined": false,"general_comment": false,"booking_confirmed": false,"payment_option": false,
+                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false};
+    }
+    else if (method_name == 'checkReservation' || 'checkReservationAndPrices') {
+        methodDict = { "host_id": true,"tour_code": true,"basis": true,"sub_basis": true,"tour_time_id": true,
+                    "pickup_id": true,"pickup_room_no": true,"drop_off_id": false,"date": true,"pax_first_name": true,
+                    "pax_last_name": true,"pax_email": true,"nfo_pax_adults": true,"no_pax_child": true,"no_pax_infant": true,
+                    "no_pax_foc": true,"no_pax_user_defined": true,"general_comment": true,"booking_confirmed": true,"payment_option": true,
+                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false};
     }
 
+    else if (method_name == 'writeReservation') {
+        //Setting all to true as this method requires all the fields
+        for (var key in methodDict) {
+            methodDict[key] = true;
+        }
+    }
+
+    for (var key in methodDict) {
+        if (methodDict[key]){
+            $("#"+key).show();
+            $("#"+key+"_label").show();
+        }else{
+            $("#"+key).hide();
+            $("#"+key+"_label").hide();
+        }
+    }
 }
-
-

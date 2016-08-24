@@ -180,8 +180,8 @@ def raw_xml_request(server_url, xml):
         payment = params[2]
         try:
             check_reservation = connection.checkReservation(host_id, reservation, payment)
-
-            table_response = process_xml_list_response(check_reservation)
+            print check_reservation
+            table_response = {"Check Reservation": check_reservation}
             xml_response = xmlrpclib.dumps((check_reservation,))
         except xmlrpclib.Fault as error:
             fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
@@ -192,13 +192,8 @@ def raw_xml_request(server_url, xml):
         payment = params[2]
         try:
             check_reservation_and_prices = connection.checkReservationAndPrices(host_id, reservation, payment)
-            dictionary_keys =  process_xml_dict_response(check_reservation_and_prices).keys()
-            print("check_reservation_and_prices: ", check_reservation_and_prices.keys())
-            print("process_xml check_reservation_and_prices: ", process_xml_dict_response(check_reservation_and_prices)["arrReadTourPrices"][0])
-
-            # check_reservation_and_prices = dict({"checkReservation": "No errors were found in the precommit check"}, (check_reservation_and_prices)["arrReadTourPrices"])
-            check_reservation_and_prices = process_xml_dict_response(check_reservation_and_prices)["arrReadTourPrices"]
-            table_response = process_xml_list_response(check_reservation_and_prices)
+            check_reservation_and_prices = process_xml_dict_response(check_reservation_and_prices["arrReadTourPrices"])
+            table_response = check_reservation_and_prices
             xml_response = xmlrpclib.dumps((check_reservation_and_prices,))
         except xmlrpclib.Fault as error:
             fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
@@ -211,8 +206,8 @@ def raw_xml_request(server_url, xml):
         credit_card = params[4]
         try:
             write_reservation = connection.writeReservation(host_id, is_confirmed, reservation, payment, credit_card)
-
-            table_response = process_xml_dict_response(write_reservation)
+            print write_reservation
+            table_response = {"Write Reservation No.": [write_reservation]}
             xml_response = xmlrpclib.dumps((write_reservation,))
         except xmlrpclib.Fault as error:
             fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString

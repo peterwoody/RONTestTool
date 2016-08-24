@@ -580,9 +580,6 @@ function submit_xml_request() {
             var table_body = document.createElement('tbody');
             var table_row = document.createElement('tr');
 
-            console.log("dictionary: ", dictionary);
-            console.log("dictionary_keys: ", dictionary_keys);
-
             for (var i = 0; i < Object.keys(dictionary).length; i++) {
 
                 var table_head = document.createElement('th');
@@ -603,7 +600,6 @@ function submit_xml_request() {
                 for (i = 0; i < Object.keys(dictionary).length; i++) {
 
                     var table_column = document.createElement('td');
-                    console.log(dictionary[dictionary_keys[i]]);
                     var table_row_value = document.createTextNode(dictionary[dictionary_keys[i]][j]);
 
                     table_column.appendChild(table_row_value);
@@ -927,6 +923,8 @@ function show_hide_form_fields(){
         false, false, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false];
 
+    console.log(method_name);
+
     if (method_name == 'readHosts') {
         //blank because the array does not change
     }
@@ -963,79 +961,12 @@ function show_hide_form_fields(){
         false, false, false, false, false, false];
     }
     else if (method_name == 'checkReservation' || 'checkReservationAndPrices') {
-        $("#host_id").show();
-        $("#host_id_label").show();
-        $("#tour_code").show();
-        $("#tour_code_label").show();
-        $("#basis").show();
-        $("#basis_label").show();
-        $("#sub_basis").show();
-        $("#sub_basis_label").show();
-        $("#tour_time_id").show();
-        $("#tour_time_id_label").show();
-        $("#pickup_id").show();
-        $("#pickup_id_label").show();
-
-        $("#pickup_room_no").show();
-        $("#pickup_room_no_label").show();
-
-        $("#drop_off_id").hide();
-        $("#drop_off_id_label").hide();
-        $("#date").show();
-        $("#date_label").show();
-
-        $("#pax_first_name").show();
-        $("#pax_first_name_label").show();
-
-        $("#pax_last_name").show();
-        $("#pax_last_name_label").show();
-
-        $("#pax_email").show();
-        $("#pax_email_label").show();
-
-        $("#no_pax_adults").show();
-        $("#no_pax_adults_label").show();
-
-        $("#no_pax_child").show();
-        $("#no_pax_child_label").show();
-
-        $("#no_pax_infant").show();
-        $("#no_pax_infant_label").show();
-
-        $("#no_pax_foc").show();
-        $("#no_pax_foc_label").show();
-
-        $("#no_pax_user_defined").show();
-        $("#no_pax_user_defined_label").show();
-
-        $("#general_comment").show();
-        $("#general_comment_label").show();
-
-        $("#booking_confirmed").show();
-        $("#booking_confirmed_label").show();
-
-        $("#payment_option").show();
-        $("#payment_option_label").show();
-
-        $("#card_name").hide();
-        $("#card_name_label").hide();
-
-        $("#card_pan").hide();
-        $("#card_pan_label").hide();
-
-        $("#card_vn").hide();
-        $("#card_vn_label").hide();
-
-        $("#card_type_id").hide();
-        $("#card_type_id_label").hide();
-
-        $("#card_expiry_month").hide();
-        $("#card_expiry_month_label").hide();
-
-        $("#card_expiry_year").hide();
-        $("#card_expiry_year_label").hide();
-
+        boolArray = [
+        true, true, true, true, true, true, true, false, true, true,
+        true, true, true, true, true, true, true, true, true, true,
+        false, false, false, false, false, false];
     }
+        
     else if (method_name == 'writeReservation') {
         boolArray = [
         true, true, true, true, true, true, true, true, true, true,

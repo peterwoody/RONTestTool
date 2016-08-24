@@ -432,15 +432,18 @@ function remove_rows(table_row, server_url) {
             table_row.setAttribute("onclick", "get_tours(this, this.id,'" + server_url + "'); " +
                 "populate_form_fields('" + host_id + "')");
             try{
-                table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
+                Array.prototype.slice.call(table_row.getElementsByTagName("td")[0].getElementsByTagName("button")).forEach(
+                    function (item) {
+                        item.remove();
+                    });
             }catch(err) {console.log("Error: Download csv button does not exist to be deleted")}
             break;
         case 2:
             table_row.setAttribute('onclick', "get_tour_bases(this, this.id,'" + server_url + "'); " +
                 "populate_form_fields('" + host_id + "','" + tour_code + "')");
-            try{
-                table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
-            }catch(err) {console.log("Error: Download csv button does not exist to be deleted")}
+            // try{
+            //     table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
+            // }catch(err) {console.log("Error: Download csv button does not exist to be deleted")}
             break;
         case 4:
             table_row.setAttribute("onclick", "get_tour_times(this, this.id,'" + server_url + "'); " +
@@ -912,77 +915,70 @@ function hide_xml_response_textarea(button) {
     }
 }
 
+
 function show_hide_form_fields(){
     var method_name = document.getElementById("method_name").value;
-    var idArray = [
-        "host_id","tour_code","basis","sub_basis","tour_time_id","pickup_id","pickup_room_no","drop_off_id","date","pax_first_name"
-        ,"pax_last_name","pax_email","no_pax_adults","no_pax_child","no_pax_infant","no_pax_foc","no_pax_user_defined","general_comment","booking_confirmed","payment_option"
-        ,"card_name","card_pan","card_vn","card_type_id","card_expiry_month","card_expiry_year"];
-    var boolArray = [
-        false, false, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false];
 
-    console.log(method_name);
+    var methodDict = { "host_id": false,"tour_code": false,"basis": false,"sub_basis": false,"tour_time_id": false,
+                    "pickup_id": false,"pickup_room_no": false,"drop_off_id": false,"date": false,"pax_first_name": false,
+                    "pax_last_name": false,"pax_email": false,"nfo_pax_adults": false,"no_pax_child": false,"no_pax_infant": false,
+                    "no_pax_foc": false,"no_pax_user_defined": false,"general_comment": false,"booking_confirmed": false,"payment_option": false,
+                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false};
 
     if (method_name == 'readHosts') {
         //blank because the array does not change
     }
-        
-    else if  ( (method_name == 'readHostDetails') ||     (method_name == 'readPaymentOptions') || (method_name == 'readTours') || (method_name == 'readPaxTypes')){
-        boolArray = [
-        true, false, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false];
-    }
 
+    else if  ( (method_name == 'readHostDetails') ||     (method_name == 'readPaymentOptions') || (method_name == 'readTours') || (method_name == 'readPaxTypes')){
+        methodDict.host_id = true;
+    }
     else if  ((method_name == 'readTourDetails') || (method_name == 'readTourBases') || (method_name == 'readTourTimes')){
-        boolArray = [
-        true, true, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false];
+        methodDict.host_id = true;
+        methodDict.tour_code = true;
     }
     else if (method_name == 'readTourPickups') {
-        boolArray = [
-        true, true, true, false, true, false, false, false, true, false,
-        false, false, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false];
+        methodDict.host_id = true;
+        methodDict.tour_code = true;
+        methodDict.basis = true;
+        methodDict.tour_time_id = true;
+        methodDict.date = true;
     }
     else if (method_name == 'readTourPrices') {
-        boolArray = [
-        true, true, true, true, true, true, false, true, true, false,
-        false, false, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false];
+        methodDict = { "host_id": true,"tour_code": true,"basis": true,"sub_basis": true,"tour_time_id": true,
+                    "pickup_id": true,"pickup_room_no": false,"drop_off_id": true,"date": true,"pax_first_name": false,
+                    "pax_last_name": false,"pax_email": false,"nfo_pax_adults": false,"no_pax_child": false,"no_pax_infant": false,
+                    "no_pax_foc": false,"no_pax_user_defined": false,"general_comment": false,"booking_confirmed": false,"payment_option": false,
+                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false};
     }
     else if (method_name == 'readTourAvailability') {
-        boolArray = [
-        true, true, true, true, true, false, false, false, true, false,
-        false, false, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false];
+        methodDict = { "host_id": true,"tour_code": true,"basis": true,"sub_basis": true,"tour_time_id": true,
+                    "pickup_id": false,"pickup_room_no": false,"drop_off_id": false,"date": true,"pax_first_name": false,
+                    "pax_last_name": false,"pax_email": false,"nfo_pax_adults": false,"no_pax_child": false,"no_pax_infant": false,
+                    "no_pax_foc": false,"no_pax_user_defined": false,"general_comment": false,"booking_confirmed": false,"payment_option": false,
+                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false};
     }
     else if (method_name == 'checkReservation' || 'checkReservationAndPrices') {
-        boolArray = [
-        true, true, true, true, true, true, true, false, true, true,
-        true, true, true, true, true, true, true, true, true, true,
-        false, false, false, false, false, false];
-    }
-        
-    else if (method_name == 'writeReservation') {
-        boolArray = [
-        true, true, true, true, true, true, true, true, true, true,
-        true, true, true, true, true, true, true, true, true, true,
-        true, true, true, true, true, true];
+        methodDict = { "host_id": true,"tour_code": true,"basis": true,"sub_basis": true,"tour_time_id": true,
+                    "pickup_id": true,"pickup_room_no": true,"drop_off_id": false,"date": true,"pax_first_name": true,
+                    "pax_last_name": true,"pax_email": true,"nfo_pax_adults": true,"no_pax_child": true,"no_pax_infant": true,
+                    "no_pax_foc": true,"no_pax_user_defined": true,"general_comment": true,"booking_confirmed": true,"payment_option": true,
+                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false};
     }
 
-    for (var i=0; i < boolArray.length; i++){
-        if (boolArray[i]){
-            $("#"+idArray[i]).show();
-            $("#"+idArray[i]+"_label").show();
+    else if (method_name == 'writeReservation') {
+        //Setting all to true as this method requires all the fields
+        for (var key in methodDict) {
+            methodDict[key] = true;
+        }
+    }
+
+    for (var key in methodDict) {
+        if (methodDict[key]){
+            $("#"+key).show();
+            $("#"+key+"_label").show();
         }else{
-            $("#"+idArray[i]).hide();
-            $("#"+idArray[i]+"_label").hide();
+            $("#"+key).hide();
+            $("#"+key+"_label").hide();
         }
     }
 }
-
-

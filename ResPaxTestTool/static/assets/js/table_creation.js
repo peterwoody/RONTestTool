@@ -500,6 +500,8 @@ function generate_xml_request(button) {
     var card_type_id = document.getElementById('card_type_id').value || null;
     var card_expiry_month = document.getElementById('card_expiry_month').value || null;
     var card_expiry_year = document.getElementById('card_expiry_year').value || null;
+    var confirmation_no = document.getElementById('confirmation_no').value || null;
+    var reason = document.getElementById('reason').value || null;
 
     $.ajax({
         type: 'POST',
@@ -535,6 +537,8 @@ function generate_xml_request(button) {
             card_type_id: card_type_id,
             card_expiry_month: card_expiry_month,
             card_expiry_year: card_expiry_year,
+            confirmation_no: confirmation_no,
+            reason: reason,
             safe: false,
             csrfmiddlewaretoken: csrftoken
         },
@@ -918,12 +922,13 @@ function hide_xml_response_textarea(button) {
 
 function show_hide_form_fields(){
     var method_name = document.getElementById("method_name").value;
+    console.log(method_name);
 
     var methodDict = { "host_id": false,"tour_code": false,"basis": false,"sub_basis": false,"tour_time_id": false,
                     "pickup_id": false,"pickup_room_no": false,"drop_off_id": false,"date": false,"pax_first_name": false,
                     "pax_last_name": false,"pax_email": false,"nfo_pax_adults": false,"no_pax_child": false,"no_pax_infant": false,
                     "no_pax_foc": false,"no_pax_user_defined": false,"general_comment": false,"booking_confirmed": false,"payment_option": false,
-                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false};
+                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false,"confirmation_no": false,"reason": false};
 
     if (method_name == 'readHosts') {
         //blank because the array does not change
@@ -948,21 +953,22 @@ function show_hide_form_fields(){
                     "pickup_id": true,"pickup_room_no": false,"drop_off_id": true,"date": true,"pax_first_name": false,
                     "pax_last_name": false,"pax_email": false,"nfo_pax_adults": false,"no_pax_child": false,"no_pax_infant": false,
                     "no_pax_foc": false,"no_pax_user_defined": false,"general_comment": false,"booking_confirmed": false,"payment_option": false,
-                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false};
+                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false,"confirmation_no": false,"reason": false};
     }
     else if (method_name == 'readTourAvailability') {
         methodDict = { "host_id": true,"tour_code": true,"basis": true,"sub_basis": true,"tour_time_id": true,
                     "pickup_id": false,"pickup_room_no": false,"drop_off_id": false,"date": true,"pax_first_name": false,
                     "pax_last_name": false,"pax_email": false,"nfo_pax_adults": false,"no_pax_child": false,"no_pax_infant": false,
                     "no_pax_foc": false,"no_pax_user_defined": false,"general_comment": false,"booking_confirmed": false,"payment_option": false,
-                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false};
+                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false,"confirmation_no": false,"reason": false};
     }
-    else if (method_name == 'checkReservation' || 'checkReservationAndPrices') {
+
+    else if (method_name === 'checkReservation' || method_name === 'checkReservationAndPrices') {
         methodDict = { "host_id": true,"tour_code": true,"basis": true,"sub_basis": true,"tour_time_id": true,
                     "pickup_id": true,"pickup_room_no": true,"drop_off_id": false,"date": true,"pax_first_name": true,
                     "pax_last_name": true,"pax_email": true,"nfo_pax_adults": true,"no_pax_child": true,"no_pax_infant": true,
                     "no_pax_foc": true,"no_pax_user_defined": true,"general_comment": true,"booking_confirmed": true,"payment_option": true,
-                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false};
+                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false,"confirmation_no": false,"reason": false};
     }
 
     else if (method_name == 'writeReservation') {
@@ -971,6 +977,14 @@ function show_hide_form_fields(){
             methodDict[key] = true;
         }
     }
+    else if (method_name === "writeCancellation") {
+        methodDict.host_id = true;
+        methodDict.confirmation_no = true;
+        methodDict.reason = true;
+    }
+
+
+
 
     for (var key in methodDict) {
         if (methodDict[key]){

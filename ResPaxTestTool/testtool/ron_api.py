@@ -212,6 +212,19 @@ def raw_xml_request(server_url, xml):
         except xmlrpclib.Fault as error:
             fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
             return fault, {"Fault": [fault]}
+    elif method == 'writeCancellation':
+        host_id = params[0]
+        confirmation = params[1]
+        reason = params[2]
+
+        try:
+            write_cancellation = connection.writeReservation(host_id, confirmation, reason)
+            print write_cancellation
+            table_response = {"Write Reservation No.": [write_cancellation]}
+            xml_response = xmlrpclib.dumps((write_cancellation,))
+        except xmlrpclib.Fault as error:
+            fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
+            return fault, {"Fault": [fault]}
 
     else:
         return "Method does not exist.", "Method does not exist."

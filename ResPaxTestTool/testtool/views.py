@@ -109,6 +109,8 @@ def generate_xml(request):
     card_type_id = request.POST.get('card_type_id')
     card_expiry_month = request.POST.get('card_expiry_month')
     card_expiry_year = request.POST.get('card_expiry_year')
+    confirmation = request.POST.get('confirmation')
+    reason = request.POST.get('reason')
 
     if method_name == 'readTours':
         params = (host_id,)
@@ -231,6 +233,9 @@ def generate_xml(request):
         except ValueError:
             fault = "Please enter a date"
             return JsonResponse({"fault": fault})
+
+    elif method_name == 'writeCancellation':
+        params = (host_id, confirmation, reason,)
 
     method_response = False
     encoding = 'iso-8859-1'

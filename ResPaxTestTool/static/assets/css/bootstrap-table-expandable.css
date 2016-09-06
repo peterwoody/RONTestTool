@@ -43,6 +43,12 @@ nav ul li {
 
 }
 
+.container{
+
+}
+
+
+
 #centerlist{
     padding-top: 0px;
     height: inherit;
@@ -190,25 +196,26 @@ table.table-expandable > tbody > tr[data-level='5'] td:first-child {
     left: 20px;
     bottom: 20px;
     width: 200px;
+    resize:horizontal;
+    overflow:auto;
 }
 
 .generate-xml-form input[type='number']{
-    width: 100%;
+    /*width: 100%;*/
 
 }
 
 .generate-xml-form input[type='date']{
-    width: 100%;
+    /*width: 100%;*/
 
 }
 
 .generate-xml-form input[type='text']{
-
-    width: 100%;
+    /*width: 100%;*/
 }
 
 .generate-xml-form input, select{
-    width: 100%;
+    width: calc(100% - 15px);
     margin-bottom: 5px;
 }
 .generate-xml-form label{

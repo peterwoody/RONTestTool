@@ -92,9 +92,11 @@ def generate_xml(request):
     pickup_id = request.POST.get('tour_pickup_id')
     pickup_room_no = request.POST.get('pickup_room_no')
     drop_off_id = request.POST.get('tour_drop_off_id')
+    tour_date = request.POST.get('tour_date')
     pax_first_name = request.POST.get('pax_first_name')
     pax_last_name = request.POST.get('pax_last_name')
     pax_email = request.POST.get('pax_email')
+    voucher_number = request.POST.get('voucher_number')
     no_pax_adults = request.POST.get('no_pax_adults')
     no_pax_child = request.POST.get('no_pax_child')
     no_pax_infant = request.POST.get('no_pax_infant')
@@ -116,6 +118,9 @@ def generate_xml(request):
     elif method_name == 'readHosts':
         params = ("",)
 
+    elif method_name == 'readCurrentLogin':
+        params = ("",)
+
     elif method_name == 'readHostDetails':
         params = (host_id,)
 
@@ -123,6 +128,9 @@ def generate_xml(request):
         params = (host_id,)
 
     elif method_name == 'readPaxTypes':
+        params = (host_id,)
+
+    elif method_name == 'readCreditStatus':
         params = (host_id,)
 
     elif method_name == 'readTourDetails':
@@ -134,11 +142,12 @@ def generate_xml(request):
     elif method_name == 'readTourBases':
         params = (host_id, tour_code)
 
+    elif method_name == 'readTourWebDetails':
+        params = (host_id, tour_code)
+
     elif method_name == 'readTourPickups':
         try:
-            tour_date = request.POST['tour_date'].split('-')
-            tour_date = datetime.datetime(int(tour_date[0]), int(tour_date[1]), int(tour_date[2]))
-            tour_date = tour_date.strftime('%d-%b-%Y')
+            tour_date = format_date(tour_date)
             params = (host_id, tour_code, tour_time_id, basis_id, tour_date)
         except ValueError:
             fault = "Please enter a date"
@@ -146,9 +155,7 @@ def generate_xml(request):
 
     elif method_name == 'readTourPrices':
         try:
-            tour_date = request.POST['tour_date'].split('-')
-            tour_date = datetime.datetime(int(tour_date[0]), int(tour_date[1]), int(tour_date[2]))
-            tour_date = tour_date.strftime('%d-%b-%Y')
+            tour_date = format_date(tour_date)
             params = (host_id, tour_code, basis_id, sub_basis_id, tour_date, tour_time_id, pickup_id, drop_off_id)
         except ValueError:
             fault = "Please enter a date"
@@ -161,9 +168,7 @@ def generate_xml(request):
 
     elif method_name == 'readTourAvailability':
         try:
-            tour_date = request.POST['tour_date'].split('-')
-            tour_date = datetime.datetime(int(tour_date[0]), int(tour_date[1]), int(tour_date[2]))
-            tour_date = tour_date.strftime('%d-%b-%Y')
+            tour_date = format_date(tour_date)
             params = (host_id, tour_code, basis_id, sub_basis_id, tour_date, tour_time_id)
         except ValueError:
             fault = "Please enter a date"
@@ -171,9 +176,7 @@ def generate_xml(request):
 
     elif method_name == 'checkReservation':
         try:
-            tour_date = request.POST['tour_date'].split('-')
-            tour_date = datetime.datetime(int(tour_date[0]), int(tour_date[1]), int(tour_date[2]))
-            tour_date = tour_date.strftime('%d-%b-%Y')
+            tour_date = format_date(tour_date)
             reservation = {'strTourCode': tour_code, 'intBasisID': basis_id, 'intSubBasisID': sub_basis_id,
                            'dteTourDate': tour_date, 'intTourTimeID': tour_time_id, 'strPickupKey': pickup_id,
                            'strPickupRoomNo': pickup_room_no, 'strPaxFirstName': pax_first_name,
@@ -191,9 +194,7 @@ def generate_xml(request):
 
     elif method_name == 'checkReservationAndPrices':
         try:
-            tour_date = request.POST['tour_date'].split('-')
-            tour_date = datetime.datetime(int(tour_date[0]), int(tour_date[1]), int(tour_date[2]))
-            tour_date = tour_date.strftime('%d-%b-%Y')
+            tour_date = format_date(tour_date)
             reservation = {'strTourCode': tour_code, 'intBasisID': basis_id, 'intSubBasisID': sub_basis_id,
                            'dteTourDate': tour_date, 'intTourTimeID': tour_time_id, 'strPickupKey': pickup_id,
                            'strPickupRoomNo': pickup_room_no, 'strPaxFirstName': pax_first_name,
@@ -211,13 +212,12 @@ def generate_xml(request):
 
     elif method_name == 'writeReservation':
         try:
-            tour_date = request.POST['tour_date'].split('-')
-            tour_date = datetime.datetime(int(tour_date[0]), int(tour_date[1]), int(tour_date[2]))
-            tour_date = tour_date.strftime('%d-%b-%Y')
+            tour_date = format_date(tour_date)
             reservation = {'strTourCode': tour_code, 'intBasisID': basis_id, 'intSubBasisID': sub_basis_id,
                            'dteTourDate': tour_date, 'intTourTimeID': tour_time_id, 'strPickupKey': pickup_id,
                            'strPickupRoomNo': pickup_room_no, 'strPaxFirstName': pax_first_name,
-                           'strPaxLastName': pax_last_name, 'strPaxEmail': pax_email, 'intNoPax_Adults': no_pax_adults,
+                           'strPaxLastName': pax_last_name, 'strPaxEmail': pax_email, 'strVoucherNo': voucher_number,
+                           'intNoPax_Adults': no_pax_adults,
                            'intNoPax_Child': no_pax_child, 'intNoPax_Infant': no_pax_infant, 'intNoPax_FOC': no_pax_foc,
                            'intNoPax_UDef1': no_pax_user_defined, 'strGeneralComment': general_comment}
 
@@ -1020,3 +1020,11 @@ def fill_form_xml(request):
         'loaded_xml': loaded_xml
     }
     return JsonResponse(response_data)
+
+
+def format_date(tour_date):
+    tour_date = tour_date.split('-')
+    tour_date = datetime.datetime(int(tour_date[0]), int(tour_date[1]), int(tour_date[2]))
+    tour_date = tour_date.strftime('%d-%b-%Y')
+    return tour_date
+

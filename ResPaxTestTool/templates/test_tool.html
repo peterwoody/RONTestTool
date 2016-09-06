@@ -59,7 +59,7 @@
 </nav>
 
 
-<div class="container">
+<div class="container" id="container">
 
     <h1 style="margin-top:110px;">ResPax Test Tool</h1>
 
@@ -119,17 +119,20 @@
         <input id="generate_submit_btn" type="submit" name="submit" value="Generate & Submit XML"
                onclick="generate_xml_request(this)">
 
-        <div>
+        <div class="method_form">
             <label for="method_name">Method Name:</label>
             <select id="method_name">
                 <option>readHosts</option>
+                <option>readCurrentLogin</option>
                 <option>readHostDetails</option>
                 <option>readPaymentOptions</option>
                 <option>readPaxTypes</option>
                 <option>readTours</option>
+                <option>readCreditStatus</option>
                 <option>readTourDetails</option>
                 <option>readTourBases</option>
                 <option>readTourTimes</option>
+                <option>readTourWebDetails</option>
                 <option>readTourPickups</option>
                 <option>readTourPrices</option>
                 <option>readTourAvailability</option>
@@ -172,6 +175,9 @@
 
             <label id="pax_email_label" for="pax_email" hidden>Email:</label>
             <input id="pax_email" name="pax_email" type="text" hidden>
+
+            <label id="voucher_number_label" for="voucher_number" hidden>Voucher Number:</label>
+            <input id="voucher_number" name="voucher_number" type="text" hidden>
 
             <label id="no_pax_adults_label" for="no_pax_adults" hidden>No. of Adults:</label>
             <input id="no_pax_adults" name="no_pax_adults" type="number" value="0" hidden>
@@ -273,4 +279,5 @@
 <script type="text/javascript">
     generateTable({{ host_name | safe }}, {{ host_id | safe }}, "{{ server_url | safe }}");
     $('#generate-xml-form').on('change', '#method_name', show_hide_form_fields);
+    add_xml_form_listener();
 </script>

@@ -486,6 +486,7 @@ function generate_xml_request(button) {
     var pax_first_name = document.getElementById('pax_first_name').value || null;
     var pax_last_name = document.getElementById('pax_last_name').value || null;
     var pax_email = document.getElementById('pax_email').value || null;
+    var voucher_number = document.getElementById('voucher_number').value || null;
     var no_pax_adults = document.getElementById('no_pax_adults').value || null;
     var no_pax_child = document.getElementById('no_pax_child').value || null;
     var no_pax_infant = document.getElementById('no_pax_infant').value || null;
@@ -521,6 +522,7 @@ function generate_xml_request(button) {
             pax_first_name: pax_first_name,
             pax_last_name: pax_last_name,
             pax_email: pax_email,
+            voucher_number: voucher_number,
             no_pax_adults: no_pax_adults,
             no_pax_child: no_pax_child,
             no_pax_infant: no_pax_infant,
@@ -727,6 +729,7 @@ function fill_form_xml() {
     var pax_first_name = document.getElementById('pax_first_name');
     var pax_last_name = document.getElementById('pax_last_name');
     var pax_email = document.getElementById('pax_email');
+    var voucher_number = document.getElementById('voucher_number');
     var no_pax_adults = document.getElementById('no_pax_adults');
     var no_pax_child = document.getElementById('no_pax_child');
     var no_pax_infant = document.getElementById('no_pax_infant');
@@ -770,6 +773,9 @@ function fill_form_xml() {
                 case "readTours":
                     host_id.value = json.loaded_xml[0][0];
                     break;
+                case "readCreditStatus":
+                    host_id.value = json.loaded_xml[0][0];
+                    break;
                 case "readTourDetails":
                     host_id.value = json.loaded_xml[0][0];
                     tour_code.value = json.loaded_xml[0][1];
@@ -779,6 +785,10 @@ function fill_form_xml() {
                     tour_code.value = json.loaded_xml[0][1];
                     break;
                 case "readTourTimes":
+                    host_id.value = json.loaded_xml[0][0];
+                    tour_code.value = json.loaded_xml[0][1];
+                    break;
+                case "readTourWebDetails":
                     host_id.value = json.loaded_xml[0][0];
                     tour_code.value = json.loaded_xml[0][1];
                     break;
@@ -875,6 +885,7 @@ function fill_form_xml() {
                     pax_first_name.value = json.loaded_xml[0][2]["strPaxFirstName"];
                     pax_last_name.value = json.loaded_xml[0][2]["strPaxLastName"];
                     pax_email.value = json.loaded_xml[0][2]["strPaxEmail"];
+                    voucher_number.value = json.loaded_xml[0][2]["strstrVoucherNo"];
                     no_pax_adults.value = json.loaded_xml[0][2]["intNoPax_Adults"];
                     no_pax_child.value = json.loaded_xml[0][2]["intNoPax_Child"];
                     no_pax_infant.value = json.loaded_xml[0][2]["intNoPax_Infant"];
@@ -888,6 +899,7 @@ function fill_form_xml() {
                     card_type_id.value = json.loaded_xml[0][4]["strCardTypeID"];
                     card_expiry_month.value = json.loaded_xml[0][4]["intCardExpiryMonth"];
                     card_expiry_year.value = json.loaded_xml[0][4]["intCardExpiryYear"];
+                    
                     break;
             }
             show_hide_form_fields();
@@ -923,16 +935,18 @@ function show_hide_form_fields(){
                     "pickup_id": false,"pickup_room_no": false,"drop_off_id": false,"date": false,"pax_first_name": false,
                     "pax_last_name": false,"pax_email": false,"nfo_pax_adults": false,"no_pax_child": false,"no_pax_infant": false,
                     "no_pax_foc": false,"no_pax_user_defined": false,"general_comment": false,"booking_confirmed": false,"payment_option": false,
-                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false};
+                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false, "voucher_number": false};
 
-    if (method_name == 'readHosts') {
+    if (method_name == 'readHosts' || method_name == 'readCurrentLogin') {
         //blank because the array does not change
     }
 
-    else if  ( (method_name == 'readHostDetails') ||     (method_name == 'readPaymentOptions') || (method_name == 'readTours') || (method_name == 'readPaxTypes')){
+    else if  ( (method_name == 'readHostDetails') ||  (method_name == 'readPaymentOptions') || (method_name == 'readTours')
+                || (method_name == 'readPaxTypes')|| (method_name == 'readCreditStatus')){
         methodDict.host_id = true;
     }
-    else if  ((method_name == 'readTourDetails') || (method_name == 'readTourBases') || (method_name == 'readTourTimes')){
+    else if  ((method_name == 'readTourDetails') || (method_name == 'readTourBases') || (method_name == 'readTourTimes')
+                || (method_name == 'readTourWebDetails')){
         methodDict.host_id = true;
         methodDict.tour_code = true;
     }
@@ -948,21 +962,21 @@ function show_hide_form_fields(){
                     "pickup_id": true,"pickup_room_no": false,"drop_off_id": true,"date": true,"pax_first_name": false,
                     "pax_last_name": false,"pax_email": false,"nfo_pax_adults": false,"no_pax_child": false,"no_pax_infant": false,
                     "no_pax_foc": false,"no_pax_user_defined": false,"general_comment": false,"booking_confirmed": false,"payment_option": false,
-                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false};
+                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false, "voucher_number": false};
     }
     else if (method_name == 'readTourAvailability') {
         methodDict = { "host_id": true,"tour_code": true,"basis": true,"sub_basis": true,"tour_time_id": true,
                     "pickup_id": false,"pickup_room_no": false,"drop_off_id": false,"date": true,"pax_first_name": false,
                     "pax_last_name": false,"pax_email": false,"nfo_pax_adults": false,"no_pax_child": false,"no_pax_infant": false,
                     "no_pax_foc": false,"no_pax_user_defined": false,"general_comment": false,"booking_confirmed": false,"payment_option": false,
-                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false};
+                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false, "voucher_number": false};
     }
-    else if (method_name == 'checkReservation' || 'checkReservationAndPrices') {
+    else if (method_name == 'checkReservation' || method_name == 'checkReservationAndPrices') {
         methodDict = { "host_id": true,"tour_code": true,"basis": true,"sub_basis": true,"tour_time_id": true,
                     "pickup_id": true,"pickup_room_no": true,"drop_off_id": false,"date": true,"pax_first_name": true,
                     "pax_last_name": true,"pax_email": true,"nfo_pax_adults": true,"no_pax_child": true,"no_pax_infant": true,
                     "no_pax_foc": true,"no_pax_user_defined": true,"general_comment": true,"booking_confirmed": true,"payment_option": true,
-                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false};
+                    "card_name": false,"card_pan": false,"card_vn": false,"card_type_id": false,"card_expiry_month": false,"card_expiry_year": false, "voucher_number": false};
     }
 
     else if (method_name == 'writeReservation') {
@@ -981,4 +995,83 @@ function show_hide_form_fields(){
             $("#"+key+"_label").hide();
         }
     }
+}
+
+
+
+//Daniel here: trying out a pluggin for detecting div change
+(function(){
+  var attachEvent = document.attachEvent;
+  var isIE = navigator.userAgent.match(/Trident/);
+  console.log(isIE);
+  var requestFrame = (function(){
+    var raf = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame ||
+        function(fn){ return window.setTimeout(fn, 20); };
+    return function(fn){ return raf(fn); };
+  })();
+
+  var cancelFrame = (function(){
+    var cancel = window.cancelAnimationFrame || window.mozCancelAnimationFrame || window.webkitCancelAnimationFrame ||
+           window.clearTimeout;
+    return function(id){ return cancel(id); };
+  })();
+
+  function resizeListener(e){
+    var win = e.target || e.srcElement;
+    if (win.__resizeRAF__) cancelFrame(win.__resizeRAF__);
+    win.__resizeRAF__ = requestFrame(function(){
+      var trigger = win.__resizeTrigger__;
+      trigger.__resizeListeners__.forEach(function(fn){
+        fn.call(trigger, e);
+      });
+    });
+  }
+
+  function objectLoad(e){
+    this.contentDocument.defaultView.__resizeTrigger__ = this.__resizeElement__;
+    this.contentDocument.defaultView.addEventListener('resize', resizeListener);
+  }
+
+  window.addResizeListener = function(element, fn){
+    if (!element.__resizeListeners__) {
+      element.__resizeListeners__ = [];
+      if (attachEvent) {
+        element.__resizeTrigger__ = element;
+        element.attachEvent('onresize', resizeListener);
+      }
+      else {
+        if (getComputedStyle(element).position == 'static') element.style.position = 'relative';
+        var obj = element.__resizeTrigger__ = document.createElement('object');
+        obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;');
+        obj.__resizeElement__ = element;
+        obj.onload = objectLoad;
+        obj.type = 'text/html';
+        if (isIE) element.appendChild(obj);
+        obj.data = 'about:blank';
+        if (!isIE) element.appendChild(obj);
+      }
+    }
+    element.__resizeListeners__.push(fn);
+  };
+
+  window.removeResizeListener = function(element, fn){
+    element.__resizeListeners__.splice(element.__resizeListeners__.indexOf(fn), 1);
+    if (!element.__resizeListeners__.length) {
+      if (attachEvent) element.detachEvent('onresize', resizeListener);
+      else {
+        element.__resizeTrigger__.contentDocument.defaultView.removeEventListener('resize', resizeListener);
+        element.__resizeTrigger__ = !element.removeChild(element.__resizeTrigger__);
+      }
+    }
+  }
+})();
+
+function add_xml_form_listener(){
+    //implementing the event listener above to attach to the xml form resize
+    var myElement = document.getElementById('generate-xml-form'),
+    myResizeFn = function(){
+        var x = $("#generate-xml-form").width()+20;
+        $('.container').css({'margin-left':x+'px'});
+    };
+    addResizeListener(myElement, myResizeFn);
 }

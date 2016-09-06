@@ -36,7 +36,9 @@ function generateTable(operators, host_ids, server_url) {
     tableHeading.appendChild(hostsCSVLink);
 }
 
-function backToTop(){window.scrollTo(0, 0);}
+function backToTop() {
+    window.scrollTo(0, 0);
+}
 
 function getCookie(name) {
     var cookieValue = null;
@@ -405,7 +407,7 @@ function create_selector(level) {
     return "[data-level='" + level + "']";
 }
 
-function collapseAllTableRows(){
+function collapseAllTableRows() {
     $('.expanded[data-level="1"]').click();
 }
 
@@ -431,12 +433,14 @@ function remove_rows(table_row, server_url) {
         case 1:
             table_row.setAttribute("onclick", "get_tours(this, this.id,'" + server_url + "'); " +
                 "populate_form_fields('" + host_id + "')");
-            try{
+            try {
                 Array.prototype.slice.call(table_row.getElementsByTagName("td")[0].getElementsByTagName("button")).forEach(
                     function (item) {
                         item.remove();
                     });
-            }catch(err) {console.log("Error: Download csv button does not exist to be deleted")}
+            } catch (err) {
+                console.log("Error: Download csv button does not exist to be deleted")
+            }
             break;
         case 2:
             table_row.setAttribute('onclick', "get_tour_bases(this, this.id,'" + server_url + "'); " +
@@ -449,9 +453,11 @@ function remove_rows(table_row, server_url) {
             table_row.setAttribute("onclick", "get_tour_times(this, this.id,'" + server_url + "'); " +
                 "populate_form_fields('" + host_id + "','" + tour_code + "','" + tour_basis_id + "','" +
                 tour_sub_basis_id + "')");
-            try{
+            try {
                 table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
-            }catch(err) {console.log("Error: Download csv button does not exist to be deleted")}
+            } catch (err) {
+                console.log("Error: Download csv button does not exist to be deleted")
+            }
             break;
         case 5:
             table_row.setAttribute("onclick", "get_tour_pickups(this, this.id,'" + server_url + "'); populate_form_fields('" + host_id + "','" +
@@ -460,15 +466,18 @@ function remove_rows(table_row, server_url) {
                 tour_sub_basis_id + "','" +
                 tour_time_id + "','" +
                 pickup_id + "')");
-            try{
+            try {
                 table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
-            }catch(err) {console.log("Error: Download csv button does not exist to be deleted")}
+            } catch (err) {
+                console.log("Error: Download csv button does not exist to be deleted")
+            }
             break;
         default:
             console.log('function remove_rows switch statement error')
     }
 }
 
+<<<<<<< HEAD
 
 function generate_xml_request(button) {
     window.scrollTo(0, 0);
@@ -1075,3 +1084,5 @@ function add_xml_form_listener(){
     };
     addResizeListener(myElement, myResizeFn);
 }
+=======
+>>>>>>> origin/master

@@ -111,6 +111,9 @@ def generate_xml(request):
     card_type_id = request.POST.get('card_type_id')
     card_expiry_month = request.POST.get('card_expiry_month')
     card_expiry_year = request.POST.get('card_expiry_year')
+    confirmation_no = request.POST.get('confirmation_no')
+    reason = request.POST.get('reason')
+    query = request.POST.get('query')
 
     if method_name == 'readTours':
         params = (host_id,)
@@ -162,14 +165,24 @@ def generate_xml(request):
             return JsonResponse({"fault": fault})
 
     elif method_name == 'readTourPricesRange':
-        product_list = []
-        #
-        # print(connection.readTourPricesRange(product_list))
+        try:
+            params = (eval(query),)
+        except ValueError:
+            fault = "Please enter a date"
+            return JsonResponse({"fault": fault})
 
     elif method_name == 'readTourAvailability':
         try:
             tour_date = format_date(tour_date)
             params = (host_id, tour_code, basis_id, sub_basis_id, tour_date, tour_time_id)
+        except ValueError:
+            fault = "Please enter a date"
+            return JsonResponse({"fault": fault})
+
+    elif method_name == 'readTourAvailabilityRange':
+        try:
+            print(query)
+            params = (eval(query),)
         except ValueError:
             fault = "Please enter a date"
             return JsonResponse({"fault": fault})
@@ -231,6 +244,9 @@ def generate_xml(request):
         except ValueError:
             fault = "Please enter a date"
             return JsonResponse({"fault": fault})
+
+    elif method_name == 'writeCancellation':
+        params = (host_id, confirmation_no, reason,)
 
     method_response = False
     encoding = 'iso-8859-1'

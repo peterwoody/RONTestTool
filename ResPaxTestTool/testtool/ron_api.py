@@ -195,6 +195,17 @@ def raw_xml_request(server_url, xml):
         table_response = process_xml_dict_response(tour_prices)
         xml_response = xmlrpclib.dumps((tour_prices,))
 
+    elif method == 'readTourPricesRange':
+        query = params[0]
+
+        try:
+            tour_prices_range = connection.readTourPricesRange(query)
+            print(tour_prices_range)
+        except xmlrpclib.Fault as error:
+            fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
+            return fault, {"Fault": [fault]}
+        table_response = process_xml_list_response(tour_prices_range)
+        xml_response = xmlrpclib.dumps((tour_prices_range,))
     elif method == 'readTourAvailability':
         host_id = params[0]
         tour_code = params[1]
@@ -210,6 +221,18 @@ def raw_xml_request(server_url, xml):
             return fault, {"Fault": [fault]}
         table_response = {"tourAvailability": [tour_availability]}
         xml_response = xmlrpclib.dumps((tour_availability,))
+
+    elif method == 'readTourAvailabilityRange':
+        query = params[0]
+
+        try:
+            tour_prices_range = connection.readTourAvailabilityRange(query)
+            print(tour_prices_range)
+        except xmlrpclib.Fault as error:
+            fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
+            return fault, {"Fault": [fault]}
+        table_response = process_xml_list_response(tour_prices_range)
+        xml_response = xmlrpclib.dumps((tour_prices_range,))
 
     elif method == 'checkReservation':
         host_id = params[0]
@@ -246,6 +269,19 @@ def raw_xml_request(server_url, xml):
             print write_reservation
             table_response = {"Write Reservation No.": [write_reservation]}
             xml_response = xmlrpclib.dumps((write_reservation,))
+        except xmlrpclib.Fault as error:
+            fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
+            return fault, {"Fault": [fault]}
+    elif method == 'writeCancellation':
+        host_id = params[0]
+        confirmation = params[1]
+        reason = params[2]
+
+        try:
+            write_cancellation = connection.writeCancellation(host_id, confirmation, reason)
+            print write_cancellation
+            table_response = {"Write Reservation No.": [write_cancellation]}
+            xml_response = xmlrpclib.dumps((write_cancellation,))
         except xmlrpclib.Fault as error:
             fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
             return fault, {"Fault": [fault]}

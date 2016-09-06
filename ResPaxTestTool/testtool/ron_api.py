@@ -44,6 +44,18 @@ def raw_xml_request(server_url, xml):
         table_response = process_xml_list_response(hosts)
         xml_response = xmlrpclib.dumps((hosts,))
 
+    elif method == 'readCurrentLogin':
+
+        try:
+            current_login = connection.readCurrentLogin()
+        except xmlrpclib.Fault as error:
+            fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
+            return fault, {"Fault": [fault]}
+
+        current_login = process_xml_array_dict_response(current_login)
+        table_response = current_login
+        xml_response = xmlrpclib.dumps((current_login,))
+
     elif method == 'readHostDetails':
         host_id = params[0]
         try:
@@ -88,6 +100,16 @@ def raw_xml_request(server_url, xml):
         table_response = process_xml_list_response(tours)
         xml_response = xmlrpclib.dumps((tours,))
 
+    elif method == 'readCreditStatus':
+        host_id = params[0]
+        try:
+            credit_status = connection.readCreditStatus(host_id)
+        except xmlrpclib.Fault as error:
+            fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
+            return fault, {"Fault": [fault]}
+        table_response = process_xml_credit_status(credit_status)
+        xml_response = xmlrpclib.dumps((credit_status,))
+
     elif method == 'readTourDetails':
         host_id = params[0]
         tour_code = params[1]
@@ -112,6 +134,21 @@ def raw_xml_request(server_url, xml):
 
         table_response = process_xml_list_response(tour_times)
         xml_response = xmlrpclib.dumps((tour_times,))
+
+    elif method == 'readTourWebDetails':
+        host_id = params[0]
+        tour_code = params[1]
+        try:
+            tour_web_details = connection.readTourWebDetails(host_id, tour_code, False)
+        except xmlrpclib.Fault as error:
+            fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
+            return fault, {"Fault": [fault]}
+
+        print type(tour_web_details)
+        print tour_web_details
+
+        table_response = process_xml_array_dict_response(tour_web_details)
+        xml_response = xmlrpclib.dumps((tour_web_details,))
 
     elif method == 'readTourBases':
         host_id = params[0]
@@ -327,5 +364,27 @@ def process_xml_dict_response(xml_response):
         else:
             table_response.setdefault(key, [])
             table_response[key].append(xml_response[key])
+
+    return table_response
+
+
+def process_xml_array_dict_response(xml_response):
+    table_response = {}
+    for i in xml_response:
+        for key in xml_response[i]:
+            if type(key) is dict:
+                table_response.update(process_xml_dict_response(i[key]))
+            else:
+                table_response.setdefault(key, [])
+                table_response[key].append(xml_response[i][key])
+
+    return table_response
+
+
+def process_xml_credit_status(xml_response):
+    table_response = {}
+
+    table_response.setdefault("Credit Status", [])
+    table_response["Credit Status"].append(xml_response)
 
     return table_response

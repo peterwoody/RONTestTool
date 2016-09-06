@@ -2,44 +2,47 @@
  * Created by Shaquille on 6/09/2016.
  */
 
-function generate_xml_request(button) {
+//function generate_xml_request(button) {
+$(document).ready(function() {
     window.scrollTo(0, 0);
     document.getElementById("xml_request").focus();
-    var server_url = document.getElementById('server_url').value || null;
-    var method_name = document.getElementById('method_name').value || null;
-    var tour_date = document.getElementById('date').value || null;
-    var host_id = document.getElementById('host_id').value || null;
-    var tour_code = document.getElementById('tour_code').value || null;
-    var tour_basis_id = document.getElementById('basis').value || null;
-    var tour_sub_basis_id = document.getElementById('sub_basis').value || null;
-    var tour_time_id = document.getElementById('tour_time_id').value || null;
-    var tour_pickup_id = document.getElementById('pickup_id').value || null;
-    var pickup_room_no = document.getElementById('pickup_room_no').value || null;
-    var tour_drop_off_id = document.getElementById('drop_off_id').value || null;
-    var pax_first_name = document.getElementById('pax_first_name').value || null;
-    var pax_last_name = document.getElementById('pax_last_name').value || null;
-    var pax_email = document.getElementById('pax_email').value || null;
-    var no_pax_adults = document.getElementById('no_pax_adults').value || null;
-    var no_pax_child = document.getElementById('no_pax_child').value || null;
-    var no_pax_infant = document.getElementById('no_pax_infant').value || null;
-    var no_pax_foc = document.getElementById('no_pax_foc').value || null;
-    var no_pax_user_defined = document.getElementById('no_pax_user_defined').value || null;
-    var general_comment = document.getElementById('general_comment').value || null;
-    var booking_confirmed = document.getElementById('booking_confirmed').value || null;
-    var payment_option = document.getElementById('payment_option').value || null;
-    var card_name = document.getElementById('card_name').value || null;
-    var card_pan = document.getElementById('card_pan').value || null;
-    var card_vn = document.getElementById('card_vn').value || null;
-    var card_type_id = document.getElementById('card_type_id').value || null;
-    var card_expiry_month = document.getElementById('card_expiry_month').value || null;
-    var card_expiry_year = document.getElementById('card_expiry_year').value || null;
-    var confirmation_no = document.getElementById('confirmation_no').value || null;
-    var reason = document.getElementById('reason').value || null;
-    var query = document.getElementById('query').value || null;
+    //var server_url = document.getElementById('server_url').value || null;
+    //var method_name = document.getElementById('method_name').value || null;
+    //var tour_date = document.getElementById('date').value || null;
+    //var host_id = document.getElementById('host_id').value || null;
+    //var tour_code = document.getElementById('tour_code').value || null;
+    //var tour_basis_id = document.getElementById('basis').value || null;
+    //var tour_sub_basis_id = document.getElementById('sub_basis').value || null;
+    //var tour_time_id = document.getElementById('tour_time_id').value || null;
+    //var tour_pickup_id = document.getElementById('pickup_id').value || null;
+    //var pickup_room_no = document.getElementById('pickup_room_no').value || null;
+    //var tour_drop_off_id = document.getElementById('drop_off_id').value || null;
+    //var pax_first_name = document.getElementById('pax_first_name').value || null;
+    //var pax_last_name = document.getElementById('pax_last_name').value || null;
+    //var pax_email = document.getElementById('pax_email').value || null;
+    //var no_pax_adults = document.getElementById('no_pax_adults').value || null;
+    //var no_pax_child = document.getElementById('no_pax_child').value || null;
+    //var no_pax_infant = document.getElementById('no_pax_infant').value || null;
+    //var no_pax_foc = document.getElementById('no_pax_foc').value || null;
+    //var no_pax_user_defined = document.getElementById('no_pax_user_defined').value || null;
+    //var general_comment = document.getElementById('general_comment').value || null;
+    //var booking_confirmed = document.getElementById('booking_confirmed').value || null;
+    //var payment_option = document.getElementById('payment_option').value || null;
+    //var card_name = document.getElementById('card_name').value || null;
+    //var card_pan = document.getElementById('card_pan').value || null;
+    //var card_vn = document.getElementById('card_vn').value || null;
+    //var card_type_id = document.getElementById('card_type_id').value || null;
+    //var card_expiry_month = document.getElementById('card_expiry_month').value || null;
+    //var card_expiry_year = document.getElementById('card_expiry_year').value || null;
+    //var confirmation_no = document.getElementById('confirmation_no').value || null;
+    //var reason = document.getElementById('reason').value || null;
+    //var query = document.getElementById('query').value || null;
 
     var generate_xml_form = $('#generate-xml-form');
 
     generate_xml_form.submit(function(event) {
+        //console.log(generate_xml_form.submitted.id);
+
 
     $.ajax({
         //type: generate_xml_form.method,
@@ -48,58 +51,59 @@ function generate_xml_request(button) {
         url: "/generate_xml/",
         dataType: 'json',
         async: true,
-        //data: generate_xml_form.serialize(),
-        data:{
-            server_url: server_url,
-            method_name: method_name,
-            tour_date: tour_date,
-            host_id: host_id,
-            tour_code: tour_code,
-            tour_time_id: tour_time_id,
-            tour_basis_id: tour_basis_id,
-            tour_sub_basis_id: tour_sub_basis_id,
-            tour_pickup_id: tour_pickup_id,
-            pickup_room_no: pickup_room_no,
-            tour_drop_off_id: tour_drop_off_id,
-            pax_first_name: pax_first_name,
-            pax_last_name: pax_last_name,
-            pax_email: pax_email,
-            no_pax_adults: no_pax_adults,
-            no_pax_child: no_pax_child,
-            no_pax_infant: no_pax_infant,
-            no_pax_foc: no_pax_foc,
-            no_pax_user_defined: no_pax_user_defined,
-            general_comment: general_comment,
-            booking_confirmed: booking_confirmed,
-            payment_option: payment_option,
-            card_name: card_name,
-            card_pan: card_pan,
-            card_vn: card_vn,
-            card_type_id: card_type_id,
-            card_expiry_month: card_expiry_month,
-            card_expiry_year: card_expiry_year,
-            confirmation_no: confirmation_no,
-            reason: reason,
-            query: query,
-            safe: false,
-            csrfmiddlewaretoken: csrftoken
-        },
+        data: generate_xml_form.serialize(),
+        //data:{
+        //    server_url: server_url,
+        //    method_name: method_name,
+        //    tour_date: tour_date,
+        //    host_id: host_id,
+        //    tour_code: tour_code,
+        //    tour_time_id: tour_time_id,
+        //    tour_basis_id: tour_basis_id,
+        //    tour_sub_basis_id: tour_sub_basis_id,
+        //    tour_pickup_id: tour_pickup_id,
+        //    pickup_room_no: pickup_room_no,
+        //    tour_drop_off_id: tour_drop_off_id,
+        //    pax_first_name: pax_first_name,
+        //    pax_last_name: pax_last_name,
+        //    pax_email: pax_email,
+        //    no_pax_adults: no_pax_adults,
+        //    no_pax_child: no_pax_child,
+        //    no_pax_infant: no_pax_infant,
+        //    no_pax_foc: no_pax_foc,
+        //    no_pax_user_defined: no_pax_user_defined,
+        //    general_comment: general_comment,
+        //    booking_confirmed: booking_confirmed,
+        //    payment_option: payment_option,
+        //    card_name: card_name,
+        //    card_pan: card_pan,
+        //    card_vn: card_vn,
+        //    card_type_id: card_type_id,
+        //    card_expiry_month: card_expiry_month,
+        //    card_expiry_year: card_expiry_year,
+        //    confirmation_no: confirmation_no,
+        //    reason: reason,
+        //    query: query,
+        //    safe: false,
+        //    csrfmiddlewaretoken: csrftoken
+        //},
 
         success: function (json) {
-            console.log("here");
+            document.getElementById('xml_response').textContent = "";
             if (json.fault != null) {
                 document.getElementById('xml_request').value = json.fault;
             } else {
                 document.getElementById('xml_request').value = json.generated_xml;
             }
-            if (button.id === "generate_submit_btn") {
+            if (document.activeElement.id === "generate_submit_btn") {
                 submit_xml_request();
             }
         }
 
     });event.preventDefault();
     });
-}
+//}
+    });
 
 function submit_xml_request() {
     var server_url = document.getElementById('server_url').value;
@@ -479,19 +483,61 @@ function show_hide_form_fields() {
         "reason": false,
         "query": false,
         "add_query_btn": false,
-        "del_query_btn": false
+        "del_query_btn": false,
+        "voucher_number": false
     };
 
-    if (method_name == 'readHosts') {
+    var required_dict = {
+        "host_id": false,
+        "tour_code": false,
+        "basis": false,
+        "sub_basis": false,
+        "tour_time_id": false,
+        "pickup_id": false,
+        "pickup_room_no": false,
+        "drop_off_id": false,
+        "date": false,
+        "pax_first_name": false,
+        "pax_last_name": false,
+        "pax_email": false,
+        "no_pax_adults": false,
+        "no_pax_child": false,
+        "no_pax_infant": false,
+        "no_pax_foc": false,
+        "no_pax_user_defined": false,
+        "general_comment": false,
+        "booking_confirmed": false,
+        "payment_option": false,
+        "card_name": false,
+        "card_pan": false,
+        "card_vn": false,
+        "card_type_id": false,
+        "card_expiry_month": false,
+        "card_expiry_year": false,
+        "confirmation_no": false,
+        "reason": false,
+        "query": false,
+        "add_query_btn": false,
+        "del_query_btn": false,
+        "voucher_number": false
+    };
+
+    if (method_name == 'readHosts' || method_name == 'readCurrentLogin') {
         //blank because the array does not change
     }
 
-    else if ((method_name == 'readHostDetails') || (method_name == 'readPaymentOptions') || (method_name == 'readTours') || (method_name == 'readPaxTypes')) {
+    else if  ( (method_name == 'readHostDetails') ||  (method_name == 'readPaymentOptions') || (method_name == 'readTours')
+                || (method_name == 'readPaxTypes')|| (method_name == 'readCreditStatus')){
         methodDict.host_id = true;
+        required_dict.host_id = true;
     }
-    else if ((method_name == 'readTourDetails') || (method_name == 'readTourBases') || (method_name == 'readTourTimes')) {
+    else if  ((method_name == 'readTourDetails') || (method_name == 'readTourBases') || (method_name == 'readTourTimes')
+                || (method_name == 'readTourWebDetails')){
         methodDict.host_id = true;
         methodDict.tour_code = true;
+
+        required_dict.host_id = true;
+        required_dict.tour_code = true;
     }
     else if (method_name == 'readTourPickups') {
         methodDict.host_id = true;
@@ -499,6 +545,12 @@ function show_hide_form_fields() {
         methodDict.basis = true;
         methodDict.tour_time_id = true;
         methodDict.date = true;
+
+        required_dict.host_id = true;
+        required_dict.tour_code = true;
+        required_dict.basis = true;
+        required_dict.tour_time_id = true;
+        required_dict.date = true;
     }
     else if (method_name == 'readTourPrices') {
         methodDict.host_id = true;
@@ -509,6 +561,13 @@ function show_hide_form_fields() {
         methodDict.pickup_id = true;
         methodDict.drop_off_id = true;
         methodDict.date = true;
+
+        required_dict.host_id = true;
+        required_dict.tour_code = true;
+        required_dict.basis = true;
+        required_dict.sub_basis = true;
+        required_dict.tour_time_id = true;
+        required_dict.date = true;
     } else if (method_name == 'readTourPricesRange') {
         methodDict.host_id = true;
         methodDict.tour_code = true;
@@ -520,6 +579,8 @@ function show_hide_form_fields() {
         methodDict.query = true;
         methodDict.add_query_btn = true;
         methodDict.del_query_btn = true;
+
+        required_dict.query = true;
     }
     else if (method_name == 'readTourAvailability') {
         methodDict.host_id = true;
@@ -528,6 +589,13 @@ function show_hide_form_fields() {
         methodDict.sub_basis = true;
         methodDict.tour_time_id = true;
         methodDict.date = true;
+
+        required_dict.host_id = true;
+        required_dict.tour_code = true;
+        required_dict.basis = true;
+        required_dict.sub_basis = true;
+        required_dict.tour_time_id = true;
+        required_dict.date = true;
     }
     else if (method_name == 'readTourAvailabilityRange') {
         methodDict.host_id = true;
@@ -539,6 +607,8 @@ function show_hide_form_fields() {
         methodDict.query = true;
         methodDict.add_query_btn = true;
         methodDict.del_query_btn = true;
+
+        required_dict.query = true;
     }
     else if (method_name === 'checkReservation' || method_name === 'checkReservationAndPrices') {
         methodDict = {
@@ -572,20 +642,72 @@ function show_hide_form_fields() {
             "reason": false,
             "query": false,
             "add_query_btn": false,
-            "del_query_btn": false
+            "del_query_btn": false,
+            "voucher_number": false
         };
+
+        required_dict.host_id = true;
+        required_dict.tour_code = true;
+        required_dict.basis = true;
+        required_dict.sub_basis = true;
+        required_dict.tour_time_id = true;
+        required_dict.date = true;
+        required_dict.pax_first_name = true;
+        required_dict.pax_last_name = true;
     }
 
     else if (method_name == 'writeReservation') {
-        //Setting all to true as this method requires all the fields
-        for (var key in methodDict) {
-            methodDict[key] = true;
-        }
+         methodDict = {
+            "host_id": true,
+            "tour_code": true,
+            "basis": true,
+            "sub_basis": true,
+            "tour_time_id": true,
+            "pickup_id": true,
+            "pickup_room_no": true,
+            "drop_off_id": true,
+            "date": true,
+            "pax_first_name": true,
+            "pax_last_name": true,
+            "pax_email": true,
+            "no_pax_adults": true,
+            "no_pax_child": true,
+            "no_pax_infant": true,
+            "no_pax_foc": true,
+            "no_pax_user_defined": true,
+            "general_comment": true,
+            "booking_confirmed": true,
+            "payment_option": true,
+            "card_name": true,
+            "card_pan": true,
+            "card_vn": true,
+            "card_type_id": true,
+            "card_expiry_month": true,
+            "card_expiry_year": true,
+            "confirmation_no": false,
+            "reason": false,
+            "query": false,
+            "add_query_btn": false,
+            "del_query_btn": false,
+            "voucher_number": true
+        };
+        required_dict.host_id = true;
+        required_dict.tour_code = true;
+        required_dict.basis = true;
+        required_dict.sub_basis = true;
+        required_dict.tour_time_id = true;
+        required_dict.date = true;
+        required_dict.pax_first_name = true;
+        required_dict.pax_last_name = true;
     }
     else if (method_name === "writeCancellation") {
         methodDict.host_id = true;
         methodDict.confirmation_no = true;
         methodDict.reason = true;
+
+        required_dict.host_id = true;
+        required_dict.confirmation_no = true;
+        required_dict.reason = true;
     }
 
 
@@ -599,6 +721,15 @@ function show_hide_form_fields() {
             id.hide();
             id.removeAttr('required');
             $("#" + key + "_label").hide();
+        }
+    }
+
+    for (var key in required_dict) {
+        var id = $("#" + key);
+        if (required_dict[key]) {
+            id.attr("required", true);
+        } else {
+            id.removeAttr('required');
         }
     }
 }

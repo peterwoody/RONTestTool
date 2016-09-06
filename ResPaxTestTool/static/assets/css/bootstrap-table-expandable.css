@@ -197,7 +197,7 @@ table.table-expandable > tbody > tr[data-level='5'] td:first-child {
     bottom: 20px;
     width: 200px;
     resize:horizontal;
-    overflow:auto;
+    overflow:scroll;
 }
 
 .generate-xml-form input[type='number']{
@@ -222,10 +222,15 @@ table.table-expandable > tbody > tr[data-level='5'] td:first-child {
     float: none;
     margin-bottom: 0px;
 }
+.method_form{
+    resize:horizontal;
+    overflow:auto;
+}
 
 .generate-xml-form div{
     overflow-y: auto;
     height: 80%;
+
 }
 
 .logout {

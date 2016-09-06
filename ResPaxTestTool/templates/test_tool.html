@@ -51,7 +51,7 @@
         </div>
 
         <div class="nav" style="padding-right: 10px; padding-top: 22px; float: right; height: 83px">
-{#            <input type="button" id="collapseAllTableRowsbtn" onclick="collapseAllTableRows()" value="Collapse Table">#}
+            {#            <input type="button" id="collapseAllTableRowsbtn" onclick="collapseAllTableRows()" value="Collapse Table">#}
             <input type="button" id="collapseAllTableRowsbtn" onclick="collapseAllTableRows()" value="Collapse Table">
         </div>
 
@@ -114,21 +114,19 @@
         </div>
 
     </div>
-    <form id="generate-xml-form" class="generate-xml-form">
-        <input id="server_url" name="server_url" value="{{ server_url }}" hidden>
-        <input type="submit" name="submit" value="Generate XML" onclick="generate_xml_request(this)">
+    <div id="method_form" class="generate-xml-form">
+    <form id="generate-xml-form"> {% csrf_token %}
+        <input id="generate_xml_btn" type="submit" name="submit" value="Generate XML" {#onclick="generate_xml_request(this)"#}>
 
-        <input id="generate_submit_btn" type="submit" name="submit" value="Generate & Submit XML"
-               onclick="generate_xml_request(this)">
-
-<<<<<<< HEAD
-        <div class="method_form">
-=======
+        <input id="generate_submit_btn" type="submit" name="submit" value="Generate & Submit XML"  onclick="this.form.submitted=this.id;"
+               {#onclick="generate_xml_request(this)"#}>
         <input id="add_query_btn" name="add_query_btn" type="submit" value="Add Query" onclick="add_query()" hidden>
-        <input id="del_query_btn" name="del_query_btn" type="submit" value="Delete Query" onclick="delete_query()" hidden>
+        <input id="del_query_btn" name="del_query_btn" type="submit" value="Delete Query" onclick="delete_query()"
+               hidden>
 
-        <div>
->>>>>>> origin/master
+
+
+
             <label for="method_name">Method Name:</label>
             <select id="method_name" name="method_name">
                 <option>readHosts</option>
@@ -255,9 +253,9 @@
             <textarea id="query" name="query" readonly hidden>[]</textarea>
 
 
-        </div>
-    </form>
 
+    </form>
+</div>
     <div class="XMLRequestArea">
         <label for="xml_request">XML Request</label>
         <br>
@@ -300,7 +298,6 @@
     </table>
 
 </div>
-
 
 
 </body>

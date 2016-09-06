@@ -144,10 +144,7 @@ def raw_xml_request(server_url, xml):
             fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
             return fault, {"Fault": [fault]}
 
-        print type(tour_web_details)
-        print tour_web_details
-
-        table_response = process_xml_array_dict_response(tour_web_details)
+        table_response = process_xml_dict_response(tour_web_details)
         xml_response = xmlrpclib.dumps((tour_web_details,))
 
     elif method == 'readTourBases':
@@ -200,7 +197,7 @@ def raw_xml_request(server_url, xml):
 
         try:
             tour_prices_range = connection.readTourPricesRange(query)
-            print(tour_prices_range)
+
         except xmlrpclib.Fault as error:
             fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
             return fault, {"Fault": [fault]}
@@ -227,7 +224,7 @@ def raw_xml_request(server_url, xml):
 
         try:
             tour_prices_range = connection.readTourAvailabilityRange(query)
-            print(tour_prices_range)
+
         except xmlrpclib.Fault as error:
             fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
             return fault, {"Fault": [fault]}
@@ -240,7 +237,7 @@ def raw_xml_request(server_url, xml):
         payment = params[2]
         try:
             check_reservation = connection.checkReservation(host_id, reservation, payment)
-            print check_reservation
+
             table_response = {"Check Reservation": check_reservation}
             xml_response = xmlrpclib.dumps((check_reservation,))
         except xmlrpclib.Fault as error:
@@ -266,7 +263,7 @@ def raw_xml_request(server_url, xml):
         credit_card = params[4]
         try:
             write_reservation = connection.writeReservation(host_id, is_confirmed, reservation, payment, credit_card)
-            print write_reservation
+
             table_response = {"Write Reservation No.": [write_reservation]}
             xml_response = xmlrpclib.dumps((write_reservation,))
         except xmlrpclib.Fault as error:
@@ -368,6 +365,7 @@ def process_xml_dict_response(xml_response):
     return table_response
 
 
+# this function didn't work
 def process_xml_array_dict_response(xml_response):
     table_response = {}
     for i in xml_response:

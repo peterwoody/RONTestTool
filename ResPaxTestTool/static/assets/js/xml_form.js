@@ -5,6 +5,7 @@
 function generate_xml_request(button) {
     window.scrollTo(0, 0);
     document.getElementById("xml_request").focus();
+    var server_url = document.getElementById('server_url').value || null;
     var method_name = document.getElementById('method_name').value || null;
     var tour_date = document.getElementById('date').value || null;
     var host_id = document.getElementById('host_id').value || null;
@@ -36,13 +37,20 @@ function generate_xml_request(button) {
     var reason = document.getElementById('reason').value || null;
     var query = document.getElementById('query').value || null;
 
+    var generate_xml_form = $('#generate-xml-form');
+
+    generate_xml_form.submit(function(event) {
+
     $.ajax({
-        type: 'POST',
-        url: '/generate_xml/',
+        //type: generate_xml_form.method,
+        //url: generate_xml_form.action,
+        type: "POST",
+        url: "/generate_xml/",
         dataType: 'json',
         async: true,
-
-        data: {
+        //data: generate_xml_form.serialize(),
+        data:{
+            server_url: server_url,
             method_name: method_name,
             tour_date: tour_date,
             host_id: host_id,
@@ -78,6 +86,7 @@ function generate_xml_request(button) {
         },
 
         success: function (json) {
+            console.log("here");
             if (json.fault != null) {
                 document.getElementById('xml_request').value = json.fault;
             } else {
@@ -87,7 +96,9 @@ function generate_xml_request(button) {
                 submit_xml_request();
             }
         }
-    })
+
+    });event.preventDefault();
+    });
 }
 
 function submit_xml_request() {
@@ -579,11 +590,14 @@ function show_hide_form_fields() {
 
 
     for (var key in methodDict) {
+        var id = $("#" + key);
         if (methodDict[key]) {
-            $("#" + key).show();
+            id.show();
+            id.attr("required", true);
             $("#" + key + "_label").show();
         } else {
-            $("#" + key).hide();
+            id.hide();
+            id.removeAttr('required');
             $("#" + key + "_label").hide();
         }
     }

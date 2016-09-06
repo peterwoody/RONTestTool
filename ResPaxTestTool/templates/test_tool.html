@@ -114,7 +114,8 @@
         </div>
 
     </div>
-    <div id="generate-xml-form" class="generate-xml-form">
+    <form id="generate-xml-form" class="generate-xml-form">
+        <input id="server_url" name="server_url" value="{{ server_url }}" hidden>
         <input type="submit" name="submit" value="Generate XML" onclick="generate_xml_request(this)">
 
         <input id="generate_submit_btn" type="submit" name="submit" value="Generate & Submit XML"
@@ -125,7 +126,7 @@
 
         <div>
             <label for="method_name">Method Name:</label>
-            <select id="method_name">
+            <select id="method_name" name="method_name">
                 <option>readHosts</option>
                 <option>readHostDetails</option>
                 <option>readPaymentOptions</option>
@@ -245,7 +246,7 @@
 
 
         </div>
-    </div>
+    </form>
 
     <div class="XMLRequestArea">
         <label for="xml_request">XML Request</label>

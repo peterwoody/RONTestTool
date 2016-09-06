@@ -14,6 +14,7 @@
     <script src={% static "js/jquery-2.1.4.min.js" %}></script>
     <script src={% static "js/collapsibleTable.js" %}></script>
     <script src={% static "js/table_creation.js" %}></script>
+    <script src={% static "js/xml_form.js" %}></script>
     <script src={% static "js/csv_functions.js" %}></script>
 </head>
 <body>
@@ -119,6 +120,9 @@
         <input id="generate_submit_btn" type="submit" name="submit" value="Generate & Submit XML"
                onclick="generate_xml_request(this)">
 
+        <input id="add_query_btn" name="add_query_btn" type="submit" value="Add Query" onclick="add_query()" hidden>
+        <input id="del_query_btn" name="del_query_btn" type="submit" value="Delete Query" onclick="delete_query()" hidden>
+
         <div>
             <label for="method_name">Method Name:</label>
             <select id="method_name">
@@ -132,7 +136,9 @@
                 <option>readTourTimes</option>
                 <option>readTourPickups</option>
                 <option>readTourPrices</option>
+                <option>readTourPricesRange</option>
                 <option>readTourAvailability</option>
+                <option>readTourAvailabilityRange</option>
                 <option>checkReservation</option>
                 <option>checkReservationAndPrices</option>
                 <option>writeReservation</option>
@@ -193,13 +199,22 @@
             <input id="general_comment" name="general_comment" type="text" hidden>
 
             <label id="booking_confirmed_label" for="booking_confirmed" hidden>Booking Confirmed:</label>
-            <select id="booking_confirmed" hidden>
+            <select id="booking_confirmed" name="booking_confirmed" hidden>
                 <option value="-1">YES</option>
                 <option value="0">NO</option>
             </select>
 
             <label id="payment_option_label" for="payment_option" hidden>Payment Option:</label>
-            <input id="payment_option" name="payment_option" type="text" hidden>
+            <select id="payment_option" name="payment_option" hidden>
+                <option value="comm-agent/bal-pob">comm-agent/bal-pob</option>
+                <option value="full-agent">full-agent</option>
+                <option value="bal-agent/levy-pob">bal-agent/levy-pob</option>
+                <option value="full-ccard">full-ccard</option>
+                <option value="bal-ccard/levy-pob">bal-ccard/levy-pob</option>
+                <option value="full-pob">full-pob</option>
+                <option value="comm-ccard/bal-pob">comm-ccard/bal-pob</option>
+                <option value="comm-agent/bal-ccard">comm-agent/bal-ccard</option>
+            </select>
 
             <label id="card_name_label" for="card_name" hidden>Card Name:</label>
             <input id="card_name" name="card_name" type="text" hidden>
@@ -224,6 +239,9 @@
 
             <label id="reason_label" for="reason" hidden>Reason:</label>
             <input id="reason" name="reason" type="text" hidden>
+
+            <label id="query_label" for="query" hidden>Query:</label>
+            <textarea id="query" name="query" readonly hidden>[]</textarea>
 
 
         </div>

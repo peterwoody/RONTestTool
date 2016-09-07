@@ -113,8 +113,13 @@ nav .navbar-header:hover {
     width: 100%;
     height: 200px;
 }
+table{
+    margin-top: 20px;!important;
+}
+
 .table-response table{
     width: 1500px;
+
 }
 .table-response th{
     color: #E0D65B;
@@ -196,8 +201,6 @@ table.table-expandable > tbody > tr[data-level='5'] td:first-child {
     left: 20px;
     bottom: 20px;
     width: 200px;
-    resize:horizontal;
-    overflow:scroll;
 }
 
 .generate-xml-form input[type='number']{
@@ -222,14 +225,15 @@ table.table-expandable > tbody > tr[data-level='5'] td:first-child {
     float: none;
     margin-bottom: 0px;
 }
-.method_form{
-    resize:horizontal;
-    overflow:auto;
-}
+/*.method_form{*/
+    /*resize:horizontal;*/
+    /*overflow:auto;*/
+/*}*/
 
 .generate-xml-form div{
-    overflow-y: auto;
-    height: 80%;
+    overflow: scroll;
+    height: 90%;
+    resize: horizontal;
 
 }
 

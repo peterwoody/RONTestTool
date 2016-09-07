@@ -95,7 +95,6 @@ function get_tours(tableRow, id, server_url) {
                 $(tableRow).after(newTableRow);
             } else if (typeof json.tours === 'object') {
                 if (json.tours.length > 0) {
-                    console.log("id: " + id);
                     addCSVButton(tableRow, tableRow.getElementsByTagName("td")[0], id, server_url, "tour codes");
                     for (var i = 0; i in json.tours; i++) {
                         var new_id = id + ',' + json.tours[i]['strTourCode'].toString();
@@ -372,6 +371,13 @@ function get_tour_pickups(tableRow, id, server_url) {
 }
 
 function populate_form_fields(host_id, tour_code, tour_basis_id, tour_sub_basis_id, tour_time_id, tour_pickups) {
+    if (typeof(host_id)==='undefined') host_id = "";
+    if (typeof(tour_code)==='undefined') tour_code = "";
+    if (typeof(tour_basis_id)==='undefined') tour_basis_id = "";
+    if (typeof(tour_sub_basis_id)==='undefined') tour_sub_basis_id = "";
+    if (typeof(tour_time_id)==='undefined') tour_time_id = "";
+    if (typeof(tour_pickups)==='undefined') tour_pickups = "";
+
     document.getElementById("host_id").value = host_id;
     document.getElementById("tour_code").value = tour_code;
     document.getElementById("basis").value = tour_basis_id;

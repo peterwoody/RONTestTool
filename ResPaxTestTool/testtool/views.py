@@ -91,7 +91,7 @@ def generate_xml(request):
     tour_time_id = request.POST.get('tour_time_id')
     pickup_id = request.POST.get('pickup_id')
     pickup_room_no = request.POST.get('pickup_room_no')
-    drop_off_id = request.POST.get('tour_drop_off_id')
+    drop_off_id = request.POST.get('drop_off_id')
     tour_date = request.POST.get('date')
     pax_first_name = request.POST.get('pax_first_name')
     pax_last_name = request.POST.get('pax_last_name')

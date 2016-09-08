@@ -26,34 +26,45 @@
         </a>
     </div>
     <div id="navbar" class="nav">
-        <form action="/test_tool/" method="post"> {% csrf_token %}
-            <input id="server_url" name="server_url" value="{{ server_url }}" hidden>
-            <input id="switch_server_button" name="switch_server_button" value="{{ switch_server_button }}" hidden>
-            <ul class="nav navbar-nav" id="navbarcenter">
-                <li id="centerlist">
-                    <button id="switch_server_btn" name="submit" value="switch_server" type="submit"
-                            style="text-transform: uppercase">you are in {{ switch_server_button }}<br>Click to change
+
+        <ul class="nav navbar-nav" id="navbarcenter">
+            <li {#id="centerlist"#}>
+                <form action="/test_tool/" method="post"> {% csrf_token %}
+                    <input id="server_url" name="server_url" value="{{ server_url }}" hidden>
+                    <input id="switch_server_button" name="switch_server_button" value="{{ switch_server_button }}"
+                           hidden>
+                    <button {#id="switch_server_btn"#} name="submit" value="switch_server" type="submit"
+                                                       style="text-transform: uppercase">you are
+                        in {{ switch_server_button }}<br>Click to change
                         mode<br> to {{ not_switch_server_button }}
                     </button>
-                </li>
-            </ul>
-        </form>
+                </form>
+            </li>
+            <li>
+                <button id="collapseAllTableRowsbtn" onclick="collapseAllTableRows()" value="Collapse Table">COLLAPSE
+                    TABLE
+                </button>
+            </li>
+
+        </ul>
 
 
         <ul class="nav navbar-right">
-            <li id="rightList"><a href="/logout/">Log out <span class="sr-only">(current)</span></a></li>
+            <li>
+                <div {#class="nav backToTop"#} onclick="backToTop()">
+                    <img id="to-top-img" src="{% static "img/backToTop.png" %}"/>
+
+                    <p style="text-align: center">TO TOP</p>
+                </div>
+            </li>
+            <li {#id="rightList"#}><a href="/logout/">LOG OUT {#<span class="sr-only">(current)</span>#}</a></li>
         </ul>
 
-        <div class="nav backToTop" onclick="backToTop()">
-            <img id="to-top-img" src="{% static "img/backToTop.png" %}"/>
 
-            <p style="text-align: center">To Top</p>
-        </div>
-
-        <div class="nav" style="padding-right: 10px; padding-top: 22px; float: right; height: 83px">
-            {#            <input type="button" id="collapseAllTableRowsbtn" onclick="collapseAllTableRows()" value="Collapse Table">#}
-            <input type="button" id="collapseAllTableRowsbtn" onclick="collapseAllTableRows()" value="Collapse Table">
-        </div>
+        {#        <div class="nav" style="padding-right: 10px; padding-top: 22px; float: right; height: 83px">#}
+        {#            <input type="button" id="collapseAllTableRowsbtn" onclick="collapseAllTableRows()" value="Collapse Table">#}
+        {#            <input type="button" id="collapseAllTableRowsbtn" onclick="collapseAllTableRows()" value="Collapse Table">#}
+        {#        </div>#}
 
     </div>
 
@@ -133,12 +144,14 @@
                 <option>readHostDetails</option>
                 <option>readPaymentOptions</option>
                 <option>readPaxTypes</option>
+                <option>readSources</option>
                 <option>readTours</option>
                 <option>readCreditStatus</option>
                 <option>readTourDetails</option>
                 <option>readTourBases</option>
                 <option>readTourTimes</option>
                 <option>readTourWebDetails</option>
+                <option>readTourPickup</option>
                 <option>readTourPickups</option>
                 <option>readTourPrices</option>
                 <option>readTourPricesRange</option>
@@ -306,5 +319,28 @@
 <script type="text/javascript">
     generateTable({{ host_name | safe }}, {{ host_id | safe }}, "{{ server_url | safe }}");
     $('#generate-xml-form').on('change', '#method_name', show_hide_form_fields);
+
+    var height = $("#generate-xml-form").height();
+    var generate_xml_btn_offset = $("#generate_xml_btn").offset().top;
+    var method_form_offset = $("#method_form").offset().top;
+    var newHeight = height - method_form_offset + generate_xml_btn_offset;
+    $('#method_form').css({'height': newHeight + 'px'});
+
+    $('#generate-xml-form').on('change', '#method_name', function () {
+        var height = $("#generate-xml-form").height();
+        var generate_xml_btn_offset = $("#generate_xml_btn").offset().top;
+        var method_form_offset = $("#method_form").offset().top;
+        var newHeight = height - method_form_offset + generate_xml_btn_offset;
+        $('#method_form').css({'height': newHeight + 'px'});
+    });
+
+    window.onresize = function (event) {
+        var height = $("#generate-xml-form").height();
+        var generate_xml_btn_offset = $("#generate_xml_btn").offset().top;
+        var method_form_offset = $("#method_form").offset().top;
+        var newHeight = height - method_form_offset + generate_xml_btn_offset;
+        $('#method_form').css({'height': newHeight + 'px'});
+    };
     add_xml_form_listener();
+
 </script>

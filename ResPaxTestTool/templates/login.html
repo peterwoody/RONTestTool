@@ -8,35 +8,43 @@
 </head>
 <body>
 <div class="container">
-        <div class="card card-container">
-            <img id="login-img" class="login-img" src="{% static "img/respax-logo.png" %}" />
-            <p id="profile-name" class="profile-name-card"></p>
-            <form id="login_form" name="login_form" class="form-signin" action="/test_tool/" method="post"> {% csrf_token %}
-                <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
-                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+    <div class="card card-container">
+        <img id="login-img" class="login-img" src="{% static "img/respax-logo.png" %}"/>
+
+        <p id="profile-name" class="profile-name-card"></p>
+
+        <form id="login_form" name="login_form" class="form-signin" action="/test_tool/" method="post"> {% csrf_token %}
+            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required
+                   autofocus>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
 
 
-
-{#                <label for="live" class="btn">Live: </label>#}
-{##}
-{#                <input type="radio" id="live" name="server_config" class="form-control" value="live" checked>#}
-{##}
-{#                <label for="train" class="btn">Train: </label>#}
-{##}
-{#                <input type="radio" id="train" name="server_config" class="form-control" value="train">#}
-
-                <div id="bounds">
-                    <label class="live"><input type="radio" name="server_config" value="live" checked><span>Live</span></label>
-                    <label class="train"><input type="radio" name="server_config" value="train"><span>Training</span></label>
-                </div>
+            <div id="bounds">
+                <label class="live"><input type="radio" name="server_config" value="live"><span>Live</span></label>
+                <label class="train"><input type="radio" name="server_config" value="train"
+                                            checked><span>Training</span></label>
+            </div>
 
 
+            <button name="submit" value="login" class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Log
+                in
+            </button>
+        </form>
+    <p style="text-align: justify;">The ResPax Operator Network (RON) XML API is the window into a real-time tour operator portal network
+            connecting in real-time to major Australian, New Zealand and Asia tour operators.
+            The ResPax Operator Network enables development of interfaces to directly interact with each operator
+            retrieving tour details with imagery, check availability, check prices and commit bookings directly into the
+            remote operators system.
+            The RON XMLRPC API is suitable for Travel Agents, Online Agents, Inbound Agents, Online Operators and Online
+            Portals needing to develop a direct system-to-system interface between their system and the ResPax
+            Operators.
 
-
-                <button name="submit" value="login" class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Log in</button>
-            </form>
-
-        </div>
+            This RON Test Tool has been provided to aid in exporting Operator and Tour content for initial uploads to
+            Agent systems, and to test your XML code in a proven API environment with Error handling.
+            If you have any questions regarding the use of this tool, please contact the ResPax Support Team.
+        </p>
     </div>
+
+</div>
 </body>
 </html>

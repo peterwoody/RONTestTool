@@ -133,6 +133,9 @@ def generate_xml(request):
     elif method_name == 'readPaxTypes':
         params = (host_id,)
 
+    elif method_name == 'readSources':
+        params = (host_id,)
+
     elif method_name == 'readCreditStatus':
         params = (host_id,)
 
@@ -147,6 +150,9 @@ def generate_xml(request):
 
     elif method_name == 'readTourWebDetails':
         params = (host_id, tour_code)
+
+    elif method_name == 'readTourPickup':
+        params = (host_id, tour_code, basis_id, tour_time_id, pickup_id)
 
     elif method_name == 'readTourPickups':
         try:
@@ -247,6 +253,9 @@ def generate_xml(request):
 
     elif method_name == 'writeCancellation':
         params = (host_id, confirmation_no, reason,)
+
+    else:
+        return JsonResponse({'fault': "Method not implemented yet."})
 
     method_response = False
     encoding = 'iso-8859-1'

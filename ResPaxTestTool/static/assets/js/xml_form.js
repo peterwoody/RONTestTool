@@ -273,6 +273,7 @@ function fill_form_xml() {
     var card_type_id = document.getElementById('card_type_id');
     var card_expiry_month = document.getElementById('card_expiry_month');
     var card_expiry_year = document.getElementById('card_expiry_year');
+    var query = document.getElementById('query');
 
     $.ajax({
         type: 'POST',
@@ -299,7 +300,13 @@ function fill_form_xml() {
                 case "readPaxTypes":
                     host_id.value = json.loaded_xml[0][0];
                     break;
+                case "readSources":
+                    host_id.value = json.loaded_xml[0][0];
+                    break;
                 case "readTours":
+                    host_id.value = json.loaded_xml[0][0];
+                    break;
+                case "readCreditStatus":
                     host_id.value = json.loaded_xml[0][0];
                     break;
                 case "readTourDetails":
@@ -313,6 +320,17 @@ function fill_form_xml() {
                 case "readTourTimes":
                     host_id.value = json.loaded_xml[0][0];
                     tour_code.value = json.loaded_xml[0][1];
+                    break;
+                case "readTourWebDetails":
+                    host_id.value = json.loaded_xml[0][0];
+                    tour_code.value = json.loaded_xml[0][1];
+                    break;
+                case "readTourPickup":
+                    host_id.value = json.loaded_xml[0][0];
+                    tour_code.value = json.loaded_xml[0][1];
+                    tour_basis_id.value = json.loaded_xml[0][2];
+                    tour_time_id.value = json.loaded_xml[0][3];
+                    tour_pickup_id.value = json.loaded_xml[0][4];
                     break;
                 case "readTourPickups":
                     host_id.value = json.loaded_xml[0][0];
@@ -337,6 +355,9 @@ function fill_form_xml() {
                     var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
                     tour_date.value = formattedDate;
                     break;
+                case "readTourPricesRange":
+                    query.value = JSON.stringify(json.loaded_xml[0][0]);
+                    break;
                 case "readTourAvailability":
                     host_id.value = json.loaded_xml[0][0];
                     tour_code.value = json.loaded_xml[0][1];
@@ -347,6 +368,9 @@ function fill_form_xml() {
                     var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
                     tour_date.value = formattedDate;
 
+                    break;
+                case "readTourAvailabilityRange":
+                    query.value = JSON.stringify(json.loaded_xml[0][0]);
                     break;
                 case "checkReservation":
                     host_id.value = json.loaded_xml[0][0];
@@ -526,7 +550,7 @@ function show_hide_form_fields() {
     }
 
     else if ((method_name == 'readHostDetails') || (method_name == 'readPaymentOptions') || (method_name == 'readTours')
-        || (method_name == 'readPaxTypes') || (method_name == 'readCreditStatus')) {
+        || (method_name == 'readPaxTypes') || (method_name == 'readCreditStatus') || (method_name == 'readSources')) {
         methodDict.host_id = true;
         required_dict.host_id = true;
     }
@@ -537,6 +561,18 @@ function show_hide_form_fields() {
 
         required_dict.host_id = true;
         required_dict.tour_code = true;
+    }
+    else if (method_name == 'readTourPickup') {
+        methodDict.host_id = true;
+        methodDict.tour_code = true;
+        methodDict.basis = true;
+        methodDict.tour_time_id = true;
+        methodDict.pickup_id = true;
+
+        required_dict.host_id = true;
+        required_dict.tour_code = true;
+        required_dict.tour_time_id = true;
+        required_dict.pickup_id = true;
     }
     else if (method_name == 'readTourPickups') {
         methodDict.host_id = true;

@@ -130,10 +130,11 @@
         <input id="generate_xml_btn" type="submit" name="submit" value="Generate XML">
 
         <input id="generate_submit_btn" type="submit" name="submit" value="Generate & Submit XML">
-        <input id="add_query_btn" name="add_query_btn" type="submit" value="Add Query" onclick="add_query()" hidden>
-        <input id="del_query_btn" name="del_query_btn" type="submit" value="Delete Query" onclick="delete_query()"
+        <input id="add_query_btn" name="add_query_btn" type="button" value="Add Query" onclick="add_query()" hidden>
+        <input id="del_query_btn" name="del_query_btn" type="button" value="Delete Query" onclick="delete_query()"
                hidden>
 
+        <input id="switch_user_btn" name="switch_user_btn" type="button" value="Switch User" onclick="switch_users()" hidden>
 
         <div id="method_form">
 
@@ -161,6 +162,7 @@
                 <option>checkReservationAndPrices</option>
                 <option>writeReservation</option>
                 <option>writeCancellation</option>
+                <option>Switch User</option>
             </select>
             <label id="host_id_label" for="host_id" hidden>Host ID:</label>
             <input id="host_id" name="host_id" type="text" hidden>
@@ -186,8 +188,14 @@
             <label id="drop_off_id_label" for="drop_off_id" hidden>Drop Off ID:</label>
             <input id="drop_off_id" name="drop_off_id" type="text" hidden>
 
-            <label id="date_label" for="date" hidden>Date:</label>
-            <input id="date" name="date" type="date" hidden>
+            <label id="tour_date_label" for="date" hidden>Date:</label>
+            <input id="tour_date" name="tour_date" type="date" hidden>
+
+            <label id="start_date_label" for="start_date" hidden>Start Date:</label>
+            <input id="start_date" name="start_date" type="date" hidden>
+
+            <label id="end_date_label" for="end_date" hidden>End Date:</label>
+            <input id="end_date" name="date" type="date" hidden>
 
             <label id="pax_first_name_label" for="pax_first_name" hidden>First Name:</label>
             <input id="pax_first_name" name="pax_first_name" type="text" hidden>
@@ -263,6 +271,18 @@
 
             <label id="query_label" for="query" hidden>Query:</label>
             <textarea id="query" name="query" readonly hidden>[]</textarea>
+
+            <label id="username_label" for="username" hidden>Username:</label>
+            <input id="username" name="username" type="text" hidden>
+
+            <label id="password_label" for="password" hidden>Password: </label>
+            <input id="password" name="password" type="password" hidden>
+
+            <label id="server_config_label" for="server_config" hidden>Server Config:</label>
+            <select id="server_config" name="server_config" hidden>
+                <option value="train">TRAINING</option>
+                <option value="live">LIVE</option>
+            </select>
 
 
         </div>

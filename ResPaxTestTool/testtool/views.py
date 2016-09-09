@@ -33,6 +33,7 @@ def test_tool(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         server_config = request.POST.get('server_config')
+
         url = "https://ron.respax.com.au:30443/section/xmlrpc/server-ron.php?config="
 
         connection = ron_api.get_connection(username, password, server_config)
@@ -52,11 +53,11 @@ def test_tool(request):
             not_switch_server_button = 'Live'
 
     host_name = ron_api.get_hosts('strHostName', server_url)
-    host_id = ron_api.get_hosts('strHostID', server_url)
+    host_ids = ron_api.get_hosts('strHostID', server_url)
 
     context = {
         "host_name": host_name,
-        "host_id": host_id,
+        "host_id": host_ids,
         "switch_server_button": switch_server_button,
         "not_switch_server_button": not_switch_server_button,
         "server_url": server_url
@@ -92,7 +93,7 @@ def generate_xml(request):
     pickup_id = request.POST.get('pickup_id')
     pickup_room_no = request.POST.get('pickup_room_no')
     drop_off_id = request.POST.get('drop_off_id')
-    tour_date = request.POST.get('date')
+    tour_date = request.POST.get('tour_date')
     pax_first_name = request.POST.get('pax_first_name')
     pax_last_name = request.POST.get('pax_last_name')
     pax_email = request.POST.get('pax_email')
@@ -280,6 +281,18 @@ def submit_xml(request):
     response_data = {
         'xml_response': xml_response[0],
         'table_response': xml_response[1],
+    }
+
+    return JsonResponse(response_data)
+
+
+def get_location(request):
+    host_id = request.POST.get('id')
+    server_url = request.POST.get('server_url')
+    location = ron_api.get_location(host_id, server_url)
+
+    response_data = {
+        'location': location,
     }
 
     return JsonResponse(response_data)

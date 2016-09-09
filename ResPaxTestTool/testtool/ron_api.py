@@ -1,4 +1,6 @@
+import multiprocessing
 import xmlrpclib
+import pickle
 
 
 def get_connection(username, password, server_config):
@@ -335,6 +337,12 @@ def get_host_details(host_ids, key, server_url):
     list_object = [connection.readHostDetails(data)[0].get(key) for data in host_ids]
 
     return list_object
+
+
+def get_location(host_id, server_url):
+    connection = xmlrpclib.ServerProxy(server_url)
+    list_object = connection.readHostDetails(host_id)
+    return list_object[0].get("strLocation")
 
 
 def read_tours(host_id, server_url):

@@ -232,7 +232,7 @@ table.table-expandable > tbody > tr[data-level='5'] td:first-child {
     /*width: 100%;*/
 }
 
-.generate-xml-form input, select{
+.generate-xml-form input, select, textarea{
     width: calc(100% - 15px);
     margin-bottom: 5px;
 }

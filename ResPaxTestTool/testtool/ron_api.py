@@ -34,6 +34,7 @@ def raw_xml_request(server_url, xml):
 
     if method == 'ping':
         xml_response = connection.ping()
+        table_response = {"Ping Response": [xml_response]}
 
     elif method == 'readHosts':
 
@@ -102,6 +103,18 @@ def raw_xml_request(server_url, xml):
 
         table_response = process_xml_list_response(sources)
         xml_response = xmlrpclib.dumps((sources,))
+
+    elif method == 'readCreditCardTypes':
+        host_id = params[0]
+        try:
+            card_types = connection.readCreditCardTypes(host_id)
+            print(card_types)
+        except xmlrpclib.Fault as error:
+            fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
+            return fault, {"Fault": [fault]}
+
+        table_response = process_xml_list_response(card_types)
+        xml_response = xmlrpclib.dumps((card_types,))
 
     elif method == 'readTours':
         host_id = params[0]
@@ -202,6 +215,24 @@ def raw_xml_request(server_url, xml):
 
         table_response = process_xml_list_response(tour_pickups)
         xml_response = xmlrpclib.dumps((tour_pickups,))
+
+    elif method == 'readTourCommissions':
+        host_id = params[0]
+        tour_code = params[1]
+        basis_id = params[2]
+        subbasis_id = params[3]
+        tour_date = params[4]
+        tour_time_id = params[5]
+
+        try:
+            tour_commissions = connection.readTourCommissions(host_id, tour_code, basis_id, subbasis_id, tour_date,
+                                                              tour_time_id)
+
+        except xmlrpclib.Fault as error:
+            fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
+            return fault, {"Fault": [fault]}
+        table_response = process_xml_dict_response(tour_commissions)
+        xml_response = xmlrpclib.dumps((tour_commissions,))
 
     elif method == 'readTourPrices':
         host_id = params[0]

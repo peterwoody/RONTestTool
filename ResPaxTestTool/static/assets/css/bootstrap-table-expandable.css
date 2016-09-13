@@ -12,8 +12,6 @@ nav {
     position: fixed;
     top: 0;
     left: 0;
-    padding-left: 13%;
-    padding-right: 13%;
     width: 100%;
     min-width: 700px;
     box-shadow: 0 3px 10px -2px rgba(0, 0, 0, .1);
@@ -36,20 +34,19 @@ nav ul {
 
 nav ul li {
     float: left;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
-    padding-left: 5px;
-    padding-right: 5px;
     -webkit-transition: all .2s ease-in-out;
     -moz-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
     height: inherit;
     text-align: center;
-
+    width: 200px;
 }
 
 nav div, form{
     height: inherit;
+    width: inherit;
 
 }
 
@@ -84,6 +81,7 @@ nav ul li button, a {
     background: none;
     border: none;
     height: inherit;
+    width: inherit;
 }
 nav ul li:hover {
     background: rgba(0, 0, 0, .15);
@@ -125,7 +123,7 @@ nav .navbar-header:hover {
 }
 
 .XMLRequestArea textarea {
-    width: 100%;
+    width: calc(100% - 80px);
     height: 200px;
 }
 table{
@@ -164,6 +162,10 @@ table.table-expandable > tbody > tr {
     line-height: 1.42857143;
     vertical-align: top;
     border-top: 1px solid #ddd;
+}
+
+table.table-expandable {
+    width: calc(100% - 80px);
 }
 table.table-expandable.table-hover > tbody > tr:hover td {
     background-color: lightsteelblue;

@@ -1,6 +1,4 @@
-import multiprocessing
 import xmlrpclib
-import pickle
 
 
 def get_connection(username, password, server_config):

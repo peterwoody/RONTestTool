@@ -41,15 +41,13 @@
                 </form>
             </li>
             <li>
-                <button id="collapseAllTableRowsbtn" onclick="collapseAllTableRows()" value="Collapse Table">COLLAPSE
+                <button id="collapseAllTableRowsbtn" onclick="collapseAllTableRows()" value="Collapse Table">COLLAPSE<br>
                     TABLE
                 </button>
             </li>
-
-        </ul>
-
-
-        <ul class="nav navbar-right">
+            <li>
+                <button onclick="open_switch_user_modal()">SWITCH<br> USER</button>
+            </li>
             <li>
                 <div {#class="nav backToTop"#} onclick="backToTop()">
                     <img id="to-top-img" src="{% static "img/backToTop.png" %}"/>
@@ -57,6 +55,10 @@
                     <p style="text-align: center">TO TOP</p>
                 </div>
             </li>
+        </ul>
+
+
+        <ul class="nav navbar-right">
             <li {#id="rightList"#}><a href="/logout/">LOG OUT {#<span class="sr-only">(current)</span>#}</a></li>
         </ul>
 
@@ -125,19 +127,19 @@
         </div>
 
     </div>
+    <div class="generate-xml-form">
 
-    <form id="generate-xml-form" class="generate-xml-form"> {% csrf_token %}
-        <input id="generate_xml_btn" type="submit" name="submit" value="Generate XML">
+        <form id="generate-xml-form" class="generate-xml-form"> {% csrf_token %}
+            <input id="generate_xml_btn" type="submit" name="submit" value="Generate XML">
 
-        <input id="generate_submit_btn" type="submit" name="submit" value="Generate & Submit XML">
-        <input id="add_query_btn" name="add_query_btn" type="button" value="Add Query" onclick="add_query()" hidden>
-        <input id="del_query_btn" name="del_query_btn" type="button" value="Delete Query" onclick="delete_query()"
-               hidden>
+            <input id="generate_submit_btn" type="submit" name="submit" value="Generate & Submit XML">
+            <input id="add_query_btn" name="add_query_btn" type="button" value="Add Query" onclick="add_query()" hidden>
+            <input id="del_query_btn" name="del_query_btn" type="button" value="Delete Query" onclick="delete_query()"
+                   hidden>
 
-        <input id="switch_user_btn" name="switch_user_btn" type="button" value="Switch User" onclick="switch_users()" hidden>
-
-        <div id="method_form">
-
+            <input id="switch_user_btn" name="switch_user_btn" type="button" value="Switch User"
+                   onclick="switch_users()"
+                   hidden>
             <label for="method_name">Method Name:</label>
             <select id="method_name" name="method_name">
                 <option>readHosts</option>
@@ -162,131 +164,121 @@
                 <option>checkReservationAndPrices</option>
                 <option>writeReservation</option>
                 <option>writeCancellation</option>
-                <option>Switch User</option>
-            </select>
-            <label id="host_id_label" for="host_id" hidden>Host ID:</label>
-            <input id="host_id" name="host_id" type="text" hidden>
-
-            <label id="tour_code_label" for="tour_code" hidden>Tour Code:</label>
-            <input id="tour_code" name="tour_code" type="text" hidden>
-
-            <label id="basis_label" for="basis" hidden>Basis:</label>
-            <input id="basis" name="basis" type="text" hidden>
-
-            <label id="sub_basis_label" for="sub_basis" hidden>Sub Basis:</label>
-            <input id="sub_basis" name="sub_basis" type="text" hidden>
-
-            <label id="tour_time_id_label" for="tour_time_id" hidden>Tour Time ID:</label>
-            <input id="tour_time_id" name="tour_time_id" type="text" hidden>
-
-            <label id="pickup_id_label" for="pickup_id" hidden>Pickup Key:</label>
-            <input id="pickup_id" name="pickup_id" type="text" hidden>
-
-            <label id="pickup_room_no_label" for="pickup_room_no" hidden>Pickup Room No.:</label>
-            <input id="pickup_room_no" name="pickup_room_no" type="number" hidden>
-
-            <label id="drop_off_id_label" for="drop_off_id" hidden>Drop Off ID:</label>
-            <input id="drop_off_id" name="drop_off_id" type="text" hidden>
-
-            <label id="tour_date_label" for="date" hidden>Date:</label>
-            <input id="tour_date" name="tour_date" type="date" hidden>
-
-            <label id="start_date_label" for="start_date" hidden>Start Date:</label>
-            <input id="start_date" name="start_date" type="date" hidden>
-
-            <label id="end_date_label" for="end_date" hidden>End Date:</label>
-            <input id="end_date" name="date" type="date" hidden>
-
-            <label id="pax_first_name_label" for="pax_first_name" hidden>First Name:</label>
-            <input id="pax_first_name" name="pax_first_name" type="text" hidden>
-
-            <label id="pax_last_name_label" for="pax_last_name" hidden>Last Name:</label>
-            <input id="pax_last_name" name="pax_last_name" type="text" hidden>
-
-            <label id="pax_email_label" for="pax_email" hidden>Email:</label>
-            <input id="pax_email" name="pax_email" type="text" hidden>
-
-            <label id="voucher_number_label" for="voucher_number" hidden>Voucher Number:</label>
-            <input id="voucher_number" name="voucher_number" type="text" hidden>
-
-            <label id="no_pax_adults_label" for="no_pax_adults" hidden>No. of Adults:</label>
-            <input id="no_pax_adults" name="no_pax_adults" type="number" value="0" hidden>
-
-            <label id="no_pax_child_label" for="no_pax_child" hidden>No. of Children:</label>
-            <input id="no_pax_child" name="no_pax_child" type="number" value="0" hidden>
-
-            <label id="no_pax_infant_label" for="no_pax_infant" hidden>No. of Infants:</label>
-            <input id="no_pax_infant" name="no_pax_infant" type="number" value="0" hidden>
-
-            <label id="no_pax_foc_label" for="no_pax_foc" hidden>No. of Free of Charge PAX:</label>
-            <input id="no_pax_foc" name="no_pax_foc" type="number" value="0" hidden>
-
-            <label id="no_pax_user_defined_label" for="no_pax_user_defined" hidden>No. of User Defined PAX:</label>
-            <input id="no_pax_user_defined" name="no_pax_user_defined" type="number" value="0" hidden>
-
-            <label id="general_comment_label" for="general_comment" hidden>General Comment:</label>
-            <input id="general_comment" name="general_comment" type="text" hidden>
-
-            <label id="booking_confirmed_label" for="booking_confirmed" hidden>Booking Confirmed:</label>
-            <select id="booking_confirmed" name="booking_confirmed" hidden>
-                <option value="-1">YES</option>
-                <option value="0">NO</option>
             </select>
 
-            <label id="payment_option_label" for="payment_option" hidden>Payment Option:</label>
-            <select id="payment_option" name="payment_option" hidden>
-                <option value="comm-agent/bal-pob">comm-agent/bal-pob</option>
-                <option value="full-agent">full-agent</option>
-                <option value="bal-agent/levy-pob">bal-agent/levy-pob</option>
-                <option value="full-ccard">full-ccard</option>
-                <option value="bal-ccard/levy-pob">bal-ccard/levy-pob</option>
-                <option value="full-pob">full-pob</option>
-                <option value="comm-ccard/bal-pob">comm-ccard/bal-pob</option>
-                <option value="comm-agent/bal-ccard">comm-agent/bal-ccard</option>
-            </select>
+            <div id="method_form">
 
-            <label id="card_name_label" for="card_name" hidden>Card Name:</label>
-            <input id="card_name" name="card_name" type="text" hidden>
+                <label id="host_id_label" for="host_id" hidden>Host ID:</label>
+                <input id="host_id" name="host_id" type="text" hidden>
 
-            <label id="card_pan_label" for="card_pan" hidden>Card PAN:</label>
-            <input id="card_pan" name="card_pan" type="number" hidden>
+                <label id="tour_code_label" for="tour_code" hidden>Tour Code:</label>
+                <input id="tour_code" name="tour_code" type="text" hidden>
 
-            <label id="card_vn_label" for="card_vn" hidden>Card VN:</label>
-            <input id="card_vn" name="card_vn" type="number" hidden>
+                <label id="basis_label" for="basis" hidden>Basis:</label>
+                <input id="basis" name="basis" type="text" hidden>
 
-            <label id="card_type_id_label" for="card_type_id" hidden>Card Type:</label>
-            <input id="card_type_id" name="card_type_id" type="text" hidden>
+                <label id="sub_basis_label" for="sub_basis" hidden>Sub Basis:</label>
+                <input id="sub_basis" name="sub_basis" type="text" hidden>
 
-            <label id="card_expiry_month_label" for="card_expiry_month" hidden>Card Expiry Month:</label>
-            <input id="card_expiry_month" name="card_expiry_month" type="number" hidden>
+                <label id="tour_time_id_label" for="tour_time_id" hidden>Tour Time ID:</label>
+                <input id="tour_time_id" name="tour_time_id" type="text" hidden>
 
-            <label id="card_expiry_year_label" for="card_expiry_year" hidden>Card Expiry Year:</label>
-            <input id="card_expiry_year" name="card_expiry_year" type="number" hidden>
+                <label id="pickup_id_label" for="pickup_id" hidden>Pickup Key:</label>
+                <input id="pickup_id" name="pickup_id" type="text" hidden>
 
-            <label id="confirmation_no_label" for="confirmation_no" hidden>Confirmation No.:</label>
-            <input id="confirmation_no" name="confirmation_no" type="number" hidden>
+                <label id="pickup_room_no_label" for="pickup_room_no" hidden>Pickup Room No.:</label>
+                <input id="pickup_room_no" name="pickup_room_no" type="number" hidden>
 
-            <label id="reason_label" for="reason" hidden>Reason:</label>
-            <input id="reason" name="reason" type="text" hidden>
+                <label id="drop_off_id_label" for="drop_off_id" hidden>Drop Off ID:</label>
+                <input id="drop_off_id" name="drop_off_id" type="text" hidden>
 
-            <label id="query_label" for="query" hidden>Query:</label>
-            <textarea id="query" name="query" readonly hidden>[]</textarea>
+                <label id="tour_date_label" for="date" hidden>Date:</label>
+                <input id="tour_date" name="tour_date" type="date" hidden>
 
-            <label id="username_label" for="username" hidden>Username:</label>
-            <input id="username" name="username" type="text" hidden>
+                <label id="start_date_label" for="start_date" hidden>Start Date:</label>
+                <input id="start_date" name="start_date" type="date" hidden>
 
-            <label id="password_label" for="password" hidden>Password: </label>
-            <input id="password" name="password" type="password" hidden>
+                <label id="end_date_label" for="end_date" hidden>End Date:</label>
+                <input id="end_date" name="date" type="date" hidden>
 
-            <label id="server_config_label" for="server_config" hidden>Server Config:</label>
-            <select id="server_config" name="server_config" hidden>
-                <option value="train">TRAINING</option>
-                <option value="live">LIVE</option>
-            </select>
+                <label id="pax_first_name_label" for="pax_first_name" hidden>First Name:</label>
+                <input id="pax_first_name" name="pax_first_name" type="text" hidden>
 
+                <label id="pax_last_name_label" for="pax_last_name" hidden>Last Name:</label>
+                <input id="pax_last_name" name="pax_last_name" type="text" hidden>
 
-        </div>
-    </form>
+                <label id="pax_email_label" for="pax_email" hidden>Email:</label>
+                <input id="pax_email" name="pax_email" type="text" hidden>
+
+                <label id="voucher_number_label" for="voucher_number" hidden>Voucher Number:</label>
+                <input id="voucher_number" name="voucher_number" type="text" hidden>
+
+                <label id="no_pax_adults_label" for="no_pax_adults" hidden>No. of Adults:</label>
+                <input id="no_pax_adults" name="no_pax_adults" type="number" value="0" hidden>
+
+                <label id="no_pax_child_label" for="no_pax_child" hidden>No. of Children:</label>
+                <input id="no_pax_child" name="no_pax_child" type="number" value="0" hidden>
+
+                <label id="no_pax_infant_label" for="no_pax_infant" hidden>No. of Infants:</label>
+                <input id="no_pax_infant" name="no_pax_infant" type="number" value="0" hidden>
+
+                <label id="no_pax_foc_label" for="no_pax_foc" hidden>No. of Free of Charge PAX:</label>
+                <input id="no_pax_foc" name="no_pax_foc" type="number" value="0" hidden>
+
+                <label id="no_pax_user_defined_label" for="no_pax_user_defined" hidden>No. of User Defined PAX:</label>
+                <input id="no_pax_user_defined" name="no_pax_user_defined" type="number" value="0" hidden>
+
+                <label id="general_comment_label" for="general_comment" hidden>General Comment:</label>
+                <input id="general_comment" name="general_comment" type="text" hidden>
+
+                <label id="booking_confirmed_label" for="booking_confirmed" hidden>Booking Confirmed:</label>
+                <select id="booking_confirmed" name="booking_confirmed" hidden>
+                    <option value="-1">YES</option>
+                    <option value="0">NO</option>
+                </select>
+
+                <label id="payment_option_label" for="payment_option" hidden>Payment Option:</label>
+                <select id="payment_option" name="payment_option" hidden>
+                    <option value="comm-agent/bal-pob">comm-agent/bal-pob</option>
+                    <option value="full-agent">full-agent</option>
+                    <option value="bal-agent/levy-pob">bal-agent/levy-pob</option>
+                    <option value="full-ccard">full-ccard</option>
+                    <option value="bal-ccard/levy-pob">bal-ccard/levy-pob</option>
+                    <option value="full-pob">full-pob</option>
+                    <option value="comm-ccard/bal-pob">comm-ccard/bal-pob</option>
+                    <option value="comm-agent/bal-ccard">comm-agent/bal-ccard</option>
+                </select>
+
+                <label id="card_name_label" for="card_name" hidden>Card Name:</label>
+                <input id="card_name" name="card_name" type="text" hidden>
+
+                <label id="card_pan_label" for="card_pan" hidden>Card PAN:</label>
+                <input id="card_pan" name="card_pan" type="number" hidden>
+
+                <label id="card_vn_label" for="card_vn" hidden>Card VN:</label>
+                <input id="card_vn" name="card_vn" type="number" hidden>
+
+                <label id="card_type_id_label" for="card_type_id" hidden>Card Type:</label>
+                <input id="card_type_id" name="card_type_id" type="text" hidden>
+
+                <label id="card_expiry_month_label" for="card_expiry_month" hidden>Card Expiry Month:</label>
+                <input id="card_expiry_month" name="card_expiry_month" type="number" hidden>
+
+                <label id="card_expiry_year_label" for="card_expiry_year" hidden>Card Expiry Year:</label>
+                <input id="card_expiry_year" name="card_expiry_year" type="number" hidden>
+
+                <label id="confirmation_no_label" for="confirmation_no" hidden>Confirmation No.:</label>
+                <input id="confirmation_no" name="confirmation_no" type="number" hidden>
+
+                <label id="reason_label" for="reason" hidden>Reason:</label>
+                <input id="reason" name="reason" type="text" hidden>
+
+                <label id="query_label" for="query" hidden>Query:</label>
+                <textarea id="query" name="query" readonly hidden>[]</textarea>
+
+            </div>
+        </form>
+    </div>
 
     <div class="XMLRequestArea">
         <label for="xml_request">XML Request</label>
@@ -328,6 +320,32 @@
 
         </tbody>
     </table>
+
+    <div id="switch_user_modal" class="modal">
+
+        <div class="modal-content">
+            <span class="close">x</span>
+
+            <h2>Switch User</h2>
+
+            <form id="switch_user_form" action="/test_tool/" method="post"> {% csrf_token %}
+
+                <label id="username_label" for="username">Username:</label>
+                <input id="username" name="username" type="text" required>
+                <br>
+                <label id="password_label" for="password">Password: </label>
+                <input id="password" name="password" type="password" required>
+                <br>
+                <label id="server_config_label" for="server_config">Server Config:</label>
+                <select id="server_config" name="server_config" required>
+                    <option value="train">TRAINING</option>
+                    <option value="live">LIVE</option>
+                </select>
+                <button name="submit" value="login" type="submit">Switch User</button>
+            </form>
+        </div>
+
+    </div>
 
 </div>
 

@@ -112,7 +112,6 @@ function switch_users() {
     $.ajax({
         type: "POST",
         url: "/test_tool/",
-        dataType: 'json',
         async: true,
         data: {
             submit: "login",
@@ -547,11 +546,7 @@ function show_hide_form_fields() {
         "query": false,
         "add_query_btn": false,
         "del_query_btn": false,
-        "voucher_number": false,
-        "username": false,
-        "password": false,
-        "server_config": false,
-        "switch_user_btn": false
+        "voucher_number": false
     };
 
     var required_dict = {
@@ -588,10 +583,7 @@ function show_hide_form_fields() {
         "query": false,
         "add_query_btn": false,
         "del_query_btn": false,
-        "voucher_number": false,
-        "username": false,
-        "password": false,
-        "server_config": false
+        "voucher_number": false
 
     };
 
@@ -732,11 +724,7 @@ function show_hide_form_fields() {
             "query": false,
             "add_query_btn": false,
             "del_query_btn": false,
-            "voucher_number": false,
-            "username": false,
-            "password": false,
-            "server_config": false,
-            "switch_user_btn": false
+            "voucher_number": false
         };
 
         required_dict.host_id = true;
@@ -784,11 +772,7 @@ function show_hide_form_fields() {
             "query": false,
             "add_query_btn": false,
             "del_query_btn": false,
-            "voucher_number": true,
-            "username": false,
-            "password": false,
-            "server_config": false,
-            "switch_user_btn": false
+            "voucher_number": true
         };
         required_dict.host_id = true;
         required_dict.tour_code = true;
@@ -807,16 +791,6 @@ function show_hide_form_fields() {
         required_dict.host_id = true;
         required_dict.confirmation_no = true;
         required_dict.reason = true;
-    }
-    else if (method_name === "Switch User") {
-        methodDict.username = true;
-        methodDict.password = true;
-        methodDict.server_config = true;
-        methodDict.switch_user_btn = true;
-
-        required_dict.username = true;
-        required_dict.password = true;
-        required_dict.server_config = true;
     }
 
 
@@ -839,6 +813,26 @@ function show_hide_form_fields() {
             id.attr("required", true);
         } else {
             id.removeAttr('required');
+        }
+    }
+}
+
+function open_switch_user_modal() {
+    var switch_user_modal = document.getElementById('switch_user_modal');
+
+    switch_user_modal.style.display = "block";
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[1];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        switch_user_modal.style.display = "none";
+    };
+
+    //When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == switch_user_modal) {
+            switch_user_modal.style.display = "none";
         }
     }
 }

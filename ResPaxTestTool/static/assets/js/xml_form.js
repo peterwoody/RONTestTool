@@ -159,10 +159,19 @@ function submit_xml_request() {
             var table_body = document.createElement('tbody');
             var table_row = document.createElement('tr');
 
+            var boolImgArray = {"b64IncludeImage":false,"b64SmallImage":false,"b64LargeImage":false};
+
+
+
             for (var i = 0; i < Object.keys(dictionary).length; i++) {
 
                 var table_head = document.createElement('th');
 
+                for(var key in boolImgArray){
+                    if (dictionary_keys[i] === key){
+                        boolImgArray[key] = true;
+                    }
+                }
                 var table_head_value = document.createTextNode(dictionary_keys[i]);
                 table_head.appendChild(table_head_value);
 
@@ -178,13 +187,21 @@ function submit_xml_request() {
                 for (i = 0; i < Object.keys(dictionary).length; i++) {
 
                     var table_column = document.createElement('td');
-                    var table_row_value = document.createTextNode(dictionary[dictionary_keys[i]][j]);
+                    var table_row_value;
+
+                    if(boolImgArray['b64IncludeImage']){
+                        var image = new Image();
+                        image.src = 'data:image/png;base64,'+dictionary[dictionary_keys[i]][j];
+                        table_row_value = image;
+                    }else{
+                        table_row_value = document.createTextNode(dictionary[dictionary_keys[i]][j]);
+                    }
+
 
                     table_column.appendChild(table_row_value);
                     table_row.appendChild(table_column);
                     table_body.appendChild(table_row);
                     k++;
-
                 }
                 k = 0;
 
@@ -363,6 +380,10 @@ function fill_form_xml() {
                     tour_code.value = json.loaded_xml[0][1];
                     break;
                 case "readTourWebDetails":
+                    host_id.value = json.loaded_xml[0][0];
+                    tour_code.value = json.loaded_xml[0][1];
+                    break;
+                case "readTourWebDetailsImages":
                     host_id.value = json.loaded_xml[0][0];
                     tour_code.value = json.loaded_xml[0][1];
                     break;
@@ -613,7 +634,7 @@ function show_hide_form_fields() {
         required_dict.host_id = true;
     }
     else if ((method_name == 'readTourDetails') || (method_name == 'readTourBases') || (method_name == 'readTourTimes')
-        || (method_name == 'readTourWebDetails') || (method_name == 'readTourTimes')) {
+        || (method_name == 'readTourWebDetails') || (method_name == 'readTourTimes')|| (method_name == 'readTourWebDetailsImages')) {
         methodDict.host_id = true;
         methodDict.tour_code = true;
 

@@ -172,6 +172,27 @@ def raw_xml_request(server_url, xml):
         table_response = process_xml_dict_response(tour_web_details)
         xml_response = xmlrpclib.dumps((tour_web_details,))
 
+    elif method == 'readTourWebDetailsImages':
+        host_id = params[0]
+        tour_code = params[1]
+        try:
+            tour_web_details = connection.readTourWebDetails(host_id, tour_code, True)
+        except xmlrpclib.Fault as error:
+            fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
+            return fault, {"Fault": [fault]}
+
+        b64_small_image = tour_web_details['b64SmallImage']
+        b64_large_image = tour_web_details['b64LargeImage']
+        b64_include_image = tour_web_details['b64IncludeImage']
+        tour_web_details.clear()
+        tour_web_details['b64SmallImage'] = b64_small_image
+        tour_web_details['b64LargeImage'] = b64_large_image
+        tour_web_details['b64IncludeImage'] = b64_include_image
+        print tour_web_details
+
+        table_response = process_xml_dict_response(tour_web_details)
+        xml_response = xmlrpclib.dumps((tour_web_details,))
+
     elif method == 'readTourBases':
         host_id = params[0]
         tour_code = params[1]
@@ -425,13 +446,18 @@ def process_xml_dict_response(xml_response):
         if type(xml_response[key]) is list:
             table_response.update(process_xml_list_response(xml_response[key]))
         else:
-            table_response.setdefault(key, [])
-            table_response[key].append(xml_response[key])
-
+            if type(xml_response[key]) is dict:
+                # this is to catch any dict inside of the responses (like in tourWebDetails)
+                processed_dict = process_xml_dict_response(xml_response[key])
+                table_response.update(processed_dict)
+            else:
+                table_response.setdefault(key, [])
+                table_response[key].append(xml_response[key])
     return table_response
 
 
 # this function didn't work
+# This did work for the currentLogin as it returns as an array initially, only method that has this happen
 def process_xml_array_dict_response(xml_response):
     table_response = {}
     for i in xml_response:
@@ -443,6 +469,10 @@ def process_xml_array_dict_response(xml_response):
                 table_response[key].append(xml_response[i][key])
 
     return table_response
+
+
+def process_tour_web_images(xml_response):
+    print "test"
 
 
 def process_xml_credit_status(xml_response):

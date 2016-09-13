@@ -122,6 +122,9 @@ def generate_xml(request):
     elif method_name == 'readHosts':
         params = ("",)
 
+    elif method_name == 'ping':
+        params = ("",)
+
     elif method_name == 'readCurrentLogin':
         params = ("",)
 
@@ -135,6 +138,9 @@ def generate_xml(request):
         params = (host_id,)
 
     elif method_name == 'readSources':
+        params = (host_id,)
+
+    elif method_name == 'readCreditCardTypes':
         params = (host_id,)
 
     elif method_name == 'readCreditStatus':
@@ -159,6 +165,14 @@ def generate_xml(request):
         try:
             tour_date = format_date(tour_date)
             params = (host_id, tour_code, tour_time_id, basis_id, tour_date)
+        except ValueError:
+            fault = "Please enter a date"
+            return JsonResponse({"fault": fault})
+
+    elif method_name == 'readTourCommissions':
+        try:
+            tour_date = format_date(tour_date)
+            params = (host_id, tour_code, basis_id, sub_basis_id, tour_date, tour_time_id)
         except ValueError:
             fault = "Please enter a date"
             return JsonResponse({"fault": fault})

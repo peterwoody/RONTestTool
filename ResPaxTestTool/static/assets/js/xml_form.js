@@ -284,7 +284,7 @@ function change_format(format) {
 function fill_form_xml() {
     var xml = document.getElementById('xml_request').value;
     var method_name = document.getElementById('method_name');
-    var tour_date = document.getElementById('date');
+    var tour_date = document.getElementById('tour_date');
     var host_id = document.getElementById('host_id');
     var tour_code = document.getElementById('tour_code');
     var tour_basis_id = document.getElementById('basis');
@@ -296,6 +296,7 @@ function fill_form_xml() {
     var pax_first_name = document.getElementById('pax_first_name');
     var pax_last_name = document.getElementById('pax_last_name');
     var pax_email = document.getElementById('pax_email');
+    var voucher_number = document.getElementById('voucher_number');
     var no_pax_adults = document.getElementById('no_pax_adults');
     var no_pax_child = document.getElementById('no_pax_child');
     var no_pax_infant = document.getElementById('no_pax_infant');
@@ -339,6 +340,9 @@ function fill_form_xml() {
                     break;
                 case "readSources":
                     host_id.value = json.loaded_xml[0][0];
+                    break;                
+                case "readCreditCardTypes":
+                    host_id.value = json.loaded_xml[0][0];
                     break;
                 case "readTours":
                     host_id.value = json.loaded_xml[0][0];
@@ -375,6 +379,16 @@ function fill_form_xml() {
                     tour_basis_id.value = json.loaded_xml[0][3];
                     tour_time_id.value = json.loaded_xml[0][2];
 
+                    var date = new Date(json.loaded_xml[0][4]);
+                    var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+                    tour_date.value = formattedDate;
+                    break;                
+                case "readTourCommissions":
+                    host_id.value = json.loaded_xml[0][0];
+                    tour_code.value = json.loaded_xml[0][1];
+                    tour_basis_id.value = json.loaded_xml[0][2];
+                    tour_sub_basis_id.value = json.loaded_xml[0][3];
+                    tour_time_id.value = json.loaded_xml[0][5];
                     var date = new Date(json.loaded_xml[0][4]);
                     var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
                     tour_date.value = formattedDate;
@@ -468,6 +482,7 @@ function fill_form_xml() {
                     pax_first_name.value = json.loaded_xml[0][2]["strPaxFirstName"];
                     pax_last_name.value = json.loaded_xml[0][2]["strPaxLastName"];
                     pax_email.value = json.loaded_xml[0][2]["strPaxEmail"];
+                    voucher_number.value = json.loaded_xml[0][2]["strVoucherNo"];
                     no_pax_adults.value = json.loaded_xml[0][2]["intNoPax_Adults"];
                     no_pax_child.value = json.loaded_xml[0][2]["intNoPax_Child"];
                     no_pax_infant.value = json.loaded_xml[0][2]["intNoPax_Infant"];
@@ -587,17 +602,18 @@ function show_hide_form_fields() {
 
     };
 
-    if (method_name == 'readHosts' || method_name == 'readCurrentLogin') {
+    if (method_name == 'readHosts' || method_name == 'readCurrentLogin' || method_name == 'ping') {
         //blank because the array does not change
     }
 
     else if ((method_name == 'readHostDetails') || (method_name == 'readPaymentOptions') || (method_name == 'readTours')
-        || (method_name == 'readPaxTypes') || (method_name == 'readCreditStatus') || (method_name == 'readSources')) {
+        || (method_name == 'readPaxTypes') || (method_name == 'readCreditStatus') || (method_name == 'readSources')
+        || (method_name == 'readCreditCardTypes')) {
         methodDict.host_id = true;
         required_dict.host_id = true;
     }
     else if ((method_name == 'readTourDetails') || (method_name == 'readTourBases') || (method_name == 'readTourTimes')
-        || (method_name == 'readTourWebDetails')) {
+        || (method_name == 'readTourWebDetails') || (method_name == 'readTourTimes')) {
         methodDict.host_id = true;
         methodDict.tour_code = true;
 
@@ -629,7 +645,21 @@ function show_hide_form_fields() {
         required_dict.tour_time_id = true;
         required_dict.tour_date = true;
     }
-    else if (method_name == 'readTourPrices') {
+    else if (method_name == 'readTourCommissions') {
+        methodDict.host_id = true;
+        methodDict.tour_code = true;
+        methodDict.basis = true;
+        methodDict.sub_basis = true;
+        methodDict.tour_time_id = true;
+        methodDict.tour_date = true;
+
+        required_dict.host_id = true;
+        required_dict.tour_code = true;
+        required_dict.basis = true;
+        required_dict.sub_basis = true;
+        required_dict.tour_time_id = true;
+        required_dict.tour_date = true;
+    } else if (method_name == 'readTourPrices') {
         methodDict.host_id = true;
         methodDict.tour_code = true;
         methodDict.basis = true;

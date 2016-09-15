@@ -171,19 +171,35 @@ function submit_xml_request() {
                 table_body.appendChild(table_row);
             }
 
-
             var k = 0;
             for (var j = 0; j < dictionary[dictionary_keys[k]].length; j++) {
                 table_row = document.createElement('tr');
                 for (i = 0; i < Object.keys(dictionary).length; i++) {
+                    var table_row_value;
+                    var table_column;
 
-                    var table_column = document.createElement('td');
-                    var table_row_value = document.createTextNode(dictionary[dictionary_keys[i]][j]);
+                    // if (typeof dictionary[dictionary_keys[i]][j] === 'object') {
+                    //     var inner_dictionary_keys = Object.keys(dictionary[dictionary_keys[i]][j]);
+                    //     table_column = document.createElement('td');
+                    //     table_row_value = "";
+                    //     for (var l = 0; l < inner_dictionary_keys.length; l++) {
+                    //         table_row_value += "<strong style='color: #E0D65B;'>"+inner_dictionary_keys[l]+":</strong> " +dictionary[dictionary_keys[i]][j][inner_dictionary_keys[l]] + "<hr>";
+                    //
+                    //         table_row.appendChild(table_column);
+                    //         table_body.appendChild(table_row);
+                    //
+                    //     }
+                    //     table_column.innerHTML = table_row_value;
+                    // } else {
+                        table_row_value = document.createTextNode(dictionary[dictionary_keys[i]][j]);
 
-                    table_column.appendChild(table_row_value);
-                    table_row.appendChild(table_column);
-                    table_body.appendChild(table_row);
-                    k++;
+                        table_column = document.createElement('td');
+                        table_column.innerHTML = dictionary[dictionary_keys[i]][j];
+
+                        table_row.appendChild(table_column);
+                        table_body.appendChild(table_row);
+                        k++;
+                    // }
 
                 }
                 k = 0;
@@ -304,6 +320,7 @@ function fill_form_xml() {
     var no_pax_user_defined = document.getElementById('no_pax_user_defined');
     var general_comment = document.getElementById('general_comment');
     var booking_confirmed = document.getElementById('booking_confirmed');
+    var confirmation_no = document.getElementById('confirmation_no');
     var payment_option = document.getElementById('payment_option');
     var card_name = document.getElementById('card_name');
     var card_pan = document.getElementById('card_pan');
@@ -340,7 +357,7 @@ function fill_form_xml() {
                     break;
                 case "readSources":
                     host_id.value = json.loaded_xml[0][0];
-                    break;                
+                    break;
                 case "readCreditCardTypes":
                     host_id.value = json.loaded_xml[0][0];
                     break;
@@ -382,7 +399,7 @@ function fill_form_xml() {
                     var date = new Date(json.loaded_xml[0][4]);
                     var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
                     tour_date.value = formattedDate;
-                    break;                
+                    break;
                 case "readTourCommissions":
                     host_id.value = json.loaded_xml[0][0];
                     tour_code.value = json.loaded_xml[0][1];
@@ -422,6 +439,10 @@ function fill_form_xml() {
                     break;
                 case "readTourAvailabilityRange":
                     query.value = JSON.stringify(json.loaded_xml[0][0]);
+                    break;
+                case "readReservationDetails":
+                    host_id.value = json.loaded_xml[0][0];
+                    confirmation_no.value = json.loaded_xml[0][1];
                     break;
                 case "checkReservation":
                     host_id.value = json.loaded_xml[0][0];
@@ -718,6 +739,13 @@ function show_hide_form_fields() {
         methodDict.del_query_btn = true;
 
         required_dict.query = true;
+    }
+    else if (method_name == 'readReservationDetails') {
+        methodDict.host_id = true;
+        methodDict.confirmation_no = true;
+
+        required_dict.host_id = true;
+        required_dict.confirmation_no = true;
     }
     else if (method_name === 'checkReservation' || method_name === 'checkReservationAndPrices') {
         methodDict = {

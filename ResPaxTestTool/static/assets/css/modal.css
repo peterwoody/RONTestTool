@@ -11,6 +11,45 @@
     background-color: rgba(0,0,0,0.4);
 }
 
+#switch_user_modal{
+    padding:40px;
+}
+
+#switch_user_modal form{
+    width: 100%;
+}
+#switch_user_modal label{
+    margin: 0;
+}
+#switch_user_modal input[type='radio']{
+    width: 0;
+    height: 0;
+}
+
+#switch_user_modal_content{
+    width: 400px;
+}
+
+#csv_menu label{
+    float: none;
+}
+
+#csv_menu input[type='checkbox']{
+    float: left;
+}
+
+#csv_menu select{
+    width: 100px;
+}
+#table_response td{
+    color: white;
+    background-color: #0089BB;
+}
+#csv_menu_table .csv_menu_table tr, td{
+    background-color: white;
+    color: #0089BB;
+}
+
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto;
@@ -18,9 +57,13 @@
     border: 1px solid #888;
     width: 50%;
 }
+.modal-content table{
+    width:100%;
+    table-layout: fixed;
+}
 
 .modal-content label{
-    float: none;
+    /*float: right;*/
     margin-left: 10px;
 }
 
@@ -31,6 +74,12 @@
 .modal-content input[type="checkbox"]{
     width: 30px;
     height: 30px;
+    float: right;
+}
+
+#select_all_ckb{
+    float: none;
+    margin-left: 10px;
 }
 
 .close {

@@ -9,7 +9,8 @@
 
     <link rel="stylesheet" href={% static "css/bootstrap.min.css" %}>
     <link rel="stylesheet" href={% static "css/bootstrap-table-expandable.css" %}>
-    <link rel="stylesheet" href={% static "css/csv_menu.css" %}>
+    <link rel="stylesheet" href={% static "css/modal.css" %}>
+    <link rel="stylesheet" href={% static "css/loginCSS.css" %}>
 
     <script src={% static "js/jquery-2.1.4.min.js" %}></script>
     <script src={% static "js/collapsibleTable.js" %}></script>
@@ -29,12 +30,12 @@
     <div id="navbar" class="nav">
 
         <ul class="nav navbar-nav" id="navbarcenter">
-            <li {#id="centerlist"#}>
+            <li id="centerlist">
                 <form action="/test_tool/" method="post"> {% csrf_token %}
                     <input id="server_url" name="server_url" value="{{ server_url }}" hidden>
                     <input id="switch_server_button" name="switch_server_button" value="{{ switch_server_button }}"
                            hidden>
-                    <button {#id="switch_server_btn"#} name="submit" value="switch_server" type="submit"
+                    <button id="switch_server_btn" name="submit" value="switch_server" type="submit"
                                                        style="text-transform: uppercase">you are
                         in {{ switch_server_button }}<br>Click to change
                         mode<br> to {{ not_switch_server_button }}
@@ -42,7 +43,8 @@
                 </form>
             </li>
             <li>
-                <button id="collapseAllTableRowsbtn" onclick="collapseAllTableRows()" value="Collapse Table">COLLAPSE<br>
+                <button id="collapseAllTableRowsbtn" onclick="collapseAllTableRows()" value="Collapse Table">
+                    COLLAPSE<br>
                     TABLE
                 </button>
             </li>
@@ -50,25 +52,17 @@
                 <button onclick="open_switch_user_modal()">SWITCH<br> USER</button>
             </li>
             <li>
-                <div {#class="nav backToTop"#} onclick="backToTop()">
+                <button onclick="backToTop()">
                     <img id="to-top-img" src="{% static "img/backToTop.png" %}"/>
-
                     <p style="text-align: center">TO TOP</p>
-                </div>
+                </button>
             </li>
         </ul>
 
 
         <ul class="nav navbar-right">
-            <li {#id="rightList"#}><a href="/logout/">LOG OUT {#<span class="sr-only">(current)</span>#}</a></li>
+            <li><a href="/logout/">LOG OUT</a></li>
         </ul>
-
-
-        {#        <div class="nav" style="padding-right: 10px; padding-top: 22px; float: right; height: 83px">#}
-        {#            <input type="button" id="collapseAllTableRowsbtn" onclick="collapseAllTableRows()" value="Collapse Table">#}
-        {#            <input type="button" id="collapseAllTableRowsbtn" onclick="collapseAllTableRows()" value="Collapse Table">#}
-        {#        </div>#}
-
     </div>
 
 </nav>
@@ -90,23 +84,39 @@
             <input id="select_all_ckb" type="checkbox" onclick="selectAllCheckboxes(this)">
             <label for="select_all_ckb">Select all</label>
             <hr>
-            <input id="csv_host_ids" type="checkbox">
-            <label for="csv_host_ids">Host ID</label>
-            <br>
-            <input id="csv_tour_codes" type="checkbox">
-            <label for="csv_tour_codes">Tour Code</label>
-            <br>
-            <input id="csv_basis" type="checkbox">
-            <label for="csv_basis">Basis</label>
-            <br>
-            <input id="csv_sub_basis" type="checkbox">
-            <label for="csv_sub_basis">Sub Basis</label>
-            <br>
-            <input id="csv_time_id" type="checkbox">
-            <label for="csv_time_id">Time ID</label>
-            <br>
-            <input id="csv_pickup_key" type="checkbox">
-            <label for="csv_pickup_key">Pickup Key</label>
+            <table id="csv_menu_table" class="csv_menu_table">
+                <tr>
+                    <td><input id="csv_host_ids" type="checkbox" onclick="check_if_select_all()">
+                        <label for="csv_host_ids">Host ID</label></td>
+
+                    <td><input id="csv_tour_names" type="checkbox" onclick="check_if_select_all()">
+                        <label for="csv_tour_names">Tour Name</label></td>
+
+                    <td><label for="csv_tour_codes">Tour Code</label>
+                        <input id="csv_tour_codes" type="checkbox" onclick="check_if_select_all()">
+                    </td>
+                </tr>
+                <tr>
+                    <td><input id="csv_basis_name" type="checkbox" onclick="check_if_select_all()">
+                        <label for="csv_basis_name">Basis Name</label></td>
+
+                    <td><input id="csv_basis" type="checkbox" onclick="check_if_select_all()">
+                        <label for="csv_basis">Basis</label></td>
+
+                    <td><input id="csv_sub_basis_name" type="checkbox" onclick="check_if_select_all()">
+                        <label for="csv_sub_basis_name">Sub Basis Name</label></td>
+                </tr>
+                <tr>
+                    <td><input id="csv_sub_basis" type="checkbox" onclick="check_if_select_all()">
+                        <label for="csv_sub_basis">Sub Basis</label></td>
+
+                    <td><input id="csv_time_id" type="checkbox" onclick="check_if_select_all()">
+                        <label for="csv_time_id">Time ID</label></td>
+
+                    <td><input id="csv_pickup_key" type="checkbox" onclick="check_if_select_all()">
+                        <label for="csv_pickup_key">Pickup Key</label></td>
+                </tr>
+            </table>
             <hr>
             <label for="csv_separator">Separator Value:</label>
             <select id="csv_separator">
@@ -163,6 +173,7 @@
                 <option>readTourPricesRange</option>
                 <option>readTourAvailability</option>
                 <option>readTourAvailabilityRange</option>
+                <option>readReservationDetails</option>
                 <option>checkReservation</option>
                 <option>checkReservationAndPrices</option>
                 <option>writeReservation</option>
@@ -327,25 +338,26 @@
 
     <div id="switch_user_modal" class="modal">
 
-        <div class="modal-content">
+        <div id="switch_user_modal_content" class="modal-content">
             <span class="close">x</span>
 
             <h2>Switch User</h2>
+            <form id="login_form" name="login_form" class="form-signin" action="/test_tool/"
+                  method="post"> {% csrf_token %}
+                <input type="text" id="username" name="username" class="form-control" placeholder="Username" required
+                       autofocus>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password"
+                       required>
 
-            <form id="switch_user_form" action="/test_tool/" method="post"> {% csrf_token %}
 
-                <label id="username_label" for="username">Username:</label>
-                <input id="username" name="username" type="text" required>
-                <br>
-                <label id="password_label" for="password">Password: </label>
-                <input id="password" name="password" type="password" required>
-                <br>
-                <label id="server_config_label" for="server_config">Server Config:</label>
-                <select id="server_config" name="server_config" required>
-                    <option value="train">TRAINING</option>
-                    <option value="live">LIVE</option>
-                </select>
-                <button name="submit" value="login" type="submit">Switch User</button>
+                <div id="bounds">
+                    <label class="live"><input type="radio" name="server_config" value="live"><span>Live</span></label>
+                    <label class="train"><input type="radio" name="server_config" value="train"
+                                                checked><span>Training</span></label>
+                </div>
+
+
+                <button name="submit" value="login" class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Switch User</button>
             </form>
         </div>
 
@@ -361,6 +373,10 @@
 <script type="text/javascript">
     generateTable({{ host_name | safe }}, {{ host_id | safe }}, "{{ server_url | safe }}");
     $('#generate-xml-form').on('change', '#method_name', show_hide_form_fields);
+
+    {#    $("#xml_request").css({'width': 200 + 'px'});#}
+    {#    $("#xml_request").css({'width': 500 + 'px'});#}
+    {#    $("#xml_request").css({'width': 'calc('+ 100+"% - "+ 80 + 'px);'});#}
 
     var height = $("#generate-xml-form").height();
     var generate_xml_btn_offset = $("#generate_xml_btn").offset().top;

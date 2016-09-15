@@ -96,12 +96,22 @@ function get_tours(tableRow, id, server_url) {
             } else if (typeof json.tours === 'object') {
                 if (json.tours.length > 0) {
                     addCSVButton(tableRow, tableRow.getElementsByTagName("td")[0], id, server_url, "tour codes");
-                    for (var i = 0; i in json.tours; i++) {
-                        var new_id = id + ',' + json.tours[i]['strTourCode'].toString();
+                    var tour_codes = json.tours;
+                    var keys = get_sorted_keys(tour_codes, "strTourCode");
+
+                    for (var i = 0; i in tour_codes; i++) {
+                        var j = 0;
+                        while (tour_codes[j]['strTourCode'] !== keys[i]) {
+                            j++
+                        }
+
+                        var new_id = id + ',' + tour_codes[j]['strTourName'].toString() + ',' + tour_codes[j]['strTourCode'].toString();
+                        var csv_parameters = id + ',' + tour_codes[j]['strTourName'].toString() + ',' + tour_codes[j]['strTourCode'].toString();
                         var newTableRow = document.createElement('tr');
                         var tour_code_td = document.createElement('td');
-                        var tour_code = json.tours[i]['strTourCode'];
-                        var tour_code_td_value = document.createTextNode('Tour Code: ' + tour_code);
+                        var tour_code = json.tours[j]['strTourCode'];
+                        var tour_name = json.tours[j]['strTourName'];
+                        var tour_code_td_value = 'Tour Code: ' + tour_code + '<br> Tour Name: ' + tour_name;
                         var string_p = document.createElement("p");
                         var string_value = document.createTextNode("(" +
                             id + "," +
@@ -110,13 +120,12 @@ function get_tours(tableRow, id, server_url) {
 
                         string_p.setAttribute("style", "float: right;");
                         string_p.appendChild(string_value);
-                        tour_code_td.appendChild(tour_code_td_value);
-
+                        tour_code_td.innerHTML = tour_code_td_value;
                         tour_code_td.appendChild(string_p);
 
                         tour_code_td.setAttribute('colspan', '4');
                         newTableRow.setAttribute('id', new_id);
-                        newTableRow.setAttribute("onclick", "get_tour_bases(this, this.id,'" + server_url + "'); " +
+                        newTableRow.setAttribute("onclick", "get_tour_bases(this, this.id, '" + server_url + "'); " +
                             "populate_form_fields('" + host_id + "','" + tour_code + "')");
                         newTableRow.setAttribute("data-level", "2");
 
@@ -156,7 +165,7 @@ function get_tour_bases(tableRow, id, server_url) {
     $(tableRow).after(loading_img);
 
     var host_id = id.split(',')[0];
-    var tour_code = id.split(',')[1];
+    var tour_code = id.split(',')[2];
 
     $.ajax({
         type: 'POST',
@@ -175,23 +184,32 @@ function get_tour_bases(tableRow, id, server_url) {
         success: function (json) {
             loading_img.remove();
             for (var i = 0; i < json.tour_bases.length; i++) {
-                var tour_basis_id = json.tour_bases[i]['intBasisID'];
-                var tour_sub_basis_id = json.tour_bases[i]['intSubBasisID'];
-                var new_id = id + ',' + tour_basis_id + ',' + tour_sub_basis_id;
+                var tour_bases = json.tour_bases;
+
+                var keys = get_sorted_keys(tour_bases, "strBasisDesc");
+                var j = 0;
+                while (tour_bases[j]['strBasisDesc'] !== keys[i]) {
+                    j++
+                }
+                var tour_basis_name = tour_bases[j]['strBasisDesc'];
+                var tour_sub_basis_name = tour_bases[j]['strSubBasisDesc'];
+                var tour_basis_id = json.tour_bases[j]['intBasisID'];
+                var tour_sub_basis_id = json.tour_bases[j]['intSubBasisID'];
+                var new_id = id + ',' + tour_basis_name + ',' + tour_basis_id + ',' + tour_sub_basis_name + ',' + tour_sub_basis_id;
                 var newTableRow = document.createElement('tr');
 
                 var basis_td = document.createElement("td");
                 var subbasis_td = document.createElement("td");
 
-                var basis_td_value = document.createTextNode("Basis: " + json.tour_bases[i]['strBasisDesc'] + ' (' + json.tour_bases[i]['intBasisID'] + ')');
+                var basis_td_value = document.createTextNode("Basis: " + tour_basis_name + ' (' + json.tour_bases[j]['intBasisID'] + ')');
 
-                var subbasis_td_value = document.createTextNode("Subbasis: " + json.tour_bases[i]['strSubBasisDesc'] + ' (' + json.tour_bases[i]['intSubBasisID'] + ')');
+                var subbasis_td_value = document.createTextNode("Subbasis: " + tour_sub_basis_name + ' (' + json.tour_bases[j]['intSubBasisID'] + ')');
                 var string_p = document.createElement("p");
                 var string_value = document.createTextNode("(" +
                     host_id + "," +
                     tour_code + "," +
-                    json.tour_bases[i]['intBasisID'] + "," +
-                    json.tour_bases[i]['intSubBasisID'] +
+                    json.tour_bases[j]['intBasisID'] + "," +
+                    json.tour_bases[j]['intSubBasisID'] +
                     ')');
 
                 string_p.setAttribute("style", "float: right;");
@@ -231,9 +249,9 @@ function get_tour_times(tableRow, id, server_url) {
     $(tableRow).after(loading_img);
 
     var host_id = id.split(',')[0];
-    var tour_code = id.split(',')[1];
-    var tour_basis_id = id.split(',')[2];
-    var tour_sub_basis_id = id.split(',')[3];
+    var tour_code = id.split(',')[2];
+    var tour_basis_id = id.split(',')[4];
+    var tour_sub_basis_id = id.split(',')[6];
 
     $.ajax({
         type: 'POST',
@@ -304,10 +322,10 @@ function get_tour_pickups(tableRow, id, server_url) {
     $(tableRow).after(loading_img);
 
     var host_id = id.split(',')[0];
-    var tour_code = id.split(',')[1];
-    var tour_basis_id = id.split(',')[2];
-    var tour_sub_basis_id = id.split(',')[3];
-    var tour_time_id = id.split(',')[4];
+    var tour_code = id.split(',')[2];
+    var tour_basis_id = id.split(',')[4];
+    var tour_sub_basis_id = id.split(',')[6];
+    var tour_time_id = id.split(',')[7];
 
     $.ajax({
         type: 'POST',
@@ -328,13 +346,19 @@ function get_tour_pickups(tableRow, id, server_url) {
         success: function (json) {
             loading_img.remove();
             for (var i = 0; i < json.tour_pickups.length; i++) {
-                var new_id = id + ',' + json.tour_pickups[i]['strPickupKey'];
+                var tour_pickups = json.tour_pickups;
+                var keys = get_sorted_keys(tour_pickups, "strPickupValue");
+                var j = 0;
+                while (tour_pickups[j]['strPickupValue'] !== keys[i]) {
+                    j++
+                }
+                var new_id = id + ',' + json.tour_pickups[j]['strPickupKey'];
                 var newTableRow = document.createElement('tr');
 
                 var pickup_id_td = document.createElement("td");
                 var string_td = document.createElement("td");
 
-                var pickup_id_td_value = document.createTextNode("Pickup ID: " + json.tour_pickups[i]['strPickupValue'] + ' ' + '(' + json.tour_pickups[i]['strPickupKey'] + ')');
+                var pickup_id_td_value = document.createTextNode("Pickup ID: " + json.tour_pickups[j]['strPickupValue'] + ' ' + '(' + json.tour_pickups[j]['strPickupKey'] + ')');
 
                 var string_td_value = document.createTextNode("String: (" +
                     host_id + ',' +
@@ -342,7 +366,7 @@ function get_tour_pickups(tableRow, id, server_url) {
                     tour_basis_id + ',' +
                     tour_sub_basis_id + ',' +
                     tour_time_id + ',' +
-                    json.tour_pickups[i]['strPickupKey'] +
+                    json.tour_pickups[j]['strPickupKey'] +
                     ')');
 
                 pickup_id_td.appendChild(pickup_id_td_value);
@@ -371,12 +395,12 @@ function get_tour_pickups(tableRow, id, server_url) {
 }
 
 function populate_form_fields(host_id, tour_code, tour_basis_id, tour_sub_basis_id, tour_time_id, tour_pickups) {
-    if (typeof(host_id)==='undefined') host_id = "";
-    if (typeof(tour_code)==='undefined') tour_code = "";
-    if (typeof(tour_basis_id)==='undefined') tour_basis_id = "";
-    if (typeof(tour_sub_basis_id)==='undefined') tour_sub_basis_id = "";
-    if (typeof(tour_time_id)==='undefined') tour_time_id = "";
-    if (typeof(tour_pickups)==='undefined') tour_pickups = "";
+    if (typeof(host_id) === 'undefined') host_id = "";
+    if (typeof(tour_code) === 'undefined') tour_code = "";
+    if (typeof(tour_basis_id) === 'undefined') tour_basis_id = "";
+    if (typeof(tour_sub_basis_id) === 'undefined') tour_sub_basis_id = "";
+    if (typeof(tour_time_id) === 'undefined') tour_time_id = "";
+    if (typeof(tour_pickups) === 'undefined') tour_pickups = "";
 
     document.getElementById("host_id").value = host_id;
     document.getElementById("tour_code").value = tour_code;
@@ -420,6 +444,7 @@ function collapseAllTableRows() {
 function remove_rows(table_row, server_url) {
 
     var this_level = parseInt($(table_row).data("level"), 10);
+
     var next_or_lower = name_range(create_selector,
         this_level + 1, 10);
     var this_or_higher = name_range(create_selector, 0, this_level);
@@ -435,7 +460,7 @@ function remove_rows(table_row, server_url) {
     $(node).remove();
     $(node).filter(next_or_lower.join(",")).hide();
 
-    switch ((table_row.id.split(',')).length) {
+    switch (this_level) {
         case 1:
             table_row.setAttribute("onclick", "get_tours(this, this.id,'" + server_url + "'); " +
                 "populate_form_fields('" + host_id + "')");
@@ -455,7 +480,7 @@ function remove_rows(table_row, server_url) {
             //     table_row.getElementsByTagName("td")[0].getElementsByTagName("button")[0].remove();
             // }catch(err) {console.log("Error: Download csv button does not exist to be deleted")}
             break;
-        case 4:
+        case 3:
             table_row.setAttribute("onclick", "get_tour_times(this, this.id,'" + server_url + "'); " +
                 "populate_form_fields('" + host_id + "','" + tour_code + "','" + tour_basis_id + "','" +
                 tour_sub_basis_id + "')");
@@ -465,7 +490,7 @@ function remove_rows(table_row, server_url) {
                 console.log("Error: Download csv button does not exist to be deleted")
             }
             break;
-        case 5:
+        case 4:
             table_row.setAttribute("onclick", "get_tour_pickups(this, this.id,'" + server_url + "'); populate_form_fields('" + host_id + "','" +
                 tour_code + "','" +
                 tour_basis_id + "','" +
@@ -1010,7 +1035,19 @@ function remove_rows(table_row, server_url) {
 //    }
 //}
 
+function get_sorted_keys(obj, inner_key) {
+    var keys = [];
 
+    for (var key in obj) {
+
+        keys.push(obj[key][inner_key]);
+    }
+
+    keys.sort();
+    keys.reverse();
+
+    return keys
+}
 
 
 

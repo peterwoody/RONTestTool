@@ -291,6 +291,18 @@ def raw_xml_request(server_url, xml):
         table_response = process_xml_list_response(tour_prices_range)
         xml_response = xmlrpclib.dumps((tour_prices_range,))
 
+    elif method == 'readReservationDetails':
+        host_id = params[0]
+        confirmation_no = params[1]
+        try:
+            reservation_details = connection.readReservationDetails(host_id, confirmation_no)
+
+            table_response = process_xml_dict_response(reservation_details)
+            xml_response = xmlrpclib.dumps((reservation_details,))
+        except xmlrpclib.Fault as error:
+            fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
+            return fault, {"Fault": [fault]}
+
     elif method == 'checkReservation':
         host_id = params[0]
         reservation = params[1]

@@ -62,7 +62,7 @@ nav div, form{
 /*}*/
 
 #navbarcenter{
-    height: 100%;
+    height: inherit;
     /*padding-top: 10px;*/
     /*padding-bottom: 10px;*/
 }
@@ -135,6 +135,10 @@ table{
 
 }
 .table-response th{
+    color: #E0D65B;
+}
+
+.table-response a{
     color: #E0D65B;
 }
 

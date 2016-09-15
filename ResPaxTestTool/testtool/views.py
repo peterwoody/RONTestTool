@@ -158,6 +158,9 @@ def generate_xml(request):
     elif method_name == 'readTourWebDetails':
         params = (host_id, tour_code)
 
+    elif method_name == 'readTourWebDetailsImages':
+        params = (host_id, tour_code)
+
     elif method_name == 'readTourPickup':
         params = (host_id, tour_code, basis_id, tour_time_id, pickup_id)
 

@@ -122,7 +122,6 @@ function switch_users() {
             csrfmiddlewaretoken: csrftoken
         },
         success: function () {
-            console.log("asdfafdaf");
             window.location.reload(true);
         }
     });
@@ -183,12 +182,13 @@ function submit_xml_request() {
             var k = 0;
             for (var j = 0; j < dictionary[dictionary_keys[k]].length; j++) {
                 table_row = document.createElement('tr');
+                var img_array_keys = Object.keys(boolImgArray);
                 for (i = 0; i < Object.keys(dictionary).length; i++) {
 
                     var table_column = document.createElement('td');
                     var table_row_value;
 
-                    if(boolImgArray['b64IncludeImage']){
+                    if(boolImgArray[img_array_keys[i]]){
                         var image = new Image();
                         image.src = 'data:image/png;base64,'+dictionary[dictionary_keys[i]][j];
                         table_row_value = image;
@@ -229,9 +229,6 @@ function add_query() {
 
     query_value = JSON.parse(query_value);
 
-    console.log(start_date);
-    console.log(end_date);
-
     var tour_date = new Date(start_date);
     end_date = new Date(end_date);
     while (tour_date <= end_date) {
@@ -268,6 +265,7 @@ function change_format(format) {
             document.getElementById("xml_format_button").style.opacity = ".8";
             document.getElementById("table_format_button").style.opacity = "1";
             document.getElementById("xml_table_format_button").style.opacity = "1";
+
             break;
         case "table":
             $(document.getElementById("table_response")).show();

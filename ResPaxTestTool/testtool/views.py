@@ -205,7 +205,6 @@ def generate_xml(request):
 
     elif method_name == 'readTourAvailabilityRange':
         try:
-            print(query)
             params = (eval(query),)
         except ValueError:
             fault = "Please enter a date"

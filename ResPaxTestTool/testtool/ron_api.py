@@ -94,7 +94,6 @@ def raw_xml_request(server_url, xml):
         host_id = params[0]
         try:
             sources = connection.readSources(host_id)
-            print(sources)
         except xmlrpclib.Fault as error:
             fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
             return fault, {"Fault": [fault]}
@@ -106,7 +105,6 @@ def raw_xml_request(server_url, xml):
         host_id = params[0]
         try:
             card_types = connection.readCreditCardTypes(host_id)
-            print(card_types)
         except xmlrpclib.Fault as error:
             fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
             return fault, {"Fault": [fault]}
@@ -188,7 +186,6 @@ def raw_xml_request(server_url, xml):
         tour_web_details['b64SmallImage'] = b64_small_image
         tour_web_details['b64LargeImage'] = b64_large_image
         tour_web_details['b64IncludeImage'] = b64_include_image
-        print tour_web_details
 
         table_response = process_xml_dict_response(tour_web_details)
         xml_response = xmlrpclib.dumps((tour_web_details,))
@@ -384,7 +381,6 @@ def raw_xml_request(server_url, xml):
 
         try:
             write_cancellation = connection.writeCancellation(host_id, confirmation, reason)
-            print write_cancellation
             table_response = {"Write Reservation No.": [write_cancellation]}
             xml_response = xmlrpclib.dumps((write_cancellation,))
         except xmlrpclib.Fault as error:
@@ -469,11 +465,8 @@ def process_xml_list_response(xml_response):
 def process_xml_dict_response(xml_response):
     table_response = {}
 
-    print xml_response
-
     for key in xml_response:
         if type(xml_response[key]) is list:
-            print xml_response[key]
             for i in xml_response[key]:
                 if type(i) == str:
                     table_response.update({key: [i]})
@@ -505,10 +498,6 @@ def process_xml_array_dict_response(xml_response):
                 table_response[key].append(xml_response[i][key])
 
     return table_response
-
-
-def process_tour_web_images(xml_response):
-    print "test"
 
 
 def process_xml_credit_status(xml_response):

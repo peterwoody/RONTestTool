@@ -148,9 +148,6 @@
             <input id="del_query_btn" name="del_query_btn" type="button" value="Delete Query" onclick="delete_query()"
                    hidden>
 
-            <input id="switch_user_btn" name="switch_user_btn" type="button" value="Switch User"
-                   onclick="switch_users()"
-                   hidden>
             <label for="method_name">Method Name:</label>
             <select id="method_name" name="method_name">
                 <option>readHosts</option>
@@ -302,7 +299,7 @@
         <br>
         <button name="submit" value="xmlrequest" type="submit" onclick="submit_xml_request()">Submit</button>
         <button name="fill_form_xml" value="fill_form_xml" type="submit" onclick="fill_form_xml()">Fill Form</button>
-        <button name="hide_request_btn" value="hide_request_btn" type="submit"
+        <button id="hide_request_btn" name="hide_request_btn" value="hide_request_btn" type="submit"
                 onclick="hide_xml_request_textarea(this)">Hide
         </button>
 
@@ -318,7 +315,7 @@
         <button id="xml_format_button" onclick="change_format('xml')" disabled>XML Format</button>
         <button id="table_format_button" onclick="change_format('table')">Table Format</button>
         <button id="xml_table_format_button" onclick="change_format('xml_table')">XML & Table Format</button>
-        <button name="hide_response_btn" value="hide_response_btn" type="submit"
+        <button id="hide_response_btn" name="hide_response_btn" value="hide" type="submit"
                 onclick="hide_xml_response_textarea(this)">Hide
         </button>
 
@@ -374,10 +371,6 @@
 <script type="text/javascript">
     generateTable({{ host_name | safe }}, {{ host_id | safe }}, "{{ server_url | safe }}");
     $('#generate-xml-form').on('change', '#method_name', show_hide_form_fields);
-
-    {#    $("#xml_request").css({'width': 200 + 'px'});#}
-    {#    $("#xml_request").css({'width': 500 + 'px'});#}
-    {#    $("#xml_request").css({'width': 'calc('+ 100+"% - "+ 80 + 'px);'});#}
 
     var height = $("#generate-xml-form").height();
     var generate_xml_btn_offset = $("#generate_xml_btn").offset().top;

@@ -2,40 +2,7 @@
  * Created by Shaquille on 6/09/2016.
  */
 
-//function generate_xml_request(button) {
 $(document).ready(function () {
-
-    //var server_url = document.getElementById('server_url').value || null;
-    //var method_name = document.getElementById('method_name').value || null;
-    //var tour_date = document.getElementById('date').value || null;
-    //var host_id = document.getElementById('host_id').value || null;
-    //var tour_code = document.getElementById('tour_code').value || null;
-    //var tour_basis_id = document.getElementById('basis').value || null;
-    //var tour_sub_basis_id = document.getElementById('sub_basis').value || null;
-    //var tour_time_id = document.getElementById('tour_time_id').value || null;
-    //var tour_pickup_id = document.getElementById('pickup_id').value || null;
-    //var pickup_room_no = document.getElementById('pickup_room_no').value || null;
-    //var tour_drop_off_id = document.getElementById('drop_off_id').value || null;
-    //var pax_first_name = document.getElementById('pax_first_name').value || null;
-    //var pax_last_name = document.getElementById('pax_last_name').value || null;
-    //var pax_email = document.getElementById('pax_email').value || null;
-    //var no_pax_adults = document.getElementById('no_pax_adults').value || null;
-    //var no_pax_child = document.getElementById('no_pax_child').value || null;
-    //var no_pax_infant = document.getElementById('no_pax_infant').value || null;
-    //var no_pax_foc = document.getElementById('no_pax_foc').value || null;
-    //var no_pax_user_defined = document.getElementById('no_pax_user_defined').value || null;
-    //var general_comment = document.getElementById('general_comment').value || null;
-    //var booking_confirmed = document.getElementById('booking_confirmed').value || null;
-    //var payment_option = document.getElementById('payment_option').value || null;
-    //var card_name = document.getElementById('card_name').value || null;
-    //var card_pan = document.getElementById('card_pan').value || null;
-    //var card_vn = document.getElementById('card_vn').value || null;
-    //var card_type_id = document.getElementById('card_type_id').value || null;
-    //var card_expiry_month = document.getElementById('card_expiry_month').value || null;
-    //var card_expiry_year = document.getElementById('card_expiry_year').value || null;
-    //var confirmation_no = document.getElementById('confirmation_no').value || null;
-    //var reason = document.getElementById('reason').value || null;
-    //var query = document.getElementById('query').value || null;
 
     var generate_xml_form = $('#generate-xml-form');
 
@@ -43,48 +10,11 @@ $(document).ready(function () {
         window.scrollTo(0, 0);
 
         $.ajax({
-            //type: generate_xml_form.method,
-            //url: generate_xml_form.action,
             type: "POST",
             url: "/generate_xml/",
             dataType: 'json',
             async: true,
             data: generate_xml_form.serialize(),
-            //data:{
-            //    server_url: server_url,
-            //    method_name: method_name,
-            //    tour_date: tour_date,
-            //    host_id: host_id,
-            //    tour_code: tour_code,
-            //    tour_time_id: tour_time_id,
-            //    tour_basis_id: tour_basis_id,
-            //    tour_sub_basis_id: tour_sub_basis_id,
-            //    tour_pickup_id: tour_pickup_id,
-            //    pickup_room_no: pickup_room_no,
-            //    tour_drop_off_id: tour_drop_off_id,
-            //    pax_first_name: pax_first_name,
-            //    pax_last_name: pax_last_name,
-            //    pax_email: pax_email,
-            //    no_pax_adults: no_pax_adults,
-            //    no_pax_child: no_pax_child,
-            //    no_pax_infant: no_pax_infant,
-            //    no_pax_foc: no_pax_foc,
-            //    no_pax_user_defined: no_pax_user_defined,
-            //    general_comment: general_comment,
-            //    booking_confirmed: booking_confirmed,
-            //    payment_option: payment_option,
-            //    card_name: card_name,
-            //    card_pan: card_pan,
-            //    card_vn: card_vn,
-            //    card_type_id: card_type_id,
-            //    card_expiry_month: card_expiry_month,
-            //    card_expiry_year: card_expiry_year,
-            //    confirmation_no: confirmation_no,
-            //    reason: reason,
-            //    query: query,
-            //    safe: false,
-            //    csrfmiddlewaretoken: csrftoken
-            //},
 
             success: function (json) {
                 document.getElementById('xml_response').textContent = "";
@@ -103,30 +33,6 @@ $(document).ready(function () {
     });
 //}
 });
-
-function switch_users() {
-    var username = document.getElementById("username").value;
-    var password = document.getElementById("password").value;
-    var server_config = document.getElementById("server_config").value;
-    var server_url = document.getElementById('server_url').value;
-    $.ajax({
-        type: "POST",
-        url: "/test_tool/",
-        async: true,
-        data: {
-            submit: "login",
-            username: username,
-            password: password,
-            server_config: server_config,
-            server_url: server_url,
-            csrfmiddlewaretoken: csrftoken
-        },
-        success: function () {
-            console.log("asdfafdaf");
-            window.location.reload(true);
-        }
-    });
-}
 
 function submit_xml_request() {
     var server_url = document.getElementById('server_url').value;
@@ -159,16 +65,15 @@ function submit_xml_request() {
             var table_body = document.createElement('tbody');
             var table_row = document.createElement('tr');
 
-            var boolImgArray = {"b64IncludeImage":false,"b64SmallImage":false,"b64LargeImage":false};
-
+            var boolImgArray = {"b64IncludeImage": false, "b64SmallImage": false, "b64LargeImage": false};
 
 
             for (var i = 0; i < Object.keys(dictionary).length; i++) {
 
                 var table_head = document.createElement('th');
 
-                for(var key in boolImgArray){
-                    if (dictionary_keys[i] === key){
+                for (var key in boolImgArray) {
+                    if (dictionary_keys[i] === key) {
                         boolImgArray[key] = true;
                     }
                 }
@@ -181,29 +86,31 @@ function submit_xml_request() {
             }
 
             var k = 0;
-            for (var j = 0; j < dictionary[dictionary_keys[k]].length; j++) {
-                table_row = document.createElement('tr');
-                for (i = 0; i < Object.keys(dictionary).length; i++) {
+            if (dictionary[dictionary_keys[k]] !== undefined) {
+                for (var j = 0; j < dictionary[dictionary_keys[k]].length; j++) {
+                    table_row = document.createElement('tr');
+                    for (i = 0; i < Object.keys(dictionary).length; i++) {
 
-                    var table_column = document.createElement('td');
-                    var table_row_value;
+                        var table_column = document.createElement('td');
+                        var table_row_value;
 
-                    if(boolImgArray['b64IncludeImage']){
-                        var image = new Image();
-                        image.src = 'data:image/png;base64,'+dictionary[dictionary_keys[i]][j];
-                        table_row_value = image;
-                        table_column.appendChild(table_row_value);
-                    }else{
-                        table_row_value = dictionary[dictionary_keys[i]][j];
-                        table_column.innerHTML = table_row_value;
+                        if (boolImgArray['b64IncludeImage']) {
+                            var image = new Image();
+                            image.src = 'data:image/png;base64,' + dictionary[dictionary_keys[i]][j];
+                            table_row_value = image;
+                            table_column.appendChild(table_row_value);
+                        } else {
+                            table_row_value = dictionary[dictionary_keys[i]][j];
+                            table_column.innerHTML = table_row_value;
+                        }
+
+                        table_row.appendChild(table_column);
+                        table_body.appendChild(table_row);
+                        k++;
                     }
+                    k = 0;
 
-                    table_row.appendChild(table_column);
-                    table_body.appendChild(table_row);
-                    k++;
                 }
-                k = 0;
-
             }
             table.appendChild(table_body);
 
@@ -256,10 +163,14 @@ function delete_query() {
 }
 
 function change_format(format) {
+    document.getElementById("hide_response_btn").innerHTML = "Hide";
+    document.getElementById("hide_response_btn").value = "hide";
     switch (format) {
         case "xml":
-            $(document.getElementById("xml_response")).show();
-            $(document.getElementById("table_response")).hide();
+            // $(document.getElementById("xml_response")).show();
+            // $(document.getElementById("table_response")).hide();
+            document.getElementById("xml_response").hidden = false;
+            document.getElementById("table_response").hidden = true;
 
             document.getElementById("xml_format_button").disabled = true;
             document.getElementById("table_format_button").disabled = false;
@@ -270,8 +181,11 @@ function change_format(format) {
             document.getElementById("xml_table_format_button").style.opacity = "1";
             break;
         case "table":
-            $(document.getElementById("table_response")).show();
-            $(document.getElementById("xml_response")).hide();
+            // $(document.getElementById("table_response")).show();
+            // $(document.getElementById("xml_response")).hide();
+
+            document.getElementById("xml_response").hidden = true;
+            document.getElementById("table_response").hidden = false;
 
             document.getElementById("xml_format_button").disabled = false;
             document.getElementById("table_format_button").disabled = true;
@@ -282,8 +196,11 @@ function change_format(format) {
             document.getElementById("xml_table_format_button").style.opacity = "1";
             break;
         case "xml_table":
-            $(document.getElementById("xml_response")).show();
-            $(document.getElementById("table_response")).show();
+            // $(document.getElementById("xml_response")).show();
+            // $(document.getElementById("table_response")).show();
+
+            document.getElementById("xml_response").hidden = false;
+            document.getElementById("table_response").hidden = false;
 
             document.getElementById("xml_format_button").disabled = false;
             document.getElementById("table_format_button").disabled = false;
@@ -539,12 +456,40 @@ function hide_xml_request_textarea(button) {
 }
 
 function hide_xml_response_textarea(button) {
-    if (document.getElementById("xml_response").hidden === true) {
-        document.getElementById("xml_response").hidden = false;
-        button.innerHTML = "Hide";
-    } else {
-        document.getElementById("xml_response").hidden = true;
-        button.innerHTML = "Show";
+    switch (button.value) {
+        case "hide":
+            console.log(document.getElementById("xml_format_button").disabled);
+            if (document.getElementById("xml_format_button").disabled === true) {
+                document.getElementById("xml_response").hidden = true;
+                // $("#xml_response").hide();
+            } else if (document.getElementById("table_format_button").disabled === true) {
+                document.getElementById("table_response").hidden = true;
+                // $("#table_response").hide();
+            } else if (document.getElementById("xml_table_format_button").disabled === true) {
+                document.getElementById("xml_response").hidden = true;
+                // $("#xml_response").hide();
+                document.getElementById("table_response").hidden = true;
+                // $("#table_response").hide();
+            }
+            button.innerHTML = "Show";
+            button.value = "show";
+            break;
+        case "show":
+            if (document.getElementById("xml_format_button").disabled === true) {
+                document.getElementById("xml_response").hidden = false;
+                // $("#xml_response").show();
+            } else if (document.getElementById("table_format_button").disabled === true) {
+                document.getElementById("table_response").hidden = false;
+                // $("#table_response").show();
+            } else if (document.getElementById("xml_table_format_button").disabled === true) {
+                document.getElementById("xml_response").hidden = false;
+                // $("#xml_response").show();
+                document.getElementById("table_response").hidden = false;
+                // $("#table_response").show();
+            }
+            button.innerHTML = "Hide";
+            button.value = "hide";
+            break;
     }
 }
 
@@ -638,7 +583,7 @@ function show_hide_form_fields() {
         required_dict.host_id = true;
     }
     else if ((method_name == 'readTourDetails') || (method_name == 'readTourBases') || (method_name == 'readTourTimes')
-        || (method_name == 'readTourWebDetails') || (method_name == 'readTourTimes')|| (method_name == 'readTourWebDetailsImages')) {
+        || (method_name == 'readTourWebDetails') || (method_name == 'readTourTimes') || (method_name == 'readTourWebDetailsImages')) {
         methodDict.host_id = true;
         methodDict.tour_code = true;
 

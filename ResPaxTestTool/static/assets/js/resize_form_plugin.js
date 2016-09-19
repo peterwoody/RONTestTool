@@ -2,8 +2,6 @@
  * Created by belzi on 9/12/2016.
  */
 
-
-//Daniel here: trying out a pluggin for detecting div change
 (function(){
   var attachEvent = document.attachEvent;
   var isIE = navigator.userAgent.match(/Trident/);

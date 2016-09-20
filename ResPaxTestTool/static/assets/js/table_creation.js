@@ -21,8 +21,15 @@ function generateTable(operators, host_ids, server_url) {
             "populate_form_fields('" + host_ids[i] + "')");
         tableRow.setAttribute("data-level", "1");
 
-        tableRow.appendChild(operator_td);
+        var button = document.createElement("button");
+        var button_value = document.createTextNode("Show Location");
+        button.appendChild(button_value);
+        button.setAttribute("onclick", "show_location(this,'" + host_ids[i] + "','" + server_url + "')");
+        button.setAttribute("style", "float:right; clear: right; color:#0089BB");
 
+        operator_td.appendChild(button);
+
+        tableRow.appendChild(operator_td);
 
         table.appendChild(tableRow);
     }
@@ -416,6 +423,29 @@ function populate_form_fields(host_id, tour_code, tour_basis_id, tour_sub_basis_
     document.getElementById("pickup_id").value = tour_pickups;
 }
 
+function show_location(button, host_id, server_url) {
+    $.ajax({
+        type: 'POST',
+        url: '/get_location/',
+        dataType: 'json',
+        async: true,
+
+        data: {
+            host_id: host_id,
+            server_url: server_url,
+            safe: false,
+            csrfmiddlewaretoken: csrftoken
+        },
+
+        success: function (json) {
+            button.remove();
+            var table_row = document.getElementById(host_id);
+
+            table_row.firstElementChild.innerHTML += "<br> <strong>Location:</strong> " + json.location;
+        }
+    });
+}
+
 function range(lowEnd, highEnd) {
     var validation = (lowEnd <= highEnd) && (lowEnd >= 0) && (highEnd < 100);
     if (!(validation)) {
@@ -473,7 +503,9 @@ function remove_rows(table_row, server_url) {
             try {
                 Array.prototype.slice.call(table_row.getElementsByTagName("td")[0].getElementsByTagName("button")).forEach(
                     function (item) {
-                        item.remove();
+                        if (item.innerText === "Download CSV"){
+                            item.remove();
+                        }
                     });
             } catch (err) {
                 console.log("Error: Download csv button does not exist to be deleted")

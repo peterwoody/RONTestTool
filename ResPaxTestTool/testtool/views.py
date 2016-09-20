@@ -306,7 +306,7 @@ def submit_xml(request):
 
 
 def get_location(request):
-    host_id = request.POST.get('id')
+    host_id = request.POST.get('host_id')
     server_url = request.POST.get('server_url')
     location = ron_api.get_location(host_id, server_url)
 

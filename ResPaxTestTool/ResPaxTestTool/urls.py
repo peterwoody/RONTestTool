@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^get_tour_times/', get_tour_times, name="get_tour_times"),
     url(r'^get_tour_pickups/', get_tour_pickups, name="get_tour_pickups"),
     url(r'^get_all_host_info/', get_all_host_info, name="get_all_host_info"),
+    url(r'^get_location/', get_location, name="get_location"),
     url(r'^logout/', logout, name="logout"),
     url(r'^login_error/', login_error, name="login_error"),
     url(r'^$', login, name="login"),

@@ -4,6 +4,7 @@ body {
     line-height: 1.42857143;
     color: #0089BB;
     background-color: #fff;
+    min-width: 1000px;
 }
 
 nav {
@@ -11,17 +12,17 @@ nav {
     position: fixed;
     top: 0;
     left: 0;
-    padding-left: 13%;
-    padding-right: 13%;
     width: 100%;
     min-width: 700px;
     box-shadow: 0 3px 10px -2px rgba(0, 0, 0, .1);
     border: 1px solid rgba(0, 0, 0, .1);
+    height: 100px;
+    min-width:1200px;
 }
 
 nav ul {
-    padding-top: 5px;
-    padding-bottom: 5px;
+    /*padding-top: 5px;*/
+    /*padding-bottom: 5px;*/
     list-style: none;
     position: relative;
     float: left;
@@ -33,13 +34,19 @@ nav ul {
 
 nav ul li {
     float: left;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
-    padding-left: 5px;
-    padding-right: 5px;
     -webkit-transition: all .2s ease-in-out;
     -moz-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
+    height: inherit;
+    text-align: center;
+    width: 200px;
+}
+
+nav div, form{
+    height: inherit;
+    width: inherit;
 
 }
 
@@ -49,15 +56,15 @@ nav ul li {
 
 
 
-#centerlist{
-    padding-top: 0px;
-    height: inherit;
-}
+/*#centerlist{*/
+    /*padding-top: 10px;*/
+    /*height: inherit;*/
+/*}*/
 
 #navbarcenter{
-    height: 83px;
-    padding-top: 0px;
-    padding-bottom: 0px;
+    height: inherit;
+    /*padding-top: 10px;*/
+    /*padding-bottom: 10px;*/
 }
 
 #switch_server_btn{
@@ -68,11 +75,13 @@ nav ul li {
     height: inherit;
 }
 
-nav ul li button {
+nav ul li button, a {
     padding-top: 10px;
     padding-bottom: 10px;
     background: none;
     border: none;
+    height: inherit;
+    width: inherit;
 }
 nav ul li:hover {
     background: rgba(0, 0, 0, .15);
@@ -84,6 +93,7 @@ nav ul li:hover > ul {
 
 nav .navbar-right {
     float: right;
+    height:inherit;
 }
 
 nav .backToTop {
@@ -104,13 +114,16 @@ nav .backToTop p{
 
 nav .navbar-header {
     width: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    height: inherit;
 }
 nav .navbar-header:hover {
     background: rgba(0, 0, 0, .15);
 }
 
 .XMLRequestArea textarea {
-    width: 100%;
+    width: calc(100% - 80px);
     height: 200px;
 }
 table{
@@ -122,6 +135,10 @@ table{
 
 }
 .table-response th{
+    color: #E0D65B;
+}
+
+.table-response a{
     color: #E0D65B;
 }
 
@@ -149,6 +166,10 @@ table.table-expandable > tbody > tr {
     line-height: 1.42857143;
     vertical-align: top;
     border-top: 1px solid #ddd;
+}
+
+table.table-expandable {
+    width: calc(100% - 80px);
 }
 table.table-expandable.table-hover > tbody > tr:hover td {
     background-color: lightsteelblue;
@@ -217,7 +238,7 @@ table.table-expandable > tbody > tr[data-level='5'] td:first-child {
     /*width: 100%;*/
 }
 
-.generate-xml-form input, select{
+.generate-xml-form input, select, textarea{
     width: calc(100% - 15px);
     margin-bottom: 5px;
 }
@@ -232,7 +253,6 @@ table.table-expandable > tbody > tr[data-level='5'] td:first-child {
 
 .generate-xml-form div{
     overflow: scroll;
-    height: 90%;
     resize: horizontal;
 
 }

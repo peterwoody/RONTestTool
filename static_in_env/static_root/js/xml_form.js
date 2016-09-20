@@ -2,40 +2,7 @@
  * Created by Shaquille on 6/09/2016.
  */
 
-//function generate_xml_request(button) {
 $(document).ready(function () {
-
-    //var server_url = document.getElementById('server_url').value || null;
-    //var method_name = document.getElementById('method_name').value || null;
-    //var tour_date = document.getElementById('date').value || null;
-    //var host_id = document.getElementById('host_id').value || null;
-    //var tour_code = document.getElementById('tour_code').value || null;
-    //var tour_basis_id = document.getElementById('basis').value || null;
-    //var tour_sub_basis_id = document.getElementById('sub_basis').value || null;
-    //var tour_time_id = document.getElementById('tour_time_id').value || null;
-    //var tour_pickup_id = document.getElementById('pickup_id').value || null;
-    //var pickup_room_no = document.getElementById('pickup_room_no').value || null;
-    //var tour_drop_off_id = document.getElementById('drop_off_id').value || null;
-    //var pax_first_name = document.getElementById('pax_first_name').value || null;
-    //var pax_last_name = document.getElementById('pax_last_name').value || null;
-    //var pax_email = document.getElementById('pax_email').value || null;
-    //var no_pax_adults = document.getElementById('no_pax_adults').value || null;
-    //var no_pax_child = document.getElementById('no_pax_child').value || null;
-    //var no_pax_infant = document.getElementById('no_pax_infant').value || null;
-    //var no_pax_foc = document.getElementById('no_pax_foc').value || null;
-    //var no_pax_user_defined = document.getElementById('no_pax_user_defined').value || null;
-    //var general_comment = document.getElementById('general_comment').value || null;
-    //var booking_confirmed = document.getElementById('booking_confirmed').value || null;
-    //var payment_option = document.getElementById('payment_option').value || null;
-    //var card_name = document.getElementById('card_name').value || null;
-    //var card_pan = document.getElementById('card_pan').value || null;
-    //var card_vn = document.getElementById('card_vn').value || null;
-    //var card_type_id = document.getElementById('card_type_id').value || null;
-    //var card_expiry_month = document.getElementById('card_expiry_month').value || null;
-    //var card_expiry_year = document.getElementById('card_expiry_year').value || null;
-    //var confirmation_no = document.getElementById('confirmation_no').value || null;
-    //var reason = document.getElementById('reason').value || null;
-    //var query = document.getElementById('query').value || null;
 
     var generate_xml_form = $('#generate-xml-form');
 
@@ -43,48 +10,11 @@ $(document).ready(function () {
         window.scrollTo(0, 0);
 
         $.ajax({
-            //type: generate_xml_form.method,
-            //url: generate_xml_form.action,
             type: "POST",
             url: "/generate_xml/",
             dataType: 'json',
             async: true,
             data: generate_xml_form.serialize(),
-            //data:{
-            //    server_url: server_url,
-            //    method_name: method_name,
-            //    tour_date: tour_date,
-            //    host_id: host_id,
-            //    tour_code: tour_code,
-            //    tour_time_id: tour_time_id,
-            //    tour_basis_id: tour_basis_id,
-            //    tour_sub_basis_id: tour_sub_basis_id,
-            //    tour_pickup_id: tour_pickup_id,
-            //    pickup_room_no: pickup_room_no,
-            //    tour_drop_off_id: tour_drop_off_id,
-            //    pax_first_name: pax_first_name,
-            //    pax_last_name: pax_last_name,
-            //    pax_email: pax_email,
-            //    no_pax_adults: no_pax_adults,
-            //    no_pax_child: no_pax_child,
-            //    no_pax_infant: no_pax_infant,
-            //    no_pax_foc: no_pax_foc,
-            //    no_pax_user_defined: no_pax_user_defined,
-            //    general_comment: general_comment,
-            //    booking_confirmed: booking_confirmed,
-            //    payment_option: payment_option,
-            //    card_name: card_name,
-            //    card_pan: card_pan,
-            //    card_vn: card_vn,
-            //    card_type_id: card_type_id,
-            //    card_expiry_month: card_expiry_month,
-            //    card_expiry_year: card_expiry_year,
-            //    confirmation_no: confirmation_no,
-            //    reason: reason,
-            //    query: query,
-            //    safe: false,
-            //    csrfmiddlewaretoken: csrftoken
-            //},
 
             success: function (json) {
                 document.getElementById('xml_response').textContent = "";
@@ -101,7 +31,7 @@ $(document).ready(function () {
         });
         event.preventDefault();
     });
-//}
+
 });
 
 function submit_xml_request() {
@@ -135,10 +65,18 @@ function submit_xml_request() {
             var table_body = document.createElement('tbody');
             var table_row = document.createElement('tr');
 
+            var boolImgArray = {"b64IncludeImage": false, "b64SmallImage": false, "b64LargeImage": false};
+
+
             for (var i = 0; i < Object.keys(dictionary).length; i++) {
 
                 var table_head = document.createElement('th');
 
+                for (var key in boolImgArray) {
+                    if (dictionary_keys[i] === key) {
+                        boolImgArray[key] = true;
+                    }
+                }
                 var table_head_value = document.createTextNode(dictionary_keys[i]);
                 table_head.appendChild(table_head_value);
 
@@ -147,33 +85,42 @@ function submit_xml_request() {
                 table_body.appendChild(table_row);
             }
 
-
             var k = 0;
-            for (var j = 0; j < dictionary[dictionary_keys[k]].length; j++) {
-                table_row = document.createElement('tr');
-                for (i = 0; i < Object.keys(dictionary).length; i++) {
 
-                    var table_column = document.createElement('td');
-                    var table_row_value = document.createTextNode(dictionary[dictionary_keys[i]][j]);
+            if (dictionary[dictionary_keys[k]] !== undefined) {
+                for (var j = 0; j < dictionary[dictionary_keys[k]].length; j++) {
+                    table_row = document.createElement('tr');
+                    var img_array_keys = Object.keys(boolImgArray);
+                    for (i = 0; i < Object.keys(dictionary).length; i++) {
 
-                    table_column.appendChild(table_row_value);
-                    table_row.appendChild(table_column);
-                    table_body.appendChild(table_row);
-                    k++;
+                        var table_column = document.createElement('td');
+                        var table_row_value;
 
+                        if (boolImgArray[img_array_keys[i]]) {
+                            var image = new Image();
+                            image.src = 'data:image/png;base64,' + dictionary[dictionary_keys[i]][j];
+                            table_row_value = image;
+                            table_column.appendChild(table_row_value);
+                        } else {
+                            table_row_value = dictionary[dictionary_keys[i]][j];
+                            table_column.innerHTML = table_row_value;
+                        }
+                        k = 0;
+                        table_row.appendChild(table_column);
+                        table_body.appendChild(table_row);
+                    }
                 }
-                k = 0;
+
+                table.appendChild(table_body);
 
             }
-            table.appendChild(table_body);
-
         }
-    })
+    });
 }
-
 function add_query() {
     var method_name = document.getElementById('method_name').value || null;
-    var tour_date = document.getElementById('date').value || null;
+    var start_date = document.getElementById('start_date').value || null;
+    var end_date = document.getElementById('end_date').value || null;
     var host_id = document.getElementById('host_id').value || null;
     var tour_code = document.getElementById('tour_code').value || null;
     var tour_basis_id = document.getElementById('basis').value || null;
@@ -182,19 +129,28 @@ function add_query() {
     var tour_pickup_id = document.getElementById('pickup_id').value || null;
     var query = document.getElementById('query');
     var query_value = query.value;
+    var month_names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
 
     query_value = JSON.parse(query_value);
 
-    query_value.push({
-        "strHostID": host_id,
-        "strTourCode": tour_code,
-        "intBasisID": tour_basis_id,
-        "intSubBasisID": tour_sub_basis_id,
-        "intTourTimeID": tour_time_id,
-        "strPickupKey": tour_pickup_id,
-        "dteTourDate": tour_date
-    });
+    var tour_date = new Date(start_date);
+    end_date = new Date(end_date);
+    while (tour_date <= end_date) {
 
+        query_value.push({
+            "strHostID": host_id,
+            "strTourCode": tour_code,
+            "intBasisID": tour_basis_id,
+            "intSubBasisID": tour_sub_basis_id,
+            "intTourTimeID": tour_time_id,
+            //"strPickupKey": tour_pickup_id,
+            "dteTourDate": ("0" + tour_date.getDate()).slice(-2) + "-" + (month_names[tour_date.getMonth()]) + "-" + tour_date.getFullYear()
+        });
+
+        tour_date.setDate(tour_date.getDate() + 1);
+    }
     query.value = JSON.stringify(query_value);
 }
 
@@ -203,10 +159,14 @@ function delete_query() {
 }
 
 function change_format(format) {
+    document.getElementById("hide_response_btn").innerHTML = "Hide";
+    document.getElementById("hide_response_btn").value = "hide";
     switch (format) {
         case "xml":
-            $(document.getElementById("xml_response")).show();
-            $(document.getElementById("table_response")).hide();
+            // $(document.getElementById("xml_response")).show();
+            // $(document.getElementById("table_response")).hide();
+            document.getElementById("xml_response").hidden = false;
+            document.getElementById("table_response").hidden = true;
 
             document.getElementById("xml_format_button").disabled = true;
             document.getElementById("table_format_button").disabled = false;
@@ -215,10 +175,14 @@ function change_format(format) {
             document.getElementById("xml_format_button").style.opacity = ".8";
             document.getElementById("table_format_button").style.opacity = "1";
             document.getElementById("xml_table_format_button").style.opacity = "1";
+
             break;
         case "table":
-            $(document.getElementById("table_response")).show();
-            $(document.getElementById("xml_response")).hide();
+            // $(document.getElementById("table_response")).show();
+            // $(document.getElementById("xml_response")).hide();
+
+            document.getElementById("xml_response").hidden = true;
+            document.getElementById("table_response").hidden = false;
 
             document.getElementById("xml_format_button").disabled = false;
             document.getElementById("table_format_button").disabled = true;
@@ -229,8 +193,11 @@ function change_format(format) {
             document.getElementById("xml_table_format_button").style.opacity = "1";
             break;
         case "xml_table":
-            $(document.getElementById("xml_response")).show();
-            $(document.getElementById("table_response")).show();
+            // $(document.getElementById("xml_response")).show();
+            // $(document.getElementById("table_response")).show();
+
+            document.getElementById("xml_response").hidden = false;
+            document.getElementById("table_response").hidden = false;
 
             document.getElementById("xml_format_button").disabled = false;
             document.getElementById("table_format_button").disabled = false;
@@ -247,7 +214,7 @@ function change_format(format) {
 function fill_form_xml() {
     var xml = document.getElementById('xml_request').value;
     var method_name = document.getElementById('method_name');
-    var tour_date = document.getElementById('date');
+    var tour_date = document.getElementById('tour_date');
     var host_id = document.getElementById('host_id');
     var tour_code = document.getElementById('tour_code');
     var tour_basis_id = document.getElementById('basis');
@@ -259,6 +226,7 @@ function fill_form_xml() {
     var pax_first_name = document.getElementById('pax_first_name');
     var pax_last_name = document.getElementById('pax_last_name');
     var pax_email = document.getElementById('pax_email');
+    var voucher_number = document.getElementById('voucher_number');
     var no_pax_adults = document.getElementById('no_pax_adults');
     var no_pax_child = document.getElementById('no_pax_child');
     var no_pax_infant = document.getElementById('no_pax_infant');
@@ -266,6 +234,7 @@ function fill_form_xml() {
     var no_pax_user_defined = document.getElementById('no_pax_user_defined');
     var general_comment = document.getElementById('general_comment');
     var booking_confirmed = document.getElementById('booking_confirmed');
+    var confirmation_no = document.getElementById('confirmation_no');
     var payment_option = document.getElementById('payment_option');
     var card_name = document.getElementById('card_name');
     var card_pan = document.getElementById('card_pan');
@@ -273,6 +242,7 @@ function fill_form_xml() {
     var card_type_id = document.getElementById('card_type_id');
     var card_expiry_month = document.getElementById('card_expiry_month');
     var card_expiry_year = document.getElementById('card_expiry_year');
+    var query = document.getElementById('query');
 
     $.ajax({
         type: 'POST',
@@ -299,7 +269,16 @@ function fill_form_xml() {
                 case "readPaxTypes":
                     host_id.value = json.loaded_xml[0][0];
                     break;
+                case "readSources":
+                    host_id.value = json.loaded_xml[0][0];
+                    break;
+                case "readCreditCardTypes":
+                    host_id.value = json.loaded_xml[0][0];
+                    break;
                 case "readTours":
+                    host_id.value = json.loaded_xml[0][0];
+                    break;
+                case "readCreditStatus":
                     host_id.value = json.loaded_xml[0][0];
                     break;
                 case "readTourDetails":
@@ -314,12 +293,37 @@ function fill_form_xml() {
                     host_id.value = json.loaded_xml[0][0];
                     tour_code.value = json.loaded_xml[0][1];
                     break;
+                case "readTourWebDetails":
+                    host_id.value = json.loaded_xml[0][0];
+                    tour_code.value = json.loaded_xml[0][1];
+                    break;
+                case "readTourWebDetailsImages":
+                    host_id.value = json.loaded_xml[0][0];
+                    tour_code.value = json.loaded_xml[0][1];
+                    break;
+                case "readTourPickup":
+                    host_id.value = json.loaded_xml[0][0];
+                    tour_code.value = json.loaded_xml[0][1];
+                    tour_basis_id.value = json.loaded_xml[0][2];
+                    tour_time_id.value = json.loaded_xml[0][3];
+                    tour_pickup_id.value = json.loaded_xml[0][4];
+                    break;
                 case "readTourPickups":
                     host_id.value = json.loaded_xml[0][0];
                     tour_code.value = json.loaded_xml[0][1];
                     tour_basis_id.value = json.loaded_xml[0][3];
                     tour_time_id.value = json.loaded_xml[0][2];
 
+                    var date = new Date(json.loaded_xml[0][4]);
+                    var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+                    tour_date.value = formattedDate;
+                    break;
+                case "readTourCommissions":
+                    host_id.value = json.loaded_xml[0][0];
+                    tour_code.value = json.loaded_xml[0][1];
+                    tour_basis_id.value = json.loaded_xml[0][2];
+                    tour_sub_basis_id.value = json.loaded_xml[0][3];
+                    tour_time_id.value = json.loaded_xml[0][5];
                     var date = new Date(json.loaded_xml[0][4]);
                     var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
                     tour_date.value = formattedDate;
@@ -337,6 +341,9 @@ function fill_form_xml() {
                     var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
                     tour_date.value = formattedDate;
                     break;
+                case "readTourPricesRange":
+                    query.value = JSON.stringify(json.loaded_xml[0][0]);
+                    break;
                 case "readTourAvailability":
                     host_id.value = json.loaded_xml[0][0];
                     tour_code.value = json.loaded_xml[0][1];
@@ -347,6 +354,13 @@ function fill_form_xml() {
                     var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
                     tour_date.value = formattedDate;
 
+                    break;
+                case "readTourAvailabilityRange":
+                    query.value = JSON.stringify(json.loaded_xml[0][0]);
+                    break;
+                case "readReservationDetails":
+                    host_id.value = json.loaded_xml[0][0];
+                    confirmation_no.value = json.loaded_xml[0][1];
                     break;
                 case "checkReservation":
                     host_id.value = json.loaded_xml[0][0];
@@ -407,6 +421,7 @@ function fill_form_xml() {
                     pax_first_name.value = json.loaded_xml[0][2]["strPaxFirstName"];
                     pax_last_name.value = json.loaded_xml[0][2]["strPaxLastName"];
                     pax_email.value = json.loaded_xml[0][2]["strPaxEmail"];
+                    voucher_number.value = json.loaded_xml[0][2]["strVoucherNo"];
                     no_pax_adults.value = json.loaded_xml[0][2]["intNoPax_Adults"];
                     no_pax_child.value = json.loaded_xml[0][2]["intNoPax_Child"];
                     no_pax_infant.value = json.loaded_xml[0][2]["intNoPax_Infant"];
@@ -438,12 +453,40 @@ function hide_xml_request_textarea(button) {
 }
 
 function hide_xml_response_textarea(button) {
-    if (document.getElementById("xml_response").hidden === true) {
-        document.getElementById("xml_response").hidden = false;
-        button.innerHTML = "Hide";
-    } else {
-        document.getElementById("xml_response").hidden = true;
-        button.innerHTML = "Show";
+    switch (button.value) {
+        case "hide":
+            console.log(document.getElementById("xml_format_button").disabled);
+            if (document.getElementById("xml_format_button").disabled === true) {
+                document.getElementById("xml_response").hidden = true;
+                // $("#xml_response").hide();
+            } else if (document.getElementById("table_format_button").disabled === true) {
+                document.getElementById("table_response").hidden = true;
+                // $("#table_response").hide();
+            } else if (document.getElementById("xml_table_format_button").disabled === true) {
+                document.getElementById("xml_response").hidden = true;
+                // $("#xml_response").hide();
+                document.getElementById("table_response").hidden = true;
+                // $("#table_response").hide();
+            }
+            button.innerHTML = "Show";
+            button.value = "show";
+            break;
+        case "show":
+            if (document.getElementById("xml_format_button").disabled === true) {
+                document.getElementById("xml_response").hidden = false;
+                // $("#xml_response").show();
+            } else if (document.getElementById("table_format_button").disabled === true) {
+                document.getElementById("table_response").hidden = false;
+                // $("#table_response").show();
+            } else if (document.getElementById("xml_table_format_button").disabled === true) {
+                document.getElementById("xml_response").hidden = false;
+                // $("#xml_response").show();
+                document.getElementById("table_response").hidden = false;
+                // $("#table_response").show();
+            }
+            button.innerHTML = "Hide";
+            button.value = "hide";
+            break;
     }
 }
 
@@ -460,7 +503,9 @@ function show_hide_form_fields() {
         "pickup_id": false,
         "pickup_room_no": false,
         "drop_off_id": false,
-        "date": false,
+        "tour_date": false,
+        "start_date": false,
+        "end_date": false,
         "pax_first_name": false,
         "pax_last_name": false,
         "pax_email": false,
@@ -495,7 +540,9 @@ function show_hide_form_fields() {
         "pickup_id": false,
         "pickup_room_no": false,
         "drop_off_id": false,
-        "date": false,
+        "tour_date": false,
+        "start_date": false,
+        "end_date": false,
         "pax_first_name": false,
         "pax_last_name": false,
         "pax_email": false,
@@ -519,39 +566,67 @@ function show_hide_form_fields() {
         "add_query_btn": false,
         "del_query_btn": false,
         "voucher_number": false
+
     };
 
-    if (method_name == 'readHosts' || method_name == 'readCurrentLogin') {
+    if (method_name == 'readHosts' || method_name == 'readCurrentLogin' || method_name == 'ping') {
         //blank because the array does not change
     }
 
     else if ((method_name == 'readHostDetails') || (method_name == 'readPaymentOptions') || (method_name == 'readTours')
-        || (method_name == 'readPaxTypes') || (method_name == 'readCreditStatus')) {
+        || (method_name == 'readPaxTypes') || (method_name == 'readCreditStatus') || (method_name == 'readSources')
+        || (method_name == 'readCreditCardTypes')) {
         methodDict.host_id = true;
         required_dict.host_id = true;
     }
     else if ((method_name == 'readTourDetails') || (method_name == 'readTourBases') || (method_name == 'readTourTimes')
-        || (method_name == 'readTourWebDetails')) {
+        || (method_name == 'readTourWebDetails') || (method_name == 'readTourTimes') || (method_name == 'readTourWebDetailsImages')) {
         methodDict.host_id = true;
         methodDict.tour_code = true;
 
         required_dict.host_id = true;
         required_dict.tour_code = true;
+    }
+    else if (method_name == 'readTourPickup') {
+        methodDict.host_id = true;
+        methodDict.tour_code = true;
+        methodDict.basis = true;
+        methodDict.tour_time_id = true;
+        methodDict.pickup_id = true;
+
+        required_dict.host_id = true;
+        required_dict.tour_code = true;
+        required_dict.tour_time_id = true;
+        required_dict.pickup_id = true;
     }
     else if (method_name == 'readTourPickups') {
         methodDict.host_id = true;
         methodDict.tour_code = true;
         methodDict.basis = true;
         methodDict.tour_time_id = true;
-        methodDict.date = true;
+        methodDict.tour_date = true;
 
         required_dict.host_id = true;
         required_dict.tour_code = true;
         required_dict.basis = true;
         required_dict.tour_time_id = true;
-        required_dict.date = true;
+        required_dict.tour_date = true;
     }
-    else if (method_name == 'readTourPrices') {
+    else if (method_name == 'readTourCommissions') {
+        methodDict.host_id = true;
+        methodDict.tour_code = true;
+        methodDict.basis = true;
+        methodDict.sub_basis = true;
+        methodDict.tour_time_id = true;
+        methodDict.tour_date = true;
+
+        required_dict.host_id = true;
+        required_dict.tour_code = true;
+        required_dict.basis = true;
+        required_dict.sub_basis = true;
+        required_dict.tour_time_id = true;
+        required_dict.tour_date = true;
+    } else if (method_name == 'readTourPrices') {
         methodDict.host_id = true;
         methodDict.tour_code = true;
         methodDict.basis = true;
@@ -559,14 +634,14 @@ function show_hide_form_fields() {
         methodDict.tour_time_id = true;
         methodDict.pickup_id = true;
         methodDict.drop_off_id = true;
-        methodDict.date = true;
+        methodDict.tour_date = true;
 
         required_dict.host_id = true;
         required_dict.tour_code = true;
         required_dict.basis = true;
         required_dict.sub_basis = true;
         required_dict.tour_time_id = true;
-        required_dict.date = true;
+        required_dict.tour_date = true;
     } else if (method_name == 'readTourPricesRange') {
         methodDict.host_id = true;
         methodDict.tour_code = true;
@@ -574,7 +649,8 @@ function show_hide_form_fields() {
         methodDict.sub_basis = true;
         methodDict.tour_time_id = true;
         methodDict.pickup_id = true;
-        methodDict.date = true;
+        methodDict.start_date = true;
+        methodDict.end_date = true;
         methodDict.query = true;
         methodDict.add_query_btn = true;
         methodDict.del_query_btn = true;
@@ -587,14 +663,14 @@ function show_hide_form_fields() {
         methodDict.basis = true;
         methodDict.sub_basis = true;
         methodDict.tour_time_id = true;
-        methodDict.date = true;
+        methodDict.tour_date = true;
 
         required_dict.host_id = true;
         required_dict.tour_code = true;
         required_dict.basis = true;
         required_dict.sub_basis = true;
         required_dict.tour_time_id = true;
-        required_dict.date = true;
+        required_dict.tour_date = true;
     }
     else if (method_name == 'readTourAvailabilityRange') {
         methodDict.host_id = true;
@@ -602,12 +678,20 @@ function show_hide_form_fields() {
         methodDict.basis = true;
         methodDict.sub_basis = true;
         methodDict.tour_time_id = true;
-        methodDict.date = true;
+        methodDict.start_date = true;
+        methodDict.end_date = true;
         methodDict.query = true;
         methodDict.add_query_btn = true;
         methodDict.del_query_btn = true;
 
         required_dict.query = true;
+    }
+    else if (method_name == 'readReservationDetails') {
+        methodDict.host_id = true;
+        methodDict.confirmation_no = true;
+
+        required_dict.host_id = true;
+        required_dict.confirmation_no = true;
     }
     else if (method_name === 'checkReservation' || method_name === 'checkReservationAndPrices') {
         methodDict = {
@@ -619,7 +703,9 @@ function show_hide_form_fields() {
             "pickup_id": true,
             "pickup_room_no": true,
             "drop_off_id": false,
-            "date": true,
+            "tour_date": true,
+            "start_date": false,
+            "end_date": false,
             "pax_first_name": true,
             "pax_last_name": true,
             "pax_email": true,
@@ -650,7 +736,7 @@ function show_hide_form_fields() {
         required_dict.basis = true;
         required_dict.sub_basis = true;
         required_dict.tour_time_id = true;
-        required_dict.date = true;
+        required_dict.tour_date = true;
         required_dict.pax_first_name = true;
         required_dict.pax_last_name = true;
     }
@@ -665,7 +751,9 @@ function show_hide_form_fields() {
             "pickup_id": true,
             "pickup_room_no": true,
             "drop_off_id": true,
-            "date": true,
+            "tour_date": true,
+            "start_date": false,
+            "end_date": false,
             "pax_first_name": true,
             "pax_last_name": true,
             "pax_email": true,
@@ -695,7 +783,7 @@ function show_hide_form_fields() {
         required_dict.basis = true;
         required_dict.sub_basis = true;
         required_dict.tour_time_id = true;
-        required_dict.date = true;
+        required_dict.tour_date = true;
         required_dict.pax_first_name = true;
         required_dict.pax_last_name = true;
     }
@@ -729,6 +817,26 @@ function show_hide_form_fields() {
             id.attr("required", true);
         } else {
             id.removeAttr('required');
+        }
+    }
+}
+
+function open_switch_user_modal() {
+    var switch_user_modal = document.getElementById('switch_user_modal');
+
+    switch_user_modal.style.display = "block";
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[1];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        switch_user_modal.style.display = "none";
+    };
+
+    //When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == switch_user_modal) {
+            switch_user_modal.style.display = "none";
         }
     }
 }

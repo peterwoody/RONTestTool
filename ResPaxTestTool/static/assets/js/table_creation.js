@@ -487,11 +487,11 @@ function remove_rows(table_row, server_url) {
     var node = $(table_row).nextUntil(this_or_higher.join(","));
 
     var host_id = table_row.id.split(',')[0];
-    var tour_code = table_row.id.split(',')[1];
-    var tour_basis_id = table_row.id.split(',')[2];
-    var tour_sub_basis_id = table_row.id.split(',')[3];
-    var tour_time_id = table_row.id.split(',')[4];
-    var pickup_id = table_row.id.split(',')[5];
+    var tour_code = table_row.id.split(',')[2];
+    var tour_basis_id = table_row.id.split(',')[4];
+    var tour_sub_basis_id = table_row.id.split(',')[6];
+    var tour_time_id = table_row.id.split(',')[7];
+    var pickup_id = table_row.id.split(',')[8];
 
     $(node).remove();
     $(node).filter(next_or_lower.join(",")).hide();

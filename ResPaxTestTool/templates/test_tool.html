@@ -150,6 +150,8 @@
 
             <label for="method_name">Method Name:</label>
             <select id="method_name" name="method_name">
+                <option>readTourAvailability</option>
+                <option>checkReservationAndPrices</option>
                 <option>readHosts</option>
                 <option>readCurrentLogin</option>
                 <option>readHostDetails</option>
@@ -169,11 +171,9 @@
                 <option>readTourCommissions</option>
                 <option>readTourPrices</option>
                 <option>readTourPricesRange</option>
-                <option>readTourAvailability</option>
                 <option>readTourAvailabilityRange</option>
                 <option>readReservationDetails</option>
                 <option>checkReservation</option>
-                <option>checkReservationAndPrices</option>
                 <option>writeReservation</option>
                 <option>writeCancellation</option>
                 <option>ping</option>
@@ -370,6 +370,7 @@
 
 <script type="text/javascript">
     generateTable({{ host_name | safe }}, {{ host_id | safe }}, "{{ server_url | safe }}");
+    show_hide_form_fields();
     $('#generate-xml-form').on('change', '#method_name', show_hide_form_fields);
 
     var height = $("#generate-xml-form").height();

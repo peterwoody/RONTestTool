@@ -1,4 +1,5 @@
 import xmlrpclib
+from collections import OrderedDict
 
 
 def get_connection(username, password, server_config):
@@ -264,10 +265,28 @@ def raw_xml_request(server_url, xml):
             tour_prices = connection.readTourPrices(host_id, tour_code, basis_id, subbasis_id, tour_date, tour_time_id,
                                                     pickup_id, drop_off_id)
 
+            order_tour_prices = ['curAdultTourSell', 'curAdultTourLevy', 'curChildTourSell', 'curChildTourLevy',
+                                   'curInfantTourSell', 'curInfantTourLevy', 'curUDef1TourSell', 'curUDef1TourLevy',
+                                   'curFOCTourSell', 'curFOCTourLevy', 'strPaymentOption', 'curTourLevy', 'curCardFee',
+                                   'curDeposit', 'curPayOnBoard', 'dblFOCCommission', 'boolUDef1Assoc',
+                                   'curTotalCardFee', 'boolFOCAssoc', 'strCurrencyType', 'dblUDef1Commission',
+                                   'boolAdultAssoc', 'curBookingFee', 'strCurrencySymbol', 'dblAdultCommission',
+                                   'curPayOnBoardCardFee', 'dblChildCommission', 'boolChildAssoc',
+                                   'dblInfantCommission', 'curAdultTourLevy', 'boolInfantAssoc', 'curTotal',
+                                   'curDepositCardFee']
+
         except xmlrpclib.Fault as error:
             fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
             return fault, {"Fault": [fault]}
+
         table_response = process_xml_dict_response(tour_prices)
+
+        ordered_tour_prices = OrderedDict()
+        for i in order_tour_prices:
+            ordered_tour_prices[i] = table_response[i]
+
+        table_response = ordered_tour_prices
+
         xml_response = xmlrpclib.dumps((tour_prices,))
 
     elif method == 'readTourPricesRange':

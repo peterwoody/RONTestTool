@@ -192,55 +192,69 @@ function get_tour_bases(tableRow, id, server_url) {
 
         success: function (json) {
             loading_img.remove();
-            for (var i = 0; i < json.tour_bases.length; i++) {
-                var tour_bases = json.tour_bases;
+            if (!jQuery.isEmptyObject(json.tour_bases)) {
+                for (var i = 0; i < json.tour_bases.length; i++) {
+                    var tour_bases = json.tour_bases;
 
-                var keys = get_sorted_keys(tour_bases, "strBasisDesc");
-                var j = 0;
-                while (tour_bases[j]['strBasisDesc'] !== keys[i]) {
-                    j++
+                    var keys = get_sorted_keys(tour_bases, "strBasisDesc");
+                    var j = 0;
+                    while (tour_bases[j]['strBasisDesc'] !== keys[i]) {
+                        j++
+                    }
+                    var tour_basis_name = tour_bases[j]['strBasisDesc'];
+                    var tour_sub_basis_name = tour_bases[j]['strSubBasisDesc'];
+                    var tour_basis_id = json.tour_bases[j]['intBasisID'];
+                    var tour_sub_basis_id = json.tour_bases[j]['intSubBasisID'];
+                    var new_id = id + ',' + tour_basis_name + ',' + tour_basis_id + ',' + tour_sub_basis_name + ',' + tour_sub_basis_id;
+                    var newTableRow = document.createElement('tr');
+
+                    var basis_td = document.createElement("td");
+                    var subbasis_td = document.createElement("td");
+
+                    var basis_td_value = document.createTextNode("Basis: " + tour_basis_name + ' (' + json.tour_bases[j]['intBasisID'] + ')');
+
+                    var subbasis_td_value = document.createTextNode("Subbasis: " + tour_sub_basis_name + ' (' + json.tour_bases[j]['intSubBasisID'] + ')');
+                    var string_p = document.createElement("p");
+                    var string_value = document.createTextNode("(" +
+                        host_id + "," +
+                        tour_code + "," +
+                        json.tour_bases[j]['intBasisID'] + "," +
+                        json.tour_bases[j]['intSubBasisID'] +
+                        ')');
+
+                    string_p.setAttribute("style", "float: right;");
+                    string_p.appendChild(string_value);
+
+                    basis_td.appendChild(basis_td_value);
+                    subbasis_td.appendChild(subbasis_td_value);
+                    subbasis_td.appendChild(string_p);
+
+                    basis_td.setAttribute('colspan', '1');
+                    subbasis_td.setAttribute('colspan', '3');
+                    newTableRow.setAttribute('id', new_id);
+                    newTableRow.setAttribute("onclick", "get_tour_times(this, this.id, '" + server_url + "'); populate_form_fields('" + host_id + "','" +
+                        tour_code + "','" +
+                        tour_basis_id + "','" +
+                        tour_sub_basis_id + "')");
+                    newTableRow.setAttribute("data-level", "3");
+
+                    newTableRow.appendChild(basis_td);
+                    newTableRow.appendChild(subbasis_td);
+                    addCSVButton(newTableRow, subbasis_td, new_id, server_url, "tour codes");
+
+                    $(tableRow).after(newTableRow);
                 }
-                var tour_basis_name = tour_bases[j]['strBasisDesc'];
-                var tour_sub_basis_name = tour_bases[j]['strSubBasisDesc'];
-                var tour_basis_id = json.tour_bases[j]['intBasisID'];
-                var tour_sub_basis_id = json.tour_bases[j]['intSubBasisID'];
-                var new_id = id + ',' + tour_basis_name + ',' + tour_basis_id + ',' + tour_sub_basis_name + ',' + tour_sub_basis_id;
+            } else {
                 var newTableRow = document.createElement('tr');
+                var td = document.createElement('td');
 
-                var basis_td = document.createElement("td");
-                var subbasis_td = document.createElement("td");
+                var value = document.createTextNode("No Basis Web Enabled");
 
-                var basis_td_value = document.createTextNode("Basis: " + tour_basis_name + ' (' + json.tour_bases[j]['intBasisID'] + ')');
+                td.appendChild(value);
 
-                var subbasis_td_value = document.createTextNode("Subbasis: " + tour_sub_basis_name + ' (' + json.tour_bases[j]['intSubBasisID'] + ')');
-                var string_p = document.createElement("p");
-                var string_value = document.createTextNode("(" +
-                    host_id + "," +
-                    tour_code + "," +
-                    json.tour_bases[j]['intBasisID'] + "," +
-                    json.tour_bases[j]['intSubBasisID'] +
-                    ')');
-
-                string_p.setAttribute("style", "float: right;");
-                string_p.appendChild(string_value);
-
-                basis_td.appendChild(basis_td_value);
-                subbasis_td.appendChild(subbasis_td_value);
-                subbasis_td.appendChild(string_p);
-
-                basis_td.setAttribute('colspan', '1');
-                subbasis_td.setAttribute('colspan', '3');
-                newTableRow.setAttribute('id', new_id);
-                newTableRow.setAttribute("onclick", "get_tour_times(this, this.id, '" + server_url + "'); populate_form_fields('" + host_id + "','" +
-                    tour_code + "','" +
-                    tour_basis_id + "','" +
-                    tour_sub_basis_id + "')");
                 newTableRow.setAttribute("data-level", "3");
 
-                newTableRow.appendChild(basis_td);
-                newTableRow.appendChild(subbasis_td);
-                addCSVButton(newTableRow, subbasis_td, new_id, server_url, "tour codes");
-
+                newTableRow.appendChild(td);
                 $(tableRow).after(newTableRow);
             }
             tableRow.setAttribute('onclick', 'remove_rows(this,"' + server_url + '")');
@@ -280,42 +294,55 @@ function get_tour_times(tableRow, id, server_url) {
 
         success: function (json) {
             loading_img.remove();
+            if (!jQuery.isEmptyObject(json.tour_times)) {
+                for (var i = 0; i < json.tour_times.length; i++) {
+                    var tour_time_id = json.tour_times[i]['intTourTimeID'];
+                    var new_id = id + ',' + json.tour_times[i]['intTourTimeID'];
 
-            for (var i = 0; i < json.tour_times.length; i++) {
-                var tour_time_id = json.tour_times[i]['intTourTimeID'];
-                var new_id = id + ',' + json.tour_times[i]['intTourTimeID'];
+                    var newTableRow = document.createElement('tr');
 
+                    var time_td = document.createElement("td");
+
+                    var time_td_value = document.createTextNode("Time: " + json.tour_times[i]['dteTourTime']['iso8601'] + ' (' + tour_time_id + ')');
+                    var string_p = document.createElement("p");
+                    var string_value = document.createTextNode("(" +
+                        host_id + "," +
+                        tour_code + "," +
+                        tour_basis_id + "," +
+                        tour_sub_basis_id + "," +
+                        tour_time_id +
+                        ')');
+
+                    string_p.setAttribute("style", "float: right;");
+                    string_p.appendChild(string_value);
+
+                    time_td.appendChild(time_td_value);
+                    time_td.appendChild(string_p);
+
+                    time_td.setAttribute('colspan', '4');
+                    newTableRow.setAttribute('id', new_id);
+                    newTableRow.setAttribute('onclick', "get_tour_pickups(this, this.id, '" + server_url + "');populate_form_fields('" + host_id + "','" +
+                        tour_code + "','" +
+                        tour_basis_id + "','" +
+                        tour_sub_basis_id + "','" +
+                        tour_time_id + "')");
+                    newTableRow.setAttribute("data-level", "4");
+
+                    newTableRow.appendChild(time_td);
+                    addCSVButton(newTableRow, time_td, new_id, server_url, "tour codes");
+                    $(tableRow).after(newTableRow);
+                }
+            } else {
                 var newTableRow = document.createElement('tr');
+                var td = document.createElement('td');
 
-                var time_td = document.createElement("td");
+                var value = document.createTextNode("No Time Web Enabled");
 
-                var time_td_value = document.createTextNode("Time: " + json.tour_times[i]['dteTourTime']['iso8601'] + ' (' + tour_time_id + ')');
-                var string_p = document.createElement("p");
-                var string_value = document.createTextNode("(" +
-                    host_id + "," +
-                    tour_code + "," +
-                    tour_basis_id + "," +
-                    tour_sub_basis_id + "," +
-                    tour_time_id +
-                    ')');
+                td.appendChild(value);
 
-                string_p.setAttribute("style", "float: right;");
-                string_p.appendChild(string_value);
-
-                time_td.appendChild(time_td_value);
-                time_td.appendChild(string_p);
-
-                time_td.setAttribute('colspan', '4');
-                newTableRow.setAttribute('id', new_id);
-                newTableRow.setAttribute('onclick', "get_tour_pickups(this, this.id, '" + server_url + "');populate_form_fields('" + host_id + "','" +
-                    tour_code + "','" +
-                    tour_basis_id + "','" +
-                    tour_sub_basis_id + "','" +
-                    tour_time_id + "')");
                 newTableRow.setAttribute("data-level", "4");
 
-                newTableRow.appendChild(time_td);
-                addCSVButton(newTableRow, time_td, new_id, server_url, "tour codes");
+                newTableRow.appendChild(td);
                 $(tableRow).after(newTableRow);
             }
             tableRow.setAttribute('onclick', 'remove_rows(this,"' + server_url + '")');
@@ -503,7 +530,7 @@ function remove_rows(table_row, server_url) {
             try {
                 Array.prototype.slice.call(table_row.getElementsByTagName("td")[0].getElementsByTagName("button")).forEach(
                     function (item) {
-                        if (item.innerText === "Download CSV"){
+                        if (item.innerText === "Download CSV") {
                             item.remove();
                         }
                     });

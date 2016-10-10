@@ -44,12 +44,15 @@
             </li>
             <li>
                 <button id="collapseAllTableRowsbtn" onclick="collapseAllTableRows()" value="Collapse Table">
-                    COLLAPSE<br>
-                    TABLE
+                    <img id="collapse-img" src="{% static "img/collapse.png" %}"/>
+                    <p style="text-align: center">COLLAPSE TABLE</p>
                 </button>
             </li>
             <li>
-                <button onclick="open_switch_user_modal()">SWITCH<br> USER</button>
+                <button onclick="open_switch_user_modal()">
+                    <img id="switch-img" src="{% static "img/switch.png" %}"/>
+                    <p style="text-align: center">SWITCH USER</p>
+                </button>
             </li>
             <li>
                 <button onclick="backToTop()">
@@ -61,7 +64,12 @@
 
 
         <ul class="nav navbar-right">
-            <li><a href="/logout/">LOG OUT</a></li>
+            <li>
+                <a href="/logout/">
+                    <img id="logout-img" src="{% static "img/logout.png" %}"/>
+                    <p style="text-align: center">LOG OUT</p>
+                </a>
+            </li>
         </ul>
     </div>
 

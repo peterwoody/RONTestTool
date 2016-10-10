@@ -200,6 +200,19 @@ def raw_xml_request(server_url, xml):
             return fault, {"Fault": [fault]}
 
         table_response = process_xml_list_response(tour_bases)
+
+        print table_response
+
+        myorder = ['strTourCode','intBasisID','intSubBasisID','strSubBasisDesc','intFixedNoPax','ysnWebEnabledSubBasis','ysnWebEnabledBasis','strBasisDesc','strBasisDesc2','intDurationDays']
+
+        from collections import OrderedDict
+
+        ordered = OrderedDict()
+        for k in myorder:
+            ordered[k] = table_response[k]
+
+        table_response = ordered
+
         xml_response = xmlrpclib.dumps((tour_bases,))
 
     elif method == 'readTourPickup':

@@ -204,9 +204,8 @@ def raw_xml_request(server_url, xml):
 
         print table_response
 
-        myorder = ['strTourCode','intBasisID','intSubBasisID','strSubBasisDesc','intFixedNoPax','ysnWebEnabledSubBasis','ysnWebEnabledBasis','strBasisDesc','strBasisDesc2','intDurationDays']
-
-        from collections import OrderedDict
+        myorder = ['strTourCode', 'intBasisID', 'intSubBasisID', 'strSubBasisDesc', 'intFixedNoPax',
+                   'ysnWebEnabledSubBasis', 'ysnWebEnabledBasis', 'strBasisDesc', 'strBasisDesc2', 'intDurationDays']
 
         ordered = OrderedDict()
         for k in myorder:
@@ -279,14 +278,14 @@ def raw_xml_request(server_url, xml):
                                                     pickup_id, drop_off_id)
 
             order_tour_prices = ['curAdultTourSell', 'curAdultTourLevy', 'curChildTourSell', 'curChildTourLevy',
-                                   'curInfantTourSell', 'curInfantTourLevy', 'curUDef1TourSell', 'curUDef1TourLevy',
-                                   'curFOCTourSell', 'curFOCTourLevy', 'strPaymentOption', 'curTourLevy', 'curCardFee',
-                                   'curDeposit', 'curPayOnBoard', 'dblFOCCommission', 'boolUDef1Assoc',
-                                   'curTotalCardFee', 'boolFOCAssoc', 'strCurrencyType', 'dblUDef1Commission',
-                                   'boolAdultAssoc', 'curBookingFee', 'strCurrencySymbol', 'dblAdultCommission',
-                                   'curPayOnBoardCardFee', 'dblChildCommission', 'boolChildAssoc',
-                                   'dblInfantCommission', 'curAdultTourLevy', 'boolInfantAssoc', 'curTotal',
-                                   'curDepositCardFee']
+                                 'curInfantTourSell', 'curInfantTourLevy', 'curUDef1TourSell', 'curUDef1TourLevy',
+                                 'curFOCTourSell', 'curFOCTourLevy', 'strPaymentOption', 'curTourLevy', 'curCardFee',
+                                 'curDeposit', 'curPayOnBoard', 'dblFOCCommission', 'boolUDef1Assoc',
+                                 'curTotalCardFee', 'boolFOCAssoc', 'strCurrencyType', 'dblUDef1Commission',
+                                 'boolAdultAssoc', 'curBookingFee', 'strCurrencySymbol', 'dblAdultCommission',
+                                 'curPayOnBoardCardFee', 'dblChildCommission', 'boolChildAssoc',
+                                 'dblInfantCommission', 'curAdultTourLevy', 'boolInfantAssoc', 'curTotal',
+                                 'curDepositCardFee']
 
         except xmlrpclib.Fault as error:
             fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
@@ -517,8 +516,6 @@ def process_xml_dict_response(xml_response):
     return table_response
 
 
-# this function didn't work
-# This did work for the currentLogin as it returns as an array initially, only method that has this happen
 def process_xml_array_dict_response(xml_response):
     table_response = {}
     for i in xml_response:

@@ -36,7 +36,7 @@
                     <input id="switch_server_button" name="switch_server_button" value="{{ switch_server_button }}"
                            hidden>
                     <button id="switch_server_btn" name="submit" value="switch_server" type="submit"
-                                                       style="text-transform: uppercase">you are
+                            style="text-transform: uppercase">you are
                         in {{ switch_server_button }}<br>Click to change
                         mode<br> to {{ not_switch_server_button }}
                     </button>
@@ -65,10 +65,10 @@
 
         <ul class="nav navbar-right">
             <li>
-                <a href="/logout/">
+                <button onclick="location.href='/logout/';">
                     <img id="logout-img" src="{% static "img/logout.png" %}"/>
                     <p style="text-align: center">LOG OUT</p>
-                </a>
+                </button>
             </li>
         </ul>
     </div>
@@ -148,7 +148,7 @@
     </div>
     <div class="generate-xml-form">
 
-        <form id="generate-xml-form" class="generate-xml-form formButtons" > {% csrf_token %}
+        <form id="generate-xml-form" class="generate-xml-form formButtons"> {% csrf_token %}
             <input id="generate_xml_btn" type="submit" name="submit" value="Generate XML">
 
             <input id="generate_submit_btn" type="submit" name="submit" value="Generate & Submit XML">
@@ -363,7 +363,9 @@
                 </div>
 
 
-                <button name="submit" value="login" class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Switch User</button>
+                <button name="submit" value="login" class="btn btn-lg btn-primary btn-block btn-signin" type="submit">
+                    Switch User
+                </button>
             </form>
         </div>
 

@@ -163,8 +163,6 @@ function change_format(format) {
     document.getElementById("hide_response_btn").value = "hide";
     switch (format) {
         case "xml":
-            // $(document.getElementById("xml_response")).show();
-            // $(document.getElementById("table_response")).hide();
             document.getElementById("xml_response").hidden = false;
             document.getElementById("table_response").hidden = true;
 
@@ -178,9 +176,6 @@ function change_format(format) {
 
             break;
         case "table":
-            // $(document.getElementById("table_response")).show();
-            // $(document.getElementById("xml_response")).hide();
-
             document.getElementById("xml_response").hidden = true;
             document.getElementById("table_response").hidden = false;
 
@@ -193,9 +188,6 @@ function change_format(format) {
             document.getElementById("xml_table_format_button").style.opacity = "1";
             break;
         case "xml_table":
-            // $(document.getElementById("xml_response")).show();
-            // $(document.getElementById("table_response")).show();
-
             document.getElementById("xml_response").hidden = false;
             document.getElementById("table_response").hidden = false;
 
@@ -460,15 +452,15 @@ function hide_xml_response_textarea(button) {
             console.log(document.getElementById("xml_format_button").disabled);
             if (document.getElementById("xml_format_button").disabled === true) {
                 document.getElementById("xml_response").hidden = true;
-                // $("#xml_response").hide();
+
             } else if (document.getElementById("table_format_button").disabled === true) {
                 document.getElementById("table_response").hidden = true;
-                // $("#table_response").hide();
+
             } else if (document.getElementById("xml_table_format_button").disabled === true) {
                 document.getElementById("xml_response").hidden = true;
-                // $("#xml_response").hide();
+
                 document.getElementById("table_response").hidden = true;
-                // $("#table_response").hide();
+
             }
             button.innerHTML = "Show";
             button.value = "show";
@@ -476,15 +468,15 @@ function hide_xml_response_textarea(button) {
         case "show":
             if (document.getElementById("xml_format_button").disabled === true) {
                 document.getElementById("xml_response").hidden = false;
-                // $("#xml_response").show();
+
             } else if (document.getElementById("table_format_button").disabled === true) {
                 document.getElementById("table_response").hidden = false;
-                // $("#table_response").show();
+
             } else if (document.getElementById("xml_table_format_button").disabled === true) {
                 document.getElementById("xml_response").hidden = false;
-                // $("#xml_response").show();
+
                 document.getElementById("table_response").hidden = false;
-                // $("#table_response").show();
+
             }
             button.innerHTML = "Hide";
             button.value = "hide";

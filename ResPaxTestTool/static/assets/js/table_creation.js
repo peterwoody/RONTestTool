@@ -452,7 +452,7 @@ function populate_form_fields(host_id, tour_code, tour_basis_id, tour_sub_basis_
 
 function show_location(button, host_id, server_url, event) {
     if (event.stopPropagation) {
-      event.stopPropagation();
+        event.stopPropagation();
     }
     $.ajax({
         type: 'POST',

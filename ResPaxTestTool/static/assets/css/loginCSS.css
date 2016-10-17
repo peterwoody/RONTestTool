@@ -1,9 +1,3 @@
-/*
- * Specific styles of signin component
- */
-/*
- * General styles
- */
 body, html {
     height: 100%;
 }
@@ -22,16 +16,11 @@ body, html {
     cursor: default;
 }
 
-/*
- * Card component
- */
 .card {
     background-color: #F7F7F7;
-    /* just in case there no content*/
     padding: 20px 25px 30px;
     margin: 0 auto 25px;
     margin-top: 50px;
-    /* shadows and rounded borders */
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
     border-radius: 2px;
@@ -46,9 +35,6 @@ body, html {
     display: block;
 }
 
-/*
- * Form styles
- */
 .profile-name-card {
     font-size: 16px;
     font-weight: bold;
@@ -81,8 +67,8 @@ body, html {
 .form-signin .form-control:focus {
     border-color: rgb(104, 145, 162);
     outline: 0;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgb(104, 145, 162);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgb(104, 145, 162);
 }
 
 .form-control {
@@ -90,9 +76,7 @@ body, html {
 }
 
 .btn.btn-signin {
-    /*background-color: #4d90fe; */
     background-color: #0088BA;
-    /* background-color: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));*/
     padding: 0px;
     font-weight: 700;
     font-size: 14px;
@@ -119,43 +103,39 @@ body, html {
 
 .forgot-password:hover,
 .forgot-password:active,
-.forgot-password:focus{
+.forgot-password:focus {
     color: rgb(12, 97, 33);
 }
 
 #bounds {
-    /*margin:4px;*/
-    background-color:#EFEFEF;
-    /*border-radius:4px;*/
-    border:1px solid #D0D0D0;
-    /*overflow:auto;*/
-    float:left;
+    background-color: #EFEFEF;
+    border: 1px solid #D0D0D0;
+    float: left;
     width: 100%;
     margin-top: 5px;
     margin-bottom: 5px;
 }
 
 #bounds label {
-    float:left;
-    /*width:2.0em;*/
+    float: left;
     width: 50%;
 }
 
 #bounds label span {
     font-weight: bold;
-    text-align:center;
-    padding:3px 0px;
-    display:block;
+    text-align: center;
+    padding: 3px 0px;
+    display: block;
 }
 
 #bounds label input {
-    position:absolute;
-    top:-20px;
+    position: absolute;
+    top: -20px;
 }
 
 #bounds input:checked + span {
-    background-color:#404040;
-    color:#F7F7F7;
+    background-color: #404040;
+    color: #F7F7F7;
 }
 
 #bounds label.live input:checked + span {

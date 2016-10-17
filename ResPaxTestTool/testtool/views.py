@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import JsonResponse, HttpResponseRedirect
+from django.http import JsonResponse
 import ron_api, datetime, xmlrpclib
+from xml.parsers.expat import ExpatError
 
 
 def test_tool(request):
@@ -1045,7 +1046,12 @@ def get_all_host_info(request):
 def fill_form_xml(request):
     xml = request.POST.get("xml")
     xml = xml.strip()
-    loaded_xml = xmlrpclib.loads(xml)
+
+    try:
+        loaded_xml = xmlrpclib.loads(xml)
+    except ExpatError as error:
+        print("Error:", error.message)
+        loaded_xml = "error"
 
     response_data = {
         'loaded_xml': loaded_xml

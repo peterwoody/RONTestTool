@@ -148,7 +148,7 @@
     </div>
     <div class="generate-xml-form">
 
-        <form id="generate-xml-form" class="generate-xml-form"> {% csrf_token %}
+        <form id="generate-xml-form" class="generate-xml-form formButtons" > {% csrf_token %}
             <input id="generate_xml_btn" type="submit" name="submit" value="Generate XML">
 
             <input id="generate_submit_btn" type="submit" name="submit" value="Generate & Submit XML">
@@ -301,7 +301,7 @@
         </form>
     </div>
 
-    <div class="XMLRequestArea">
+    <div class="XMLRequestArea pageButtons">
         <label for="xml_request">XML Request</label>
         <br>
         <br>
@@ -316,7 +316,7 @@
 
         </textarea>
     </div>
-    <div class="XMLRequestArea">
+    <div class="XMLRequestArea pageButtons" style="clear: both;">
         <label for="xml_response">XML Response</label>
         <br>
         <br>
@@ -328,10 +328,10 @@
         </button>
 
         <textarea id="xml_response" readonly></textarea>
-        <table id="table_response" class="table-response" readonly hidden></table>
+        <table id="table_response" class="table-response" style="clear: both;" readonly hidden></table>
     </div>
 
-    <table id="test-tool-table" class="table table-hover table-expandable table-striped">
+    <table id="test-tool-table" class="table table-hover table-expandable table-striped tableButtons">
         <thead>
         <tr>
             <th id="test-tool-table-heading" colspan="3">Operator</th>

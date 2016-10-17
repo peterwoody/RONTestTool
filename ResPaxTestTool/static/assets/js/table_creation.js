@@ -17,15 +17,15 @@ function generateTable(operators, host_ids, server_url) {
         operator_td.setAttribute("colspan", "3");
 
         tableRow.setAttribute("id", (host_ids[i]).toString());
-        tableRow.setAttribute("onclick", "get_tours(this, this.id,'" + server_url + "'); " +
+        tableRow.setAttribute("onclick", "get_tours(this, this.id,'" + server_url + "', event); " +
             "populate_form_fields('" + host_ids[i] + "')");
         tableRow.setAttribute("data-level", "1");
 
         var button = document.createElement("button");
         var button_value = document.createTextNode("Show Location");
         button.appendChild(button_value);
-        button.setAttribute("onclick", "show_location(this,'" + host_ids[i] + "','" + server_url + "')");
-        button.setAttribute("style", "float:right; clear: right; color:#0089BB");
+        button.setAttribute("onclick", "show_location(this,'" + host_ids[i] + "','" + server_url + "', event)");
+        button.setAttribute("style", "float:right; clear: right; ");
 
         operator_td.appendChild(button);
 
@@ -450,7 +450,10 @@ function populate_form_fields(host_id, tour_code, tour_basis_id, tour_sub_basis_
     document.getElementById("pickup_id").value = tour_pickups;
 }
 
-function show_location(button, host_id, server_url) {
+function show_location(button, host_id, server_url, event) {
+    if (event.stopPropagation) {
+      event.stopPropagation();
+    }
     $.ajax({
         type: 'POST',
         url: '/get_location/',

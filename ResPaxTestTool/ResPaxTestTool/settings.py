@@ -25,7 +25,7 @@ SECRET_KEY = 'i4q-+o1nz4nf#n=&7a19ph2(m*9yf!zy7rilewjc9x@r^imhp@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -132,7 +132,7 @@ if DEBUG:
     ]
 
 if not DEBUG:
-    STATIC_URL = '/static_in_env/'
+    STATIC_URL = '/static/assets/'
 
     STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_in_env", "static_root")
     STATICFILES_DIRS = [

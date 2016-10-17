@@ -7,15 +7,18 @@ function addCSVButton(table_row, table_column, parameters, server_url, filename)
     var button_value = document.createTextNode("Download CSV");
     var data_level = table_row.getAttribute("data-level");
     button.appendChild(button_value);
-    button.setAttribute("onclick", "openCSVMenu('" + parameters + "','" + server_url + "','" + filename + "','" + parameters.split(',')[0] + "','" + data_level + "');");
-    button.setAttribute("style", "float:right; clear: right; color:#0089BB");
+    button.setAttribute("onclick", "openCSVMenu('" + parameters + "','" + server_url + "','" + filename + "','" + parameters.split(',')[0] + "','" + data_level + "', event);");
+    button.setAttribute("style", "float:right; clear: right;");
 
     table_column.appendChild(button);
 
 
 }
 
-function openCSVMenu(parameters, server_url, filename, heading, data_level) {
+function openCSVMenu(parameters, server_url, filename, heading, data_level, event) {
+    if (event.stopPropagation) {
+      event.stopPropagation();
+    }
     var csv_menu = document.getElementById('csv_menu');
     var csv_menu_heading = document.getElementById('csv_menu_heading').innerHTML = heading;
     var csv_menu_text = document.getElementById('csv_menu_text');

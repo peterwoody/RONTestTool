@@ -118,7 +118,7 @@ function get_tours(tableRow, id, server_url) {
                         var tour_name = tour_codes[k]['strTourName'].toString();
                         var tour_code = tour_codes[k]['strTourCode'].toString();
 
-                        var new_id = id + ',' + tour_name + ',' + tour_code;
+                        var new_id = id + '|' + tour_name + '|' + tour_code;
                         var newTableRow = document.createElement('tr');
                         var tour_code_td = document.createElement('td');
 
@@ -175,8 +175,8 @@ function get_tour_bases(tableRow, id, server_url) {
     loading_img.style.margin = "auto";
     $(tableRow).after(loading_img);
 
-    var host_id = id.split(',')[0];
-    var tour_code = id.split(',')[2];
+    var host_id = id.split('|')[0];
+    var tour_code = id.split('|')[2];
 
     tableRow.onclick = false;
 
@@ -213,7 +213,7 @@ function get_tour_bases(tableRow, id, server_url) {
                     var tour_basis_id = json.tour_bases[k]['intBasisID'];
                     var tour_sub_basis_id = json.tour_bases[k]['intSubBasisID'];
 
-                    var new_id = id + ',' + tour_basis_name + ',' + tour_basis_id + ',' + tour_sub_basis_name + ',' + tour_sub_basis_id;
+                    var new_id = id + '|' + tour_basis_name + '|' + tour_basis_id + '|' + tour_sub_basis_name + '|' + tour_sub_basis_id;
                     var newTableRow = document.createElement('tr');
 
                     var basis_td = document.createElement("td");
@@ -279,10 +279,10 @@ function get_tour_times(tableRow, id, server_url) {
     loading_img.style.margin = "auto";
     $(tableRow).after(loading_img);
 
-    var host_id = id.split(',')[0];
-    var tour_code = id.split(',')[2];
-    var tour_basis_id = id.split(',')[4];
-    var tour_sub_basis_id = id.split(',')[6];
+    var host_id = id.split('|')[0];
+    var tour_code = id.split('|')[2];
+    var tour_basis_id = id.split('|')[4];
+    var tour_sub_basis_id = id.split('|')[6];
 
     tableRow.onclick = false;
 
@@ -318,7 +318,7 @@ function get_tour_times(tableRow, id, server_url) {
                     var tour_time_id = tour_times[k]['intTourTimeID'];
                     var tour_time = tour_times[k]['dteTourTime']['iso8601'];
 
-                    var new_id = id + ',' + tour_time_id;
+                    var new_id = id + '|' + tour_time_id;
 
                     var newTableRow = document.createElement('tr');
 
@@ -380,11 +380,11 @@ function get_tour_pickups(tableRow, id, server_url) {
     loading_img.style.margin = "auto";
     $(tableRow).after(loading_img);
 
-    var host_id = id.split(',')[0];
-    var tour_code = id.split(',')[2];
-    var tour_basis_id = id.split(',')[4];
-    var tour_sub_basis_id = id.split(',')[6];
-    var tour_time_id = id.split(',')[7];
+    var host_id = id.split('|')[0];
+    var tour_code = id.split('|')[2];
+    var tour_basis_id = id.split('|')[4];
+    var tour_sub_basis_id = id.split('|')[6];
+    var tour_time_id = id.split('|')[7];
 
     tableRow.onclick = false;
 
@@ -419,10 +419,7 @@ function get_tour_pickups(tableRow, id, server_url) {
                 var tour_pickup_value = tour_pickups[k]['strPickupValue'];
                 var tour_pickup_key = tour_pickups[k]['strPickupKey'];
 
-
-                console.log(j);
-
-                var new_id = id + ',' + tour_pickup_key;
+                var new_id = id + '|' + tour_pickup_key;
                 var newTableRow = document.createElement('tr');
 
                 var pickup_id_td = document.createElement("td");

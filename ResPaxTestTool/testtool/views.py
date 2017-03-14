@@ -388,7 +388,7 @@ def write_reservation(request):
 
 def get_all_host_info(request):
     parameters = request.POST['parameters']
-    host_id = request.POST['parameters'].split(',')[0]
+    host_id = request.POST['parameters'].split('|')[0]
     host_ids_checkbox = request.POST['host_ids_checkbox'] == 'true'
     tour_names_checkbox = request.POST['tour_names_checkbox'] == 'true'
     tour_codes_checkbox = request.POST['tour_codes_checkbox'] == 'true'
@@ -597,8 +597,8 @@ def get_all_host_info(request):
         elif host_ids_checkbox:
             csv_content += host_id + "\n"
     elif data_level == "2":
-        tour_name = parameters.split(',')[1]
-        tour_code = parameters.split(',')[2]
+        tour_name = parameters.split('|')[1]
+        tour_code = parameters.split('|')[2]
         if pickup_keys_checkbox:
             tour_bases = ron_api.read_tour_bases(host_id, tour_code, server_url)
 
@@ -764,12 +764,12 @@ def get_all_host_info(request):
             csv_content += (csv_host_id + csv_tour_name + csv_tour_code).rstrip(csv_separator) + "\n"
 
     elif data_level == "3":
-        tour_name = parameters.split(',')[1]
-        tour_code = parameters.split(',')[2]
-        basis_name = parameters.split(',')[3]
-        basis_id = parameters.split(',')[4]
-        sub_basis_name = parameters.split(',')[5]
-        sub_basis_id = parameters.split(',')[6]
+        tour_name = parameters.split('|')[1]
+        tour_code = parameters.split('|')[2]
+        basis_name = parameters.split('|')[3]
+        basis_id = parameters.split('|')[4]
+        sub_basis_name = parameters.split('|')[5]
+        sub_basis_id = parameters.split('|')[6]
 
         if pickup_keys_checkbox:
             tour_times = ron_api.read_tour_times(host_id, tour_code, server_url)
@@ -896,13 +896,13 @@ def get_all_host_info(request):
                             csv_sub_basis_name + csv_sub_basis_id).rstrip(csv_separator) + "\n"
 
     elif data_level == "4":
-        tour_name = parameters.split(',')[1]
-        tour_code = parameters.split(',')[2]
-        basis_name = parameters.split(',')[3]
-        basis_id = parameters.split(',')[4]
-        sub_basis_name = parameters.split(',')[5]
-        sub_basis_id = parameters.split(',')[6]
-        time_id = parameters.split(',')[7]
+        tour_name = parameters.split('|')[1]
+        tour_code = parameters.split('|')[2]
+        basis_name = parameters.split('|')[3]
+        basis_id = parameters.split('|')[4]
+        sub_basis_name = parameters.split('|')[5]
+        sub_basis_id = parameters.split('|')[6]
+        time_id = parameters.split('|')[7]
 
         if pickup_keys_checkbox:
             tour_pickups = ron_api.read_tour_pickups(host_id, tour_code, time_id, basis_id,
@@ -986,14 +986,14 @@ def get_all_host_info(request):
                             csv_sub_basis_name + csv_sub_basis_id + csv_time_id).rstrip(csv_separator) + "\n"
 
     elif data_level == "5":
-        tour_name = parameters.split(',')[1]
-        tour_code = parameters.split(',')[2]
-        basis_name = parameters.split(',')[3]
-        basis_id = parameters.split(',')[4]
-        sub_basis_name = parameters.split(',')[5]
-        sub_basis_id = parameters.split(',')[6]
-        time_id = parameters.split(',')[7]
-        pickup_key = parameters.split(',')[8]
+        tour_name = parameters.split('|')[1]
+        tour_code = parameters.split('|')[2]
+        basis_name = parameters.split('|')[3]
+        basis_id = parameters.split('|')[4]
+        sub_basis_name = parameters.split('|')[5]
+        sub_basis_id = parameters.split('|')[6]
+        time_id = parameters.split('|')[7]
+        pickup_key = parameters.split('|')[8]
 
         if host_ids_checkbox:
             csv_host_id = str(host_id) + csv_separator

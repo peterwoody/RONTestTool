@@ -103,7 +103,7 @@ function get_tours(tableRow, id, server_url) {
                 $(tableRow).after(newTableRow);
             } else if (typeof json.tours === 'object') {
                 if (json.tours.length > 0) {
-                    addCSVButton(tableRow, tableRow.getElementsByTagName("td")[0], id, server_url, "tour codes");
+                    addCSVButton(tableRow, tableRow.getElementsByTagName("td")[0], id, server_url);
                     var tour_codes = json.tours;
                     var keys = get_sorted_keys(tour_codes, "strTourCode");
 

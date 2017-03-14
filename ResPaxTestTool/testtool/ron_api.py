@@ -485,7 +485,10 @@ def process_xml_list_response(xml_response):
     for i in xml_response:
         for key in i:
             if type(i[key]) is dict:
-                table_response.update(process_xml_dict_response(i[key]))
+                xml_dict_response = process_xml_dict_response(i[key])
+                for ikey in xml_dict_response:
+                    table_response.setdefault(ikey, [])
+                    table_response[ikey].append(xml_dict_response[ikey][0])
             else:
                 table_response.setdefault(key, [])
                 table_response[key].append(i[key])

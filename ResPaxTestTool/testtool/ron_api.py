@@ -424,6 +424,17 @@ def raw_xml_request(server_url, xml):
     return xml_response, table_response
 
 
+def read_current_login(server_url):
+    connection = xmlrpclib.ServerProxy(server_url)
+    try:
+        current_login = connection.readCurrentLogin()
+    except xmlrpclib.Fault as error:
+        fault = "A fault occurred. Fault code: %d." % error.faultCode + " Fault string: %s" % error.faultString
+        return fault, {"Fault": [fault]}
+
+    return current_login
+
+
 def get_hosts(key, server_url):
     connection = xmlrpclib.ServerProxy(server_url)
     hosts = connection.readHosts()

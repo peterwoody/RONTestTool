@@ -65,6 +65,15 @@
 
         <ul class="nav navbar-right">
             <li>
+                Logged in as:
+                <br>
+                ID: {{ user_id }}
+                <br>
+                First name: {{ user_first_name }}
+                <br>
+                Last name: {{ user_last_name }}
+            </li>
+            <li>
                 <button onclick="location.href='/logout/';">
                     <img id="logout-img" src="{% static "img/logout.png" %}"/>
                     <p style="text-align: center">LOG OUT</p>
@@ -118,9 +127,13 @@
                     <td><input id="csv_sub_basis" type="checkbox" onclick="check_if_select_all()">
                         <label for="csv_sub_basis">Sub Basis</label></td>
 
+                    <td><input id="csv_time" type="checkbox" onclick="check_if_select_all()">
+                        <label for="csv_time">Time</label></td>
+
                     <td><input id="csv_time_id" type="checkbox" onclick="check_if_select_all()">
                         <label for="csv_time_id">Time ID</label></td>
-
+                </tr>
+                <tr>
                     <td><input id="csv_pickup_key" type="checkbox" onclick="check_if_select_all()">
                         <label for="csv_pickup_key">Pickup Key</label></td>
                 </tr>
@@ -338,7 +351,6 @@
         </tr>
         </thead>
         <tbody>
-
         </tbody>
     </table>
 

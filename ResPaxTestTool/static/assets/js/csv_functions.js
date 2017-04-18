@@ -44,6 +44,7 @@ function openCSVMenu(parameters, server_url, host_id, data_level, event) {
 }
 
 function downloadCSV(parameters, server_url, data_level, host_id) {
+    var dwnld_csv_btn = document.getElementById("dwnld_csv_btn");
     var host_ids_checkbox = document.getElementById("csv_host_ids").checked;
     var tour_names_checkbox = document.getElementById("csv_tour_names").checked;
     var tour_codes_checkbox = document.getElementById("csv_tour_codes").checked;
@@ -51,6 +52,7 @@ function downloadCSV(parameters, server_url, data_level, host_id) {
     var basis_checkbox = document.getElementById("csv_basis").checked;
     var sub_basis_name_checkbox = document.getElementById("csv_sub_basis_name").checked;
     var sub_basis_checkbox = document.getElementById("csv_sub_basis").checked;
+    var time_checkbox = document.getElementById("csv_time").checked;
     var time_ids_checkbox = document.getElementById("csv_time_id").checked;
     var pickup_keys_checkbox = document.getElementById("csv_pickup_key").checked;
 
@@ -60,6 +62,7 @@ function downloadCSV(parameters, server_url, data_level, host_id) {
     var csv_separator = document.getElementById("csv_separator").value;
 
     csv_timer.innerHTML = "00:00:00";
+    dwnld_csv_btn.disabled = true;
 
     var seconds = 0;
     var minutes = 0;
@@ -115,6 +118,7 @@ function downloadCSV(parameters, server_url, data_level, host_id) {
             basis_checkbox: basis_checkbox,
             sub_basis_name_checkbox: sub_basis_name_checkbox,
             sub_basis_checkbox: sub_basis_checkbox,
+            time_checkbox: time_checkbox,
             time_ids_checkbox: time_ids_checkbox,
             pickup_keys_checkbox: pickup_keys_checkbox,
             server_url: server_url,
@@ -158,6 +162,9 @@ function downloadCSV(parameters, server_url, data_level, host_id) {
             if (sub_basis_checkbox) {
                 last_export_string += ", Sub Basis ID"
             }
+            if (time_checkbox) {
+                last_export_string += ", Time"
+            }
             if (time_ids_checkbox) {
                 last_export_string += ", Time ID"
             }
@@ -186,8 +193,8 @@ function downloadCSV(parameters, server_url, data_level, host_id) {
                 seconds_string = seconds + " second";
             }
             csv_time_taken.innerHTML = "Last Export Time = " + minutes_string + seconds_string;
-            csv_timer.innerHTML = ""
-
+            csv_timer.innerHTML = "";
+            dwnld_csv_btn.disabled = false;
         }
     });
 }

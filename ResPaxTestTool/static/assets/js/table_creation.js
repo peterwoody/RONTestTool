@@ -318,7 +318,7 @@ function get_tour_times(tableRow, id, server_url) {
                     var tour_time_id = tour_times[k]['intTourTimeID'];
                     var tour_time = tour_times[k]['dteTourTime']['iso8601'];
 
-                    var new_id = id + '|' + tour_time_id;
+                    var new_id = id + '|' + tour_time + '|' + tour_time_id;
 
                     var newTableRow = document.createElement('tr');
 
@@ -384,7 +384,7 @@ function get_tour_pickups(tableRow, id, server_url) {
     var tour_code = id.split('|')[2];
     var tour_basis_id = id.split('|')[4];
     var tour_sub_basis_id = id.split('|')[6];
-    var tour_time_id = id.split('|')[7];
+    var tour_time_id = id.split('|')[8];
 
     tableRow.onclick = false;
 
@@ -543,12 +543,12 @@ function remove_rows(table_row, server_url) {
     var this_or_higher = name_range(create_selector, 0, this_level);
     var node = $(table_row).nextUntil(this_or_higher.join(","));
 
-    var host_id = table_row.id.split(',')[0];
-    var tour_code = table_row.id.split(',')[2];
-    var tour_basis_id = table_row.id.split(',')[4];
-    var tour_sub_basis_id = table_row.id.split(',')[6];
-    var tour_time_id = table_row.id.split(',')[7];
-    var pickup_id = table_row.id.split(',')[8];
+    var host_id = table_row.id.split('|')[0];
+    var tour_code = table_row.id.split('|')[2];
+    var tour_basis_id = table_row.id.split('|')[4];
+    var tour_sub_basis_id = table_row.id.split('|')[6];
+    var tour_time_id = table_row.id.split('|')[8];
+    var pickup_id = table_row.id.split('|')[9];
 
     $(node).remove();
     $(node).filter(next_or_lower.join(",")).hide();
@@ -582,8 +582,7 @@ function remove_rows(table_row, server_url) {
                 tour_code + "','" +
                 tour_basis_id + "','" +
                 tour_sub_basis_id + "','" +
-                tour_time_id + "','" +
-                pickup_id + "')");
+                tour_time_id +"')");
             break;
         default:
             console.log('function remove_rows switch statement error')

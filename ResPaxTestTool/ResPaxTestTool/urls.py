@@ -16,25 +16,25 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from testtool.views import *
+from testtool import views
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
 
-    url(r'^test_tool/', test_tool, name="test_tool"),
-    url(r'^generate_xml/', generate_xml, name="generate_xml"),
-    url(r'^fill_form_xml/', fill_form_xml, name="fill_form_xml"),
-    url(r'^submit_xml/', submit_xml, name="submit_xml"),
-    url(r'^get_tours/', get_tours, name="get_tours"),
-    url(r'^get_tour_bases/', get_tour_bases, name="get_tour_bases"),
-    url(r'^get_tour_times/', get_tour_times, name="get_tour_times"),
-    url(r'^get_tour_pickups/', get_tour_pickups, name="get_tour_pickups"),
-    url(r'^get_all_host_info/', get_all_host_info, name="get_all_host_info"),
-    url(r'^get_location/', get_location, name="get_location"),
-    url(r'^logout/', logout, name="logout"),
-    url(r'^login_error/', login_error, name="login_error"),
-    url(r'^$', login, name="login"),
+    url(r'^test_tool/', views.test_tool, name="test_tool"),
+    url(r'^generate_xml/', views.generate_xml, name="generate_xml"),
+    url(r'^fill_form_xml/', views.fill_form_xml, name="fill_form_xml"),
+    url(r'^submit_xml/', views.submit_xml, name="submit_xml"),
+    url(r'^get_tours/', views.get_tours, name="get_tours"),
+    url(r'^get_tour_bases/', views.get_tour_bases, name="get_tour_bases"),
+    url(r'^get_tour_times/', views.get_tour_times, name="get_tour_times"),
+    url(r'^get_tour_pickups/', views.get_tour_pickups, name="get_tour_pickups"),
+    url(r'^get_all_host_info/', views.get_all_host_info, name="get_all_host_info"),
+    url(r'^get_location/', views.get_location, name="get_location"),
+    url(r'^logout/', views.logout, name="logout"),
+    url(r'^login_error/', views.login_error, name="login_error"),
+    url(r'^$', views.login, name="login"),
     url(r'^admin/', admin.site.urls),
 ]
 

@@ -1,27 +1,30 @@
 /**
  * Created by Shaquille on 1/08/2016.
  */
-function addCSVButton(table_row, table_column, parameters, server_url, filename) {
-
+function addCSVButton(table_row, table_column, parameters, server_url) {
+    var host_id = parameters.split('|')[0];
     var button = document.createElement("button");
     var button_value = document.createTextNode("Download CSV");
     var data_level = table_row.getAttribute("data-level");
     button.appendChild(button_value);
-    button.setAttribute("onclick", "openCSVMenu('" + parameters + "','" + server_url + "','" + filename + "','" + parameters.split(',')[0] + "','" + data_level + "');");
-    button.setAttribute("style", "float:right; clear: right; color:#0089BB");
+    button.setAttribute("onclick", "openCSVMenu('" + parameters + "','" + server_url + "','" + host_id + "','" + data_level + "', event);");
+    button.setAttribute("style", "float:right; clear: right;");
 
     table_column.appendChild(button);
 
 
 }
 
-function openCSVMenu(parameters, server_url, filename, heading, data_level) {
+function openCSVMenu(parameters, server_url, host_id, data_level, event) {
+    if (event.stopPropagation) {
+      event.stopPropagation();
+    }
     var csv_menu = document.getElementById('csv_menu');
-    var csv_menu_heading = document.getElementById('csv_menu_heading').innerHTML = heading;
+    var csv_menu_heading = document.getElementById('csv_menu_heading').innerHTML = host_id;
     var csv_menu_text = document.getElementById('csv_menu_text');
     var dwnld_csv_btn = document.getElementById('dwnld_csv_btn');
 
-    dwnld_csv_btn.setAttribute("onclick", "downloadCSV('" + parameters + "','" + server_url + "','" + filename + "','" + data_level + "','" + heading + "');");
+    dwnld_csv_btn.setAttribute("onclick", "downloadCSV('" + parameters + "','" + server_url + "','" + data_level + "','" + host_id + "');");
 
     csv_menu.style.display = "block";
     // Get the <span> element that closes the modal
@@ -40,7 +43,8 @@ function openCSVMenu(parameters, server_url, filename, heading, data_level) {
     }
 }
 
-function downloadCSV(parameters, server_url, filename, data_level, heading) {
+function downloadCSV(parameters, server_url, data_level, host_id) {
+    var dwnld_csv_btn = document.getElementById("dwnld_csv_btn");
     var host_ids_checkbox = document.getElementById("csv_host_ids").checked;
     var tour_names_checkbox = document.getElementById("csv_tour_names").checked;
     var tour_codes_checkbox = document.getElementById("csv_tour_codes").checked;
@@ -48,6 +52,7 @@ function downloadCSV(parameters, server_url, filename, data_level, heading) {
     var basis_checkbox = document.getElementById("csv_basis").checked;
     var sub_basis_name_checkbox = document.getElementById("csv_sub_basis_name").checked;
     var sub_basis_checkbox = document.getElementById("csv_sub_basis").checked;
+    var time_checkbox = document.getElementById("csv_time").checked;
     var time_ids_checkbox = document.getElementById("csv_time_id").checked;
     var pickup_keys_checkbox = document.getElementById("csv_pickup_key").checked;
 
@@ -57,6 +62,7 @@ function downloadCSV(parameters, server_url, filename, data_level, heading) {
     var csv_separator = document.getElementById("csv_separator").value;
 
     csv_timer.innerHTML = "00:00:00";
+    dwnld_csv_btn.disabled = true;
 
     var seconds = 0;
     var minutes = 0;
@@ -112,6 +118,7 @@ function downloadCSV(parameters, server_url, filename, data_level, heading) {
             basis_checkbox: basis_checkbox,
             sub_basis_name_checkbox: sub_basis_name_checkbox,
             sub_basis_checkbox: sub_basis_checkbox,
+            time_checkbox: time_checkbox,
             time_ids_checkbox: time_ids_checkbox,
             pickup_keys_checkbox: pickup_keys_checkbox,
             server_url: server_url,
@@ -127,13 +134,13 @@ function downloadCSV(parameters, server_url, filename, data_level, heading) {
                 var encodedUri = encodeURI(CSVContent);
                 var CSVLink = document.createElement("a");
                 CSVLink.setAttribute("href", encodedUri);
-                CSVLink.setAttribute("download", filename + ".csv");
+                CSVLink.setAttribute("download", host_id + ".csv");
                 CSVLink.click();
             }
             $('body').removeClass('wait');
             clearTimeout(time_taken_count);
 
-            var last_export_string = "Last Export = " + heading;
+            var last_export_string = "Last Export = " + host_id;
             if (host_ids_checkbox) {
                 last_export_string += ", Host ID"
             }
@@ -154,6 +161,9 @@ function downloadCSV(parameters, server_url, filename, data_level, heading) {
             }
             if (sub_basis_checkbox) {
                 last_export_string += ", Sub Basis ID"
+            }
+            if (time_checkbox) {
+                last_export_string += ", Time"
             }
             if (time_ids_checkbox) {
                 last_export_string += ", Time ID"
@@ -183,8 +193,8 @@ function downloadCSV(parameters, server_url, filename, data_level, heading) {
                 seconds_string = seconds + " second";
             }
             csv_time_taken.innerHTML = "Last Export Time = " + minutes_string + seconds_string;
-            csv_timer.innerHTML = ""
-
+            csv_timer.innerHTML = "";
+            dwnld_csv_btn.disabled = false;
         }
     });
 }

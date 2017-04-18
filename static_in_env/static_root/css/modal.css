@@ -87,15 +87,16 @@
 }
 
 .close {
-    color: #aaa;
+    color: #0089BB;
     float: right;
     font-size: 28px;
     font-weight: bold;
+    opacity: 1;
 }
 
 .close:hover,
 .close:focus {
-    color: black;
+    color: red;
     text-decoration: none;
     cursor: pointer;
 }

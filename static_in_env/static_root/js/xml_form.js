@@ -163,8 +163,6 @@ function change_format(format) {
     document.getElementById("hide_response_btn").value = "hide";
     switch (format) {
         case "xml":
-            // $(document.getElementById("xml_response")).show();
-            // $(document.getElementById("table_response")).hide();
             document.getElementById("xml_response").hidden = false;
             document.getElementById("table_response").hidden = true;
 
@@ -178,9 +176,6 @@ function change_format(format) {
 
             break;
         case "table":
-            // $(document.getElementById("table_response")).show();
-            // $(document.getElementById("xml_response")).hide();
-
             document.getElementById("xml_response").hidden = true;
             document.getElementById("table_response").hidden = false;
 
@@ -193,9 +188,6 @@ function change_format(format) {
             document.getElementById("xml_table_format_button").style.opacity = "1";
             break;
         case "xml_table":
-            // $(document.getElementById("xml_response")).show();
-            // $(document.getElementById("table_response")).show();
-
             document.getElementById("xml_response").hidden = false;
             document.getElementById("table_response").hidden = false;
 
@@ -257,187 +249,189 @@ function fill_form_xml() {
         },
 
         success: function (json) {
-            method_name.value = json.loaded_xml[1];
+            if (json.loaded_xml !== "error") {
+                method_name.value = json.loaded_xml[1];
 
-            switch (method_name.value) {
-                case "readHostDetails":
-                    host_id.value = json.loaded_xml[0][0];
-                    break;
-                case "readPaymentOptions":
-                    host_id.value = json.loaded_xml[0][0];
-                    break;
-                case "readPaxTypes":
-                    host_id.value = json.loaded_xml[0][0];
-                    break;
-                case "readSources":
-                    host_id.value = json.loaded_xml[0][0];
-                    break;
-                case "readCreditCardTypes":
-                    host_id.value = json.loaded_xml[0][0];
-                    break;
-                case "readTours":
-                    host_id.value = json.loaded_xml[0][0];
-                    break;
-                case "readCreditStatus":
-                    host_id.value = json.loaded_xml[0][0];
-                    break;
-                case "readTourDetails":
-                    host_id.value = json.loaded_xml[0][0];
-                    tour_code.value = json.loaded_xml[0][1];
-                    break;
-                case "readTourBases":
-                    host_id.value = json.loaded_xml[0][0];
-                    tour_code.value = json.loaded_xml[0][1];
-                    break;
-                case "readTourTimes":
-                    host_id.value = json.loaded_xml[0][0];
-                    tour_code.value = json.loaded_xml[0][1];
-                    break;
-                case "readTourWebDetails":
-                    host_id.value = json.loaded_xml[0][0];
-                    tour_code.value = json.loaded_xml[0][1];
-                    break;
-                case "readTourWebDetailsImages":
-                    host_id.value = json.loaded_xml[0][0];
-                    tour_code.value = json.loaded_xml[0][1];
-                    break;
-                case "readTourPickup":
-                    host_id.value = json.loaded_xml[0][0];
-                    tour_code.value = json.loaded_xml[0][1];
-                    tour_basis_id.value = json.loaded_xml[0][2];
-                    tour_time_id.value = json.loaded_xml[0][3];
-                    tour_pickup_id.value = json.loaded_xml[0][4];
-                    break;
-                case "readTourPickups":
-                    host_id.value = json.loaded_xml[0][0];
-                    tour_code.value = json.loaded_xml[0][1];
-                    tour_basis_id.value = json.loaded_xml[0][3];
-                    tour_time_id.value = json.loaded_xml[0][2];
+                switch (method_name.value) {
+                    case "readHostDetails":
+                        host_id.value = json.loaded_xml[0][0];
+                        break;
+                    case "readPaymentOptions":
+                        host_id.value = json.loaded_xml[0][0];
+                        break;
+                    case "readPaxTypes":
+                        host_id.value = json.loaded_xml[0][0];
+                        break;
+                    case "readSources":
+                        host_id.value = json.loaded_xml[0][0];
+                        break;
+                    case "readCreditCardTypes":
+                        host_id.value = json.loaded_xml[0][0];
+                        break;
+                    case "readTours":
+                        host_id.value = json.loaded_xml[0][0];
+                        break;
+                    case "readCreditStatus":
+                        host_id.value = json.loaded_xml[0][0];
+                        break;
+                    case "readTourDetails":
+                        host_id.value = json.loaded_xml[0][0];
+                        tour_code.value = json.loaded_xml[0][1];
+                        break;
+                    case "readTourBases":
+                        host_id.value = json.loaded_xml[0][0];
+                        tour_code.value = json.loaded_xml[0][1];
+                        break;
+                    case "readTourTimes":
+                        host_id.value = json.loaded_xml[0][0];
+                        tour_code.value = json.loaded_xml[0][1];
+                        break;
+                    case "readTourWebDetails":
+                        host_id.value = json.loaded_xml[0][0];
+                        tour_code.value = json.loaded_xml[0][1];
+                        break;
+                    case "readTourWebDetailsImages":
+                        host_id.value = json.loaded_xml[0][0];
+                        tour_code.value = json.loaded_xml[0][1];
+                        break;
+                    case "readTourPickup":
+                        host_id.value = json.loaded_xml[0][0];
+                        tour_code.value = json.loaded_xml[0][1];
+                        tour_basis_id.value = json.loaded_xml[0][2];
+                        tour_time_id.value = json.loaded_xml[0][3];
+                        tour_pickup_id.value = json.loaded_xml[0][4];
+                        break;
+                    case "readTourPickups":
+                        host_id.value = json.loaded_xml[0][0];
+                        tour_code.value = json.loaded_xml[0][1];
+                        tour_basis_id.value = json.loaded_xml[0][3];
+                        tour_time_id.value = json.loaded_xml[0][2];
 
-                    var date = new Date(json.loaded_xml[0][4]);
-                    var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
-                    tour_date.value = formattedDate;
-                    break;
-                case "readTourCommissions":
-                    host_id.value = json.loaded_xml[0][0];
-                    tour_code.value = json.loaded_xml[0][1];
-                    tour_basis_id.value = json.loaded_xml[0][2];
-                    tour_sub_basis_id.value = json.loaded_xml[0][3];
-                    tour_time_id.value = json.loaded_xml[0][5];
-                    var date = new Date(json.loaded_xml[0][4]);
-                    var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
-                    tour_date.value = formattedDate;
-                    break;
-                case "readTourPrices":
-                    host_id.value = json.loaded_xml[0][0];
-                    tour_code.value = json.loaded_xml[0][1];
-                    tour_basis_id.value = json.loaded_xml[0][2];
-                    tour_sub_basis_id.value = json.loaded_xml[0][3];
-                    tour_time_id.value = json.loaded_xml[0][8];
-                    tour_pickup_id.value = json.loaded_xml[0][6];
-                    tour_time_id.value = json.loaded_xml[0][5];
-                    tour_drop_off_id.value = json.loaded_xml[0][7];
-                    var date = new Date(json.loaded_xml[0][4]);
-                    var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
-                    tour_date.value = formattedDate;
-                    break;
-                case "readTourPricesRange":
-                    query.value = JSON.stringify(json.loaded_xml[0][0]);
-                    break;
-                case "readTourAvailability":
-                    host_id.value = json.loaded_xml[0][0];
-                    tour_code.value = json.loaded_xml[0][1];
-                    tour_basis_id.value = json.loaded_xml[0][2];
-                    tour_sub_basis_id.value = json.loaded_xml[0][3];
-                    tour_time_id.value = json.loaded_xml[0][5];
-                    var date = new Date(json.loaded_xml[0][4]);
-                    var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
-                    tour_date.value = formattedDate;
+                        var date = new Date(json.loaded_xml[0][4]);
+                        var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+                        tour_date.value = formattedDate;
+                        break;
+                    case "readTourCommissions":
+                        host_id.value = json.loaded_xml[0][0];
+                        tour_code.value = json.loaded_xml[0][1];
+                        tour_basis_id.value = json.loaded_xml[0][2];
+                        tour_sub_basis_id.value = json.loaded_xml[0][3];
+                        tour_time_id.value = json.loaded_xml[0][5];
+                        var date = new Date(json.loaded_xml[0][4]);
+                        var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+                        tour_date.value = formattedDate;
+                        break;
+                    case "readTourPrices":
+                        host_id.value = json.loaded_xml[0][0];
+                        tour_code.value = json.loaded_xml[0][1];
+                        tour_basis_id.value = json.loaded_xml[0][2];
+                        tour_sub_basis_id.value = json.loaded_xml[0][3];
+                        tour_time_id.value = json.loaded_xml[0][8];
+                        tour_pickup_id.value = json.loaded_xml[0][6];
+                        tour_time_id.value = json.loaded_xml[0][5];
+                        tour_drop_off_id.value = json.loaded_xml[0][7];
+                        var date = new Date(json.loaded_xml[0][4]);
+                        var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+                        tour_date.value = formattedDate;
+                        break;
+                    case "readTourPricesRange":
+                        query.value = JSON.stringify(json.loaded_xml[0][0]);
+                        break;
+                    case "readTourAvailability":
+                        host_id.value = json.loaded_xml[0][0];
+                        tour_code.value = json.loaded_xml[0][1];
+                        tour_basis_id.value = json.loaded_xml[0][2];
+                        tour_sub_basis_id.value = json.loaded_xml[0][3];
+                        tour_time_id.value = json.loaded_xml[0][5];
+                        var date = new Date(json.loaded_xml[0][4]);
+                        var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+                        tour_date.value = formattedDate;
 
-                    break;
-                case "readTourAvailabilityRange":
-                    query.value = JSON.stringify(json.loaded_xml[0][0]);
-                    break;
-                case "readReservationDetails":
-                    host_id.value = json.loaded_xml[0][0];
-                    confirmation_no.value = json.loaded_xml[0][1];
-                    break;
-                case "checkReservation":
-                    host_id.value = json.loaded_xml[0][0];
-                    tour_code.value = json.loaded_xml[0][1]["strTourCode"];
-                    tour_basis_id.value = json.loaded_xml[0][1]["intBasisID"];
-                    tour_sub_basis_id.value = json.loaded_xml[0][1]["intSubBasisID"];
-                    tour_time_id.value = json.loaded_xml[0][1]["intTourTimeID"];
-                    var date = new Date(json.loaded_xml[0][1]["dteTourDate"]);
-                    var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
-                    tour_date.value = formattedDate;
-                    tour_pickup_id.value = json.loaded_xml[0][1]["strPickupKey"];
-                    pickup_room_no.value = json.loaded_xml[0][1]["strPickupRoomNo"];
-                    pax_first_name.value = json.loaded_xml[0][1]["strPaxFirstName"];
-                    pax_last_name.value = json.loaded_xml[0][1]["strPaxLastName"];
-                    pax_email.value = json.loaded_xml[0][1]["strPaxEmail"];
-                    no_pax_adults.value = json.loaded_xml[0][1]["intNoPax_Adults"];
-                    no_pax_child.value = json.loaded_xml[0][1]["intNoPax_Child"];
-                    no_pax_infant.value = json.loaded_xml[0][1]["intNoPax_Infant"];
-                    no_pax_foc.value = json.loaded_xml[0][1]["intNoPax_FOC"];
-                    no_pax_user_defined.value = json.loaded_xml[0][1]["intNoPax_UDef1"];
-                    general_comment.value = json.loaded_xml[0][1]["strGeneralComment"];
-                    payment_option.value = json.loaded_xml[0][2]["strPaymentOption"];
-                    break;
-                case "checkReservationAndPrices":
-                    host_id.value = json.loaded_xml[0][0];
-                    tour_code.value = json.loaded_xml[0][1]["strTourCode"];
-                    tour_basis_id.value = json.loaded_xml[0][1]["intBasisID"];
-                    tour_sub_basis_id.value = json.loaded_xml[0][1]["intSubBasisID"];
-                    tour_time_id.value = json.loaded_xml[0][1]["intTourTimeID"];
-                    var date = new Date(json.loaded_xml[0][1]["dteTourDate"]);
-                    var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
-                    tour_date.value = formattedDate;
-                    tour_pickup_id.value = json.loaded_xml[0][1]["strPickupKey"];
-                    pickup_room_no.value = json.loaded_xml[0][1]["strPickupRoomNo"];
-                    pax_first_name.value = json.loaded_xml[0][1]["strPaxFirstName"];
-                    pax_last_name.value = json.loaded_xml[0][1]["strPaxLastName"];
-                    pax_email.value = json.loaded_xml[0][1]["strPaxEmail"];
-                    no_pax_adults.value = json.loaded_xml[0][1]["intNoPax_Adults"];
-                    no_pax_child.value = json.loaded_xml[0][1]["intNoPax_Child"];
-                    no_pax_infant.value = json.loaded_xml[0][1]["intNoPax_Infant"];
-                    no_pax_foc.value = json.loaded_xml[0][1]["intNoPax_FOC"];
-                    no_pax_user_defined.value = json.loaded_xml[0][1]["intNoPax_UDef1"];
-                    general_comment.value = json.loaded_xml[0][1]["strGeneralComment"];
-                    payment_option.value = json.loaded_xml[0][2]["strPaymentOption"];
-                    break;
-                case "writeReservation":
-                    host_id.value = json.loaded_xml[0][0];
-                    booking_confirmed.value = json.loaded_xml[0][1];
-                    tour_code.value = json.loaded_xml[0][2]["strTourCode"];
-                    tour_basis_id.value = json.loaded_xml[0][2]["intBasisID"];
-                    tour_sub_basis_id.value = json.loaded_xml[0][2]["intSubBasisID"];
-                    tour_time_id.value = json.loaded_xml[0][2]["intTourTimeID"];
-                    var date = new Date(json.loaded_xml[0][2]["dteTourDate"]);
-                    var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
-                    tour_date.value = formattedDate;
-                    tour_pickup_id.value = json.loaded_xml[0][2]["strPickupKey"];
-                    pickup_room_no.value = json.loaded_xml[0][2]["strPickupRoomNo"];
-                    pax_first_name.value = json.loaded_xml[0][2]["strPaxFirstName"];
-                    pax_last_name.value = json.loaded_xml[0][2]["strPaxLastName"];
-                    pax_email.value = json.loaded_xml[0][2]["strPaxEmail"];
-                    voucher_number.value = json.loaded_xml[0][2]["strVoucherNo"];
-                    no_pax_adults.value = json.loaded_xml[0][2]["intNoPax_Adults"];
-                    no_pax_child.value = json.loaded_xml[0][2]["intNoPax_Child"];
-                    no_pax_infant.value = json.loaded_xml[0][2]["intNoPax_Infant"];
-                    no_pax_foc.value = json.loaded_xml[0][2]["intNoPax_FOC"];
-                    no_pax_user_defined.value = json.loaded_xml[0][2]["intNoPax_UDef1"];
-                    general_comment.value = json.loaded_xml[0][2]["strGeneralComment"];
-                    payment_option.value = json.loaded_xml[0][3]["strPaymentOption"];
-                    card_name.value = json.loaded_xml[0][4]["strCardName"];
-                    card_pan.value = json.loaded_xml[0][4]["strCardPAN"];
-                    card_vn.value = json.loaded_xml[0][4]["strCardVN"];
-                    card_type_id.value = json.loaded_xml[0][4]["strCardTypeID"];
-                    card_expiry_month.value = json.loaded_xml[0][4]["intCardExpiryMonth"];
-                    card_expiry_year.value = json.loaded_xml[0][4]["intCardExpiryYear"];
-                    break;
+                        break;
+                    case "readTourAvailabilityRange":
+                        query.value = JSON.stringify(json.loaded_xml[0][0]);
+                        break;
+                    case "readReservationDetails":
+                        host_id.value = json.loaded_xml[0][0];
+                        confirmation_no.value = json.loaded_xml[0][1];
+                        break;
+                    case "checkReservation":
+                        host_id.value = json.loaded_xml[0][0];
+                        tour_code.value = json.loaded_xml[0][1]["strTourCode"];
+                        tour_basis_id.value = json.loaded_xml[0][1]["intBasisID"];
+                        tour_sub_basis_id.value = json.loaded_xml[0][1]["intSubBasisID"];
+                        tour_time_id.value = json.loaded_xml[0][1]["intTourTimeID"];
+                        var date = new Date(json.loaded_xml[0][1]["dteTourDate"]);
+                        var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+                        tour_date.value = formattedDate;
+                        tour_pickup_id.value = json.loaded_xml[0][1]["strPickupKey"];
+                        pickup_room_no.value = json.loaded_xml[0][1]["strPickupRoomNo"];
+                        pax_first_name.value = json.loaded_xml[0][1]["strPaxFirstName"];
+                        pax_last_name.value = json.loaded_xml[0][1]["strPaxLastName"];
+                        pax_email.value = json.loaded_xml[0][1]["strPaxEmail"];
+                        no_pax_adults.value = json.loaded_xml[0][1]["intNoPax_Adults"];
+                        no_pax_child.value = json.loaded_xml[0][1]["intNoPax_Child"];
+                        no_pax_infant.value = json.loaded_xml[0][1]["intNoPax_Infant"];
+                        no_pax_foc.value = json.loaded_xml[0][1]["intNoPax_FOC"];
+                        no_pax_user_defined.value = json.loaded_xml[0][1]["intNoPax_UDef1"];
+                        general_comment.value = json.loaded_xml[0][1]["strGeneralComment"];
+                        payment_option.value = json.loaded_xml[0][2]["strPaymentOption"];
+                        break;
+                    case "checkReservationAndPrices":
+                        host_id.value = json.loaded_xml[0][0];
+                        tour_code.value = json.loaded_xml[0][1]["strTourCode"];
+                        tour_basis_id.value = json.loaded_xml[0][1]["intBasisID"];
+                        tour_sub_basis_id.value = json.loaded_xml[0][1]["intSubBasisID"];
+                        tour_time_id.value = json.loaded_xml[0][1]["intTourTimeID"];
+                        var date = new Date(json.loaded_xml[0][1]["dteTourDate"]);
+                        var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+                        tour_date.value = formattedDate;
+                        tour_pickup_id.value = json.loaded_xml[0][1]["strPickupKey"];
+                        pickup_room_no.value = json.loaded_xml[0][1]["strPickupRoomNo"];
+                        pax_first_name.value = json.loaded_xml[0][1]["strPaxFirstName"];
+                        pax_last_name.value = json.loaded_xml[0][1]["strPaxLastName"];
+                        pax_email.value = json.loaded_xml[0][1]["strPaxEmail"];
+                        no_pax_adults.value = json.loaded_xml[0][1]["intNoPax_Adults"];
+                        no_pax_child.value = json.loaded_xml[0][1]["intNoPax_Child"];
+                        no_pax_infant.value = json.loaded_xml[0][1]["intNoPax_Infant"];
+                        no_pax_foc.value = json.loaded_xml[0][1]["intNoPax_FOC"];
+                        no_pax_user_defined.value = json.loaded_xml[0][1]["intNoPax_UDef1"];
+                        general_comment.value = json.loaded_xml[0][1]["strGeneralComment"];
+                        payment_option.value = json.loaded_xml[0][2]["strPaymentOption"];
+                        break;
+                    case "writeReservation":
+                        host_id.value = json.loaded_xml[0][0];
+                        booking_confirmed.value = json.loaded_xml[0][1];
+                        tour_code.value = json.loaded_xml[0][2]["strTourCode"];
+                        tour_basis_id.value = json.loaded_xml[0][2]["intBasisID"];
+                        tour_sub_basis_id.value = json.loaded_xml[0][2]["intSubBasisID"];
+                        tour_time_id.value = json.loaded_xml[0][2]["intTourTimeID"];
+                        var date = new Date(json.loaded_xml[0][2]["dteTourDate"]);
+                        var formattedDate = date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+                        tour_date.value = formattedDate;
+                        tour_pickup_id.value = json.loaded_xml[0][2]["strPickupKey"];
+                        pickup_room_no.value = json.loaded_xml[0][2]["strPickupRoomNo"];
+                        pax_first_name.value = json.loaded_xml[0][2]["strPaxFirstName"];
+                        pax_last_name.value = json.loaded_xml[0][2]["strPaxLastName"];
+                        pax_email.value = json.loaded_xml[0][2]["strPaxEmail"];
+                        voucher_number.value = json.loaded_xml[0][2]["strVoucherNo"];
+                        no_pax_adults.value = json.loaded_xml[0][2]["intNoPax_Adults"];
+                        no_pax_child.value = json.loaded_xml[0][2]["intNoPax_Child"];
+                        no_pax_infant.value = json.loaded_xml[0][2]["intNoPax_Infant"];
+                        no_pax_foc.value = json.loaded_xml[0][2]["intNoPax_FOC"];
+                        no_pax_user_defined.value = json.loaded_xml[0][2]["intNoPax_UDef1"];
+                        general_comment.value = json.loaded_xml[0][2]["strGeneralComment"];
+                        payment_option.value = json.loaded_xml[0][3]["strPaymentOption"];
+                        card_name.value = json.loaded_xml[0][4]["strCardName"];
+                        card_pan.value = json.loaded_xml[0][4]["strCardPAN"];
+                        card_vn.value = json.loaded_xml[0][4]["strCardVN"];
+                        card_type_id.value = json.loaded_xml[0][4]["strCardTypeID"];
+                        card_expiry_month.value = json.loaded_xml[0][4]["intCardExpiryMonth"];
+                        card_expiry_year.value = json.loaded_xml[0][4]["intCardExpiryYear"];
+                        break;
+                }
+                show_hide_form_fields();
             }
-            show_hide_form_fields();
         }
     })
 }
@@ -458,15 +452,15 @@ function hide_xml_response_textarea(button) {
             console.log(document.getElementById("xml_format_button").disabled);
             if (document.getElementById("xml_format_button").disabled === true) {
                 document.getElementById("xml_response").hidden = true;
-                // $("#xml_response").hide();
+
             } else if (document.getElementById("table_format_button").disabled === true) {
                 document.getElementById("table_response").hidden = true;
-                // $("#table_response").hide();
+
             } else if (document.getElementById("xml_table_format_button").disabled === true) {
                 document.getElementById("xml_response").hidden = true;
-                // $("#xml_response").hide();
+
                 document.getElementById("table_response").hidden = true;
-                // $("#table_response").hide();
+
             }
             button.innerHTML = "Show";
             button.value = "show";
@@ -474,15 +468,15 @@ function hide_xml_response_textarea(button) {
         case "show":
             if (document.getElementById("xml_format_button").disabled === true) {
                 document.getElementById("xml_response").hidden = false;
-                // $("#xml_response").show();
+
             } else if (document.getElementById("table_format_button").disabled === true) {
                 document.getElementById("table_response").hidden = false;
-                // $("#table_response").show();
+
             } else if (document.getElementById("xml_table_format_button").disabled === true) {
                 document.getElementById("xml_response").hidden = false;
-                // $("#xml_response").show();
+
                 document.getElementById("table_response").hidden = false;
-                // $("#table_response").show();
+
             }
             button.innerHTML = "Hide";
             button.value = "hide";

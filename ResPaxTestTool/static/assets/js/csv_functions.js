@@ -17,7 +17,7 @@ function addCSVButton(table_row, table_column, parameters, server_url) {
 
 function openCSVMenu(parameters, server_url, host_id, data_level, event) {
     if (event.stopPropagation) {
-      event.stopPropagation();
+        event.stopPropagation();
     }
     var csv_menu = document.getElementById('csv_menu');
     var csv_menu_heading = document.getElementById('csv_menu_heading').innerHTML = host_id;
@@ -207,6 +207,7 @@ function selectAllCheckboxes(checkbox) {
     var basis_checkbox = document.getElementById("csv_basis");
     var sub_basis_name_checkbox = document.getElementById("csv_sub_basis_name");
     var sub_basis_checkbox = document.getElementById("csv_sub_basis");
+    var time_checkbox = document.getElementById("csv_time");
     var time_ids_checkbox = document.getElementById("csv_time_id");
     var pickup_keys_checkbox = document.getElementById("csv_pickup_key");
 
@@ -218,6 +219,7 @@ function selectAllCheckboxes(checkbox) {
         basis_checkbox.checked = true;
         sub_basis_name_checkbox.checked = true;
         sub_basis_checkbox.checked = true;
+        time_checkbox.checked = true;
         time_ids_checkbox.checked = true;
         pickup_keys_checkbox.checked = true;
     } else {
@@ -228,6 +230,7 @@ function selectAllCheckboxes(checkbox) {
         basis_checkbox.checked = false;
         sub_basis_name_checkbox.checked = false;
         sub_basis_checkbox.checked = false;
+        time_checkbox.checked = false;
         time_ids_checkbox.checked = false;
         pickup_keys_checkbox.checked = false;
     }
@@ -241,13 +244,14 @@ function check_if_select_all() {
     var basis_checkbox = document.getElementById("csv_basis");
     var sub_basis_name_checkbox = document.getElementById("csv_sub_basis_name");
     var sub_basis_checkbox = document.getElementById("csv_sub_basis");
+    var time_checkbox = document.getElementById("csv_time");
     var time_ids_checkbox = document.getElementById("csv_time_id");
     var pickup_keys_checkbox = document.getElementById("csv_pickup_key");
 
     if (host_ids_checkbox.checked && tour_names_checkbox.checked &&
         tour_codes_checkbox.checked && basis_name_checkbox.checked && basis_checkbox.checked &&
         sub_basis_name_checkbox.checked && sub_basis_checkbox.checked &&
-        time_ids_checkbox.checked && pickup_keys_checkbox.checked) {
+        time_checkbox.checked && time_ids_checkbox.checked && pickup_keys_checkbox.checked) {
         document.getElementById("select_all_ckb").checked = true;
     } else {
         document.getElementById("select_all_ckb").checked = false;

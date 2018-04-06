@@ -34,8 +34,9 @@ def test_tool(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         server_config = request.POST.get('server_config')
+        endpoint = request.POST.get('endpoint')
 
-        url = "https://ron.respax.com.au:30443/section/xmlrpc/server-ron.php?config="
+        url = "{0}/section/xmlrpc/server-ron.php?config=".format(endpoint)
 
         connection = ron_api.get_connection(username, password, server_config)
 

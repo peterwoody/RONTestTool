@@ -16,8 +16,8 @@ def test_tool(request):
 
     submit_value = request.POST.get('submit')
 
+    server_url = request.POST.get('server_url')
     if submit_value == 'switch_server':
-        server_url = request.POST.get('server_url')
 
         if request.POST.get('switch_server_button') == 'Live':
             switch_server_button = 'Training'
@@ -36,16 +36,16 @@ def test_tool(request):
         server_config = request.POST.get('server_config')
         endpoint = request.POST.get('endpoint')
 
-        url = "{0}/section/xmlrpc/server-ron.php?config=".format(endpoint)
+        url = "{0}/section/xmlrpc/server-ron.php?config={1}".format(endpoint, server_config)
 
-        connection = ron_api.get_connection(username, password, server_config)
+        connection = ron_api.get_connection(username, password, url)
 
         if not connection.get('logic'):
             context = {
                 'fault': connection.get('fault')
             }
             return render(request, "login_error.html", context)
-        server_url = url + server_config + '&' + connection.get('session_id')
+        server_url = url + '&' + connection.get('session_id')
 
         if server_config == 'live':
             switch_server_button = 'Live'

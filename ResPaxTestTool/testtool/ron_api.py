@@ -2,8 +2,7 @@ import xmlrpclib
 from collections import OrderedDict
 
 
-def get_connection(username, password, server_config):
-    url = 'https://ron.respax.com.au:30443/section/xmlrpc/server-ron.php?config=' + server_config
+def get_connection(username, password, url):
     ron = xmlrpclib.ServerProxy(url, allow_none=True)
 
     try:

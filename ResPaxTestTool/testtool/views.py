@@ -58,7 +58,6 @@ def test_tool(request):
     host_ids = ron_api.get_hosts('strHostID', server_url)
     current_login = ron_api.read_current_login(server_url)
 
-
     context = {
         "host_name": host_name,
         "host_id": host_ids,
@@ -69,7 +68,9 @@ def test_tool(request):
         "user_first_name": current_login['arrCurrentUser']['strFirstName'],
         "user_last_name": current_login['arrCurrentUser']['strLastName']
     }
-    return render(request, "test_tool.html", context)
+    response = render(request, "test_tool.html", context)
+    response.set_cookie(key='PHPSESSID', value=connection['session_id'].replace('PHPSESSID=', ''))
+    return response
 
 
 def login(request):
